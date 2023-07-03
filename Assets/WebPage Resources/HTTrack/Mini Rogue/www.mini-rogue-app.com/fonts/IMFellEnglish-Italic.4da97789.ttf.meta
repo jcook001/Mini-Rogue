@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: b07117a6751e4e0408f11c1fa8cbf454
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - IM FELL English
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 307bdad57282ec248be650ed9297d2c9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

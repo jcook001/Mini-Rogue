@@ -16,7 +16,7 @@ public class CardAnims : MonoBehaviour
         
     }
 
-    public void FlipCard()
+    public void OnMouseDown()
     {
         this.transform.rotation = Quaternion.Euler(0, 180, 180);
     }

@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 2cfc1c6037e2ba94995e06cbb0973615
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Halis R
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 16aa1922f4040784a84e61509bb0eb00, type: 3}
+  - {fileID: 12800000, guid: b094cad2a76bc5d4aad82abc6661dbce, type: 3}
+  - {fileID: 12800000, guid: 394e93e43a9eb214ea0e8ab09ce4bbb7, type: 3}
+  - {fileID: 12800000, guid: 66c64389ae19a3c43a488bd3cd27f207, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
