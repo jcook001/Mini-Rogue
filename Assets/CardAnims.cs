@@ -18,6 +18,7 @@ public class CardAnims : MonoBehaviour
 
     public void OnMouseDown()
     {
-        this.transform.rotation = Quaternion.Euler(0, 180, 180);
+        //this.transform.rotation = Quaternion.Euler(0, 180, 180);
+        this.transform.Rotate(0, 0, 180);
     }
 }
