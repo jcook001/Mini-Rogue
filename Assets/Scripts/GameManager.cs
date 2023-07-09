@@ -12,17 +12,10 @@ public class GameManager : MonoBehaviour
     public GameObject[] DungeonCardsTest = new GameObject[1];
 
     public TextMeshProUGUI debugOverlay;
-    public TMP_FontAsset fontAsset;
+    public TMP_FontAsset fontAsset; //Debug
 
-    //Player 1 information
-    private string P1_Character = "none";
-    private int P1_Armor = 0;
-    private int P1_HP = 0;
-    private int P1_XP = 0;
-    private int P1_Food = 0;
-    private int P1_Gold = 0;
-    private string P1_potion1 = "none";
-    private string P1_potion2 = "none";
+    private Player P1 = new Player();
+    private Player P2 = new Player();
 
     /*Icon Map
      * a = Armor
@@ -82,9 +75,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Load the font asset
-        TMP_FontAsset myFont = Resources.Load<TMP_FontAsset>("Icons SDF");
-
         //Place a default card in each card slot
         foreach (GameObject tile in CardPoints)
         {
@@ -92,16 +82,20 @@ public class GameManager : MonoBehaviour
             newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
         }
 
-        //Replace default text with something
+        P1.SetClass("Crusader");
+
+        //Show character stats in debug overlay
         debugOverlay.text = 
-            "Chosen Character: " + P1_Character + "\n" +
-            "<#656868><font=\"Icons SDF\">a</font> Armor: </color>" + P1_Armor + "\n" +
-            "<#c84d4a><font=\"Icons SDF\">h</font> HP: </color>" + P1_HP + "\n" +
-            "<#2a737c><font=\"Icons SDF\">(</font> XP: </color>" + P1_XP + "\n" +
-            "<#7d5641><font=\"Icons SDF\">f</font> Food: </color>" + P1_Food + "\n" +
-            "<#ce982c><font=\"Icons SDF\">g</font> Gold: </color>" + P1_Gold + "\n" +
-            "<#231f20><font=\"Icons SDF\">)</font> Potion 1: </color>" + P1_potion1 + "\n" +
-            "<#231f20><font=\"Icons SDF\">)</font> Potion 2: </color>" + P1_potion2 + "\n";
+            "Chosen Character: " + P1.Character + "\n" +
+            "<#656868><font=\"Icons SDF\">a</font> Armor: </color>" + P1.Armor + "\n" +
+            "<#c84d4a><font=\"Icons SDF\">h</font> HP: </color>" + P1.HP + "\n" +
+            "<#2a737c><font=\"Icons SDF\">(</font> XP: </color>" + P1.XP + "\n" +
+            "<#7d5641><font=\"Icons SDF\">f</font> Food: </color>" + P1.Food + "\n" +
+            "<#ce982c><font=\"Icons SDF\">g</font> Gold: </color>" + P1.Gold + "\n" +
+            "<#231f20><font=\"Icons SDF\">)</font> Potion 1: </color>" + P1.potion1 + "\n" +
+            "<#231f20><font=\"Icons SDF\">)</font> Potion 2: </color>" + P1.potion2 + "\n" +
+            "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.poisoned + "\n" +
+            "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.cursed + "\n";
 
     }
 
