@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,10 +13,23 @@ public class GameManager : MonoBehaviour
     public GameObject[] DungeonCardsTest = new GameObject[1];
 
     public TextMeshProUGUI debugOverlay;
+    public TextMeshProUGUI debugGamePrompts;
     public TMP_FontAsset fontAsset; //Debug
 
     private Player P1 = new Player();
     private Player P2 = new Player();
+
+    private int playerCount = 1;
+    public GameObject P1_Piece; //TODO make player choose their piece so this can be private 
+    public GameObject P2_Piece; //TODO make player choose their piece so this can be private 
+    private int P1_Location = 1;
+    private int P2_Location = 1;
+    private int playerTurn = 1;
+    private GameObject activePiece;
+
+    public float moveSpeed = 1f;
+    public float moveHeight = 1f;
+    private bool isPieceMoving = false;
 
     /*Icon Map
      * a = Armor
@@ -97,12 +111,59 @@ public class GameManager : MonoBehaviour
             "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.poisoned + "\n" +
             "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.cursed + "\n";
 
+        //Place the player pieces on the first card
+        debugGamePrompts.text = "Select a location to place your player token";
+
+        //debug
+        activePiece = P1_Piece;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void MoveActivePieceToCard(GameObject card)
+    {
+        if (!isPieceMoving)
+        {
+            StartCoroutine(SmoothMove(activePiece, card.transform.position + new Vector3(0, 0.2f, 0)));
+        }
+    }
+
+    private IEnumerator SmoothMove(GameObject piece, Vector3 target)
+    {
+        isPieceMoving = true;
+        float journey = 0f;
+
+        Vector3 startPosition = piece.transform.position;
+
+        while (journey <= 1f)
+        {
+            journey += Time.deltaTime * moveSpeed;
+
+            // Here you can apply an easing function for non-linear movement
+            float curve = Mathf.Sin(journey * Mathf.PI / 2); // Example of Ease-Out function
+
+            // Determine the current position along the path
+            Vector3 currentPos = Vector3.Lerp(startPosition, target, curve);
+
+            // Calculate the height of the arc at this point in the journey
+            float arc = moveHeight * Mathf.Sin(journey * Mathf.PI);
+
+            // Apply the arc height to the current position
+            currentPos.y += arc;
+
+            piece.transform.position = currentPos;
+
+            yield return null;
+        }
+
+        // Ensure the piece ends exactly at the target
+        transform.position = target;
+        isPieceMoving = false;
     }
 
     //Debug functions
