@@ -106,8 +106,10 @@ public class GameManager : MonoBehaviour
     }
 
     //Debug functions
-    string PrintAllChars(string allCharacters)
+    string PrintAllChars()
     {
+        string allCharacters = "";
+
         // Iterate over all characters in the font asset.
         for (int i = 0; i < fontAsset.characterTable.Count; i++)
         {
