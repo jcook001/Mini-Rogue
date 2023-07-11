@@ -89,11 +89,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+#if UNITY_EDITOR
         //Limit the framrate in Unity Editor so that GPU usage is reduced
         if (UnityEditor.EditorApplication.isPlaying)
         {
             Application.targetFrameRate = 60;
         }
+#endif
 
         //Place a default card in each card slot
         foreach (GameObject tile in CardPoints)
