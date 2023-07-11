@@ -135,12 +135,14 @@ public class GameManager : MonoBehaviour
     {
         if (!isPieceMoving)
         {
-            StartCoroutine(SmoothMove(activePiece, card.transform.position + new Vector3(0, 0.2f, 0)));
+            StartCoroutine(SmoothMoveRandomPos(activePiece, card));
         }
     }
 
-    private IEnumerator SmoothMove(GameObject piece, Vector3 target)
+    private IEnumerator SmoothMove(GameObject piece, GameObject target)
     {
+        //increase the height of the target so the object doesn't fall through.
+        Vector3 targetPosition = target.transform.position + new Vector3(0, 0.2f, 0);
         isPieceMoving = true;
         float journey = 0f;
 
@@ -154,7 +156,7 @@ public class GameManager : MonoBehaviour
             float curve = Mathf.Sin(journey * Mathf.PI / 2); // Example of Ease-Out function
 
             // Determine the current position along the path
-            Vector3 currentPos = Vector3.Lerp(startPosition, target, curve);
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, curve);
 
             // Calculate the height of the arc at this point in the journey
             float arc = moveHeight * Mathf.Sin(journey * Mathf.PI);
@@ -168,7 +170,58 @@ public class GameManager : MonoBehaviour
         }
 
         // Ensure the piece ends exactly at the target
-        transform.position = target;
+        piece.transform.position = targetPosition;
+        isPieceMoving = false;
+    }
+
+    private IEnumerator SmoothMoveRandomPos(GameObject piece, GameObject card)
+    {
+        BoxCollider collider = card.GetComponent<BoxCollider>();
+        Vector3 size = collider.size;
+        float offsetMod = 0.6f;
+        float randomX = UnityEngine.Random.Range((-size.x * offsetMod) / 2, (size.x *offsetMod) / 2);
+        float randomZ = UnityEngine.Random.Range((-size.z * offsetMod) / 2, (size.z * offsetMod) / 2);
+
+        //increase the height of the target so the object doesn't fall through and offset the card from the centre by a random amount
+        Vector3 targetPosition = card.transform.position + new Vector3(randomX, 0.2f, randomZ);
+        isPieceMoving = true;
+        float journey = 0f;
+
+        Vector3 startPosition = piece.transform.position;
+
+        Quaternion startRotation = piece.transform.rotation;
+
+        //Stand the piece upright and randomly change the direction it's facing slightly
+        Vector3 newRotation = new Vector3(0,UnityEngine.Random.Range(startRotation.y -60 ,startRotation.y + 60),0);
+
+        while (journey <= 1f)
+        {
+            journey += Time.deltaTime * moveSpeed;
+
+            // Apply an easing function for non-linear movement
+            float curve = Mathf.Sin(journey * Mathf.PI / 2); // Example of Ease-Out function
+
+            // Determine the current position along the path
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, curve);
+
+            // Determine the current rotation along the path
+            Quaternion currentRot = Quaternion.Slerp(startRotation, Quaternion.Euler(newRotation), curve);
+
+            // Calculate the height of the arc at this point in the journey
+            float arc = moveHeight * Mathf.Sin(journey * Mathf.PI);
+
+            // Apply the arc height to the current position
+            currentPos.y += arc;
+
+            piece.transform.position = currentPos;
+            piece.transform.rotation = currentRot;
+
+            yield return null;
+        }
+
+        // Ensure the piece ends exactly at the target
+        piece.transform.position = targetPosition;
+        piece.transform.rotation = Quaternion.Euler(newRotation);
         isPieceMoving = false;
     }
 
