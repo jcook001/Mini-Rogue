@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         //Place the player pieces on the first card
         debugGamePrompts.text = "Select a location to place your player token";
 
-        //debug
+        //TODO Assign this properly in UI
         activePiece = P1_Piece;
 
     }
@@ -138,6 +138,18 @@ public class GameManager : MonoBehaviour
         if (!isPieceMoving)
         {
             StartCoroutine(SmoothMoveRandomPos(activePiece, card));
+
+            //update the active player turn
+            if(playerTurn == 1)
+            {
+                playerTurn = 2;
+                activePiece = P2_Piece;
+            }
+            else
+            {
+                playerTurn = 1;
+                activePiece = P1_Piece;
+            }
         }
     }
 
