@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -119,6 +120,9 @@ public class Player
                 potion2 = "none";
                 poisoned = true;
                 cursed = false;
+                break;
+            default:
+                Console.Error.WriteLine("Class has not been found! Class is: %s", className);
                 break;
         }
     }

@@ -8,6 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
+    private Options options;
 
     public GameObject[] CardPoints = new GameObject[9];
     public GameObject[] DungeonCardsTest = new GameObject[1];
@@ -97,14 +98,18 @@ public class GameManager : MonoBehaviour
         }
 #endif
 
+        //Get the options from the Main Menu
+        options = GameObject.Find("Options_Manager").GetComponent<Options>();
+
+        //Set P1 class
+        P1.SetClass(options.characters[options.P1CharacterChoice]);
+
         //Place a default card in each card slot
         foreach (GameObject tile in CardPoints)
         {
             GameObject newDungeonCard = Instantiate(DungeonCardsTest[0], tile.transform);
             newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
         }
-
-        P1.SetClass("Crusader");
 
         //Show character stats in debug overlay
         debugOverlay.text = 
