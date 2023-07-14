@@ -8,6 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
+    private GameObject options_Manager;
     private Options options;
 
     public GameObject[] CardPoints = new GameObject[9];
@@ -99,10 +100,20 @@ public class GameManager : MonoBehaviour
 #endif
 
         //Get the options from the Main Menu
-        options = GameObject.Find("Options_Manager").GetComponent<Options>();
+        //if there's no options manager to be found just use default values
+        options_Manager = GameObject.Find("Options_Manager");
+        if(options_Manager)
+        {
+            GameObject.Find("Options_Manager").TryGetComponent<Options>(out options);
 
-        //Set P1 class
-        P1.SetClass(options.characters[options.P1CharacterChoice]);
+            //Set P1 class
+            P1.SetClass(options.characters[options.P1CharacterChoice]);
+        }
+        else
+        {
+            //set a sensible default
+            P1.SetClass("Crusader");
+        }
 
         //Place a default card in each card slot
         foreach (GameObject tile in CardPoints)
