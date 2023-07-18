@@ -255,6 +255,17 @@ public class GameManager : MonoBehaviour
         isPieceMoving = false;
     }
 
+    private void InitialFloorSetup()
+    {
+        //Shuffle Dungeon Cards
+
+        //Deal 8 Cards into slots 1-8 face down
+
+        //Shuffle and instantiate Monster Deck face down + increase Y size to match height * cards
+
+        //Set Current floor and room to 1
+    }
+
     //Debug functions
     string PrintAllChars()
     {
