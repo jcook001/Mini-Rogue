@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] CardPoints = new GameObject[9];
     public GameObject[] DungeonCardsTest = new GameObject[1];
+    public List<CardData> DungeonDeck = new List<CardData>();
+    public List<CardData> UsedDungeonDeck = new List<CardData>();
 
     public TextMeshProUGUI debugOverlay;
     public TextMeshProUGUI debugGamePrompts;
@@ -118,8 +120,26 @@ public class GameManager : MonoBehaviour
         //Place a default card in each card slot
         foreach (GameObject tile in CardPoints)
         {
-            GameObject newDungeonCard = Instantiate(DungeonCardsTest[0], tile.transform);
+            //select a random card to deal
+            int randomCardInt = UnityEngine.Random.Range(0, DungeonDeck.Count - 1);
+            //create the card from the model specified in CardData
+            GameObject newDungeonCard = Instantiate(DungeonDeck[randomCardInt].model, tile.transform);
             newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+
+            //TODO remove this - deal face up for debugging
+            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
+
+            newDungeonCard.transform.localScale = new Vector3(25, 25, 25);
+
+            //Add that card to the used cards list
+            UsedDungeonDeck.Add(DungeonDeck[randomCardInt]);
+            //remove that card from the deck
+            DungeonDeck.RemoveAt(randomCardInt);
+
+            //add components so the card can be interacted with
+            newDungeonCard.AddComponent<CardAnims>();
+            newDungeonCard.AddComponent<BoxCollider>();
+            newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
         }
 
         //Show character stats in debug overlay

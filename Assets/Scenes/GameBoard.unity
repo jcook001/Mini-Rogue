@@ -1910,6 +1910,16 @@ MonoBehaviour:
   - {fileID: 260562352}
   DungeonCardsTest:
   - {fileID: 445394396}
+  DungeonDeck:
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
   debugOverlay: {fileID: 228240417}
   debugGamePrompts: {fileID: 1139847842}
   fontAsset: {fileID: 11400000, guid: 8489e1ca49847f34698d49ae6c29608c, type: 2}

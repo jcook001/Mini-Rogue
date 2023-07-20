@@ -53,6 +53,7 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Merchant:
                 // Draw fields relevant to merchant cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TradeOptions"), true);
                 break;
 
             case CardData.CardType.Treasure:
