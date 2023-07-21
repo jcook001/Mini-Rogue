@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum ResourceType
 {
+    None,
     XP,
     ArmorPoint,
     HP,
@@ -20,30 +21,32 @@ public enum ResourceType
     RefreshSkills,
     Blessing,
     CurePoison,
-    CureCurse
+    CureCurse,
+    Choice
 }
 
 [System.Serializable]
 public struct TradeOption
 {
-    public List<ResourceCost> Costs;
+    public ResourceCost Costs;
     public List<ResourceReward> Rewards;
 }
 
 [System.Serializable]
 public struct ResourceCost
 {
-    public ResourceType ResourceType;
-    public int Quantity;
-    public bool MultiplyCostByFloor;
+    //0 Quantitiy means equals floor
+    public List<ResourceType> ResourceType;
+    public List<int> Quantity;
 }
 
 [System.Serializable]
 public struct ResourceReward
 {
-    public ResourceType ResourceType;
-    public int Quantity;
-    public bool MultiplyCostByFloor;
+    public List<ResourceType> ResourceType;
+    //0 Quantitiy means equals floor
+    public List<int> Quantity;
+    public List<ResourceType> Choice;
 }
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
@@ -71,6 +74,7 @@ public class CardData : ScriptableObject
     //Monster + Boss
     public enum DamageEffects
     {
+        None,
         Curse,
         Poison,
         Blindness,
@@ -96,16 +100,6 @@ public class CardData : ScriptableObject
     //Bonfire
 
     //Merchant
-    public enum ShopCost
-    {
-        XP,
-        ArmorPoint,
-        HP,
-        Food,
-        Gold,
-        Treasure
-    }
-
     public List<TradeOption> TradeOptions = new List<TradeOption>();
 
     //Treasure

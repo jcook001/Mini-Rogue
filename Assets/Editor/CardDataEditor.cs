@@ -53,6 +53,7 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Merchant:
                 // Draw fields relevant to merchant cards.
+                EditorGUILayout.HelpBox("Floor costs should be entered as 0", MessageType.Info);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("TradeOptions"), true);
                 break;
 
