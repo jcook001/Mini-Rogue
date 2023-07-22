@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Hunter
   cardType: 6
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 62449e28f22693043b6ad35c32968590, type: 3}
   MonsterName:
   - 
   - 
@@ -29,50 +29,44 @@ MonoBehaviour:
   RewardEffect: 00000000000000000000000000000000
   TradeOptions:
   - Costs:
-    - ResourceType: 4
-      Quantity: 1
-      MultiplyCostByFloor: 1
+      ResourceType: 05000000
+      Quantity: 00000000
     Rewards:
-    - ResourceType: 3
-      Quantity: 1
-      MultiplyCostByFloor: 0
+    - ResourceType: 04000000
+      Quantity: 01000000
+      Choice: 
   - Costs:
-    - ResourceType: 4
-      Quantity: 2
-      MultiplyCostByFloor: 0
+      ResourceType: 05000000
+      Quantity: 02000000
     Rewards:
-    - ResourceType: 14
-      Quantity: 1
-      MultiplyCostByFloor: 0
+    - ResourceType: 0f000000
+      Quantity: 01000000
+      Choice: 
   - Costs:
-    - ResourceType: 4
-      Quantity: 3
-      MultiplyCostByFloor: 0
+      ResourceType: 05000000
+      Quantity: 03000000
     Rewards:
-    - ResourceType: 2
-      Quantity: 4
-      MultiplyCostByFloor: 0
+    - ResourceType: 03000000
+      Quantity: 04000000
+      Choice: 
   - Costs:
-    - ResourceType: 4
-      Quantity: 5
-      MultiplyCostByFloor: 0
+      ResourceType: 05000000
+      Quantity: 05000000
     Rewards:
-    - ResourceType: 12
-      Quantity: 1
-      MultiplyCostByFloor: 0
+    - ResourceType: 0d000000
+      Quantity: 01000000
+      Choice: 
   - Costs:
-    - ResourceType: 1
-      Quantity: 1
-      MultiplyCostByFloor: 0
+      ResourceType: 02000000
+      Quantity: 01000000
     Rewards:
-    - ResourceType: 4
-      Quantity: 4
-      MultiplyCostByFloor: 0
+    - ResourceType: 05000000
+      Quantity: 04000000
+      Choice: 
   - Costs:
-    - ResourceType: 12
-      Quantity: 1
-      MultiplyCostByFloor: 0
+      ResourceType: 0d000000
+      Quantity: 02000000
     Rewards:
-    - ResourceType: 4
-      Quantity: 2
-      MultiplyCostByFloor: 0
+    - ResourceType: 0d000000
+      Quantity: 01000000
+      Choice: 
