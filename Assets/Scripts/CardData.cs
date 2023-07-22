@@ -16,13 +16,14 @@ public enum ResourceType
     PoisonPotion,
     HealingPotion,
     HolyPotion,
-    Perceptionpotion,
+    PerceptionPotion,
     AnyPotion,
     RefreshSkills,
     Blessing,
     CurePoison,
     CureCurse,
-    Choice
+    Choice,
+    DropFloor
 }
 
 [System.Serializable]
