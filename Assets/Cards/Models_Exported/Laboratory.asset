@@ -57,8 +57,8 @@ MonoBehaviour:
       Quantity: 01000000
       Choice: 
   - Costs:
-      ResourceType: 0d0000000d000000
-      Quantity: 0100000001000000
+      ResourceType: 0d000000
+      Quantity: 02000000
     Rewards:
     - ResourceType: 0d000000
       Quantity: 01000000
