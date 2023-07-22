@@ -26,6 +26,18 @@ public enum ResourceType
     DropFloor
 }
 
+public enum DamageEffects
+{
+    None,
+    Curse,
+    Poison,
+    Blindness,
+    IgnoreArmor,
+    Weaken,
+    Regeneration,
+    Fall
+}
+
 [System.Serializable]
 public struct TradeOption
 {
@@ -50,6 +62,32 @@ public struct ResourceReward
     public List<ResourceType> Choice;
 }
 
+[System.Serializable]
+public struct TrapResult
+{
+    public string[] TrapNames;
+    public ResourceType[] FailureResourceType;
+    //0 Quantitiy means equals floor
+    public int[] FailureQuantity;
+    public DamageEffects[] FailureResourceType2;
+    public ResourceType[] SuccessResourceType;
+    //0 Quantitiy means equals floor
+    public int[] SuccessQuantity;
+}
+
+[System.Serializable]
+public struct TrapResult_Depths
+{
+    public string[] TrapNames;
+    public ResourceType[] FailureResourceType;
+    //0 Quantitiy means equals floor
+    public int[] FailureQuantity;
+    public DamageEffects[] FailureResourceType2;
+    public ResourceType[] SuccessResourceType;
+    //0 Quantitiy means equals floor
+    public int[] SuccessQuantity;
+}
+
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
 {
@@ -60,6 +98,7 @@ public class CardData : ScriptableObject
         Monster,
         Boss,
         Trap,
+        Trap_Depths,
         Tomb,
         Bonfire,
         Merchant,
@@ -73,18 +112,6 @@ public class CardData : ScriptableObject
     //Item
     
     //Monster + Boss
-    public enum DamageEffects
-    {
-        None,
-        Curse,
-        Poison,
-        Blindness,
-        IgnoreArmor,
-        Weaken,
-        Regeneration,
-        Fall
-    }
-
     public string[] MonsterName = new string[4];
     public int[] OnePlayerHealth = new int[4];
     public int[] TwoPlayerHealth = new int[4];
@@ -95,6 +122,26 @@ public class CardData : ScriptableObject
     public ResourceType[] RewardEffect = new ResourceType[4];
 
     //Trap
+    public TrapResult TrapResult = new TrapResult
+    {
+        TrapNames = new string[3],
+        FailureResourceType = new ResourceType[3],
+        FailureQuantity = new int[3],
+        FailureResourceType2 = new DamageEffects[3],
+        SuccessResourceType = new ResourceType[3],
+        SuccessQuantity = new int[3]
+    };
+
+    //Trap_Depths
+    public TrapResult_Depths TrapResult_Depths = new TrapResult_Depths
+    {
+        TrapNames = new string[4],
+        FailureResourceType = new ResourceType[4],
+        FailureQuantity = new int[4],
+        FailureResourceType2 = new DamageEffects[4],
+        SuccessResourceType = new ResourceType[4],
+        SuccessQuantity = new int[4]
+    };
 
     //Tomb
 

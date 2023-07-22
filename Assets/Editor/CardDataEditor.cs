@@ -8,7 +8,7 @@ public class CardDataEditor : Editor
     {
         serializedObject.Update();
         CardData cardData = (CardData)target;
-        
+
         // Always draw the card name field
         cardData.cardName = EditorGUILayout.TextField("Card Name", cardData.cardName);
         // Always draw the model field.
@@ -41,6 +41,11 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Trap:
                 // Draw fields relevant to trap cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TrapResult"), true);
+                break;
+            case CardData.CardType.Trap_Depths:
+                // Draw fields relevant to trap cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TrapResult_Depths"), true);
                 break;
 
             case CardData.CardType.Tomb:
@@ -72,5 +77,12 @@ public class CardDataEditor : Editor
 
         // Apply changes to the serializedProperty - always do this at the end of OnInspectorGUI.
         serializedObject.ApplyModifiedProperties();
+
+        //If data has been changed, mark it as changed
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
     }
 }

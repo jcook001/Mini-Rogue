@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
+  m_Name: Trap_Bats
+  m_EditorClassIdentifier: 
+  cardName: Trap
+  cardType: 3
+  model: {fileID: 0}
+  MonsterName:
+  - 
+  - 
+  - 
+  - 
+  OnePlayerHealth: 00000000000000000000000000000000
+  TwoPlayerHealth: 00000000000000000000000000000000
+  DamageValue: 00000000000000000000000000000000
+  DamageEffect: 00000000000000000000000000000000
+  DamageEffect2: 00000000000000000000000000000000
+  RewardValue: 00000000000000000000000000000000
+  RewardEffect: 00000000000000000000000000000000
+  TrapResult:
+    TrapNames:
+    - Tiny Thorns
+    - Thick Web
+    - Bat Swarm
+    FailureResourceType: 030000000200000004000000
+    FailureQuantity: 000000000100000001000000
+    FailureResourceType2: 000000000300000003000000
+    SuccessResourceType: 090000000400000001000000
+    SuccessQuantity: 010000000200000002000000
+  TrapResult_Depths:
+    TrapNames:
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
+  TradeOptions: []
