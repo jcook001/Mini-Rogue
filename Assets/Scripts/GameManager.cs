@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
     {
         BoxCollider collider = card.GetComponent<BoxCollider>();
         Vector3 size = collider.size;
-        float offsetMod = 0.6f;
+        float offsetMod = 15.0f;
         float randomX = UnityEngine.Random.Range((-size.x * offsetMod) / 2, (size.x *offsetMod) / 2);
         float randomZ = UnityEngine.Random.Range((-size.z * offsetMod) / 2, (size.z * offsetMod) / 2);
 
