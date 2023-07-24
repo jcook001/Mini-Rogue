@@ -32,6 +32,7 @@ public enum ResourceType
     IgnoreArmor,
     Weaken,
     Regeneration,
+    Lore
 }
 
 [System.Serializable]
@@ -126,7 +127,8 @@ public class CardData : ScriptableObject
         Treasure,
         Treasure_Depths,
         Shrine,
-        Reference
+        Reference,
+        Monster_Bandit
     }
     public CardType cardType;
     public GameObject model;
@@ -190,4 +192,6 @@ public class CardData : ScriptableObject
     };
 
     //Reference
+
+    //Bandit
 }

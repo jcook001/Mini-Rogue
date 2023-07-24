@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
+  m_Name: Tomb_Library
+  m_EditorClassIdentifier: 
+  cardName: Library
+  cardType: 5
+  model: {fileID: 0}
+  MonsterName:
+  - 
+  - 
+  - 
+  - 
+  OnePlayerHealth: 00000000000000000000000000000000
+  TwoPlayerHealth: 00000000000000000000000000000000
+  DamageValue: 00000000000000000000000000000000
+  DamageEffect: 00000000000000000000000000000000
+  DamageEffect2: 00000000000000000000000000000000
+  RewardValue: 00000000000000000000000000000000
+  RewardEffect: 00000000000000000000000000000000
+  TrapResult:
+    TrapNames:
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
+  TrapResult_Depths:
+    TrapNames:
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
+  TombRewards:
+    RestoreToTenHealth: 0
+    EventNames:
+    - Mimic Book
+    - Poetry
+    - Philosophy
+    - Sketches
+    - Secret Passage
+    - Techniques
+    Reward:
+    - ResourceType: 14000000
+      Quantity: 01000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 0e000000
+      Quantity: 01000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 0e000000
+      Quantity: 01000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 01000000
+      Quantity: 01000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 1c000000
+      Quantity: 01000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 01000000
+      Quantity: 02000000
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BonfireRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  TradeOptions: []
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 

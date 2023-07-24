@@ -81,6 +81,10 @@ public class CardDataEditor : Editor
             case CardData.CardType.Reference:
                 // Draw fields relevant to reference cards.
                 break;
+
+            case CardData.CardType.Monster_Bandit:
+                // Draw fields relevant to boss cards.
+                break;
         }
 
         // Apply changes to the serializedProperty - always do this at the end of OnInspectorGUI.
