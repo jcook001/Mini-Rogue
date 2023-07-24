@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Laboratory
   m_EditorClassIdentifier: 
   cardName: Laboratory
-  cardType: 6
+  cardType: 7
   model: {fileID: 0}
   MonsterName:
   - 
@@ -27,6 +27,27 @@ MonoBehaviour:
   DamageEffect2: 00000000000000000000000000000000
   RewardValue: 00000000000000000000000000000000
   RewardEffect: 00000000000000000000000000000000
+  TrapResult:
+    TrapNames:
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
+  TrapResult_Depths:
+    TrapNames:
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
   TradeOptions:
   - Costs:
       ResourceType: 040000000100000005000000

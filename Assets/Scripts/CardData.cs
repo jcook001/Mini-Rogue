@@ -23,7 +23,8 @@ public enum ResourceType
     CurePoison,
     CureCurse,
     Choice,
-    DropFloor
+    DropFloor,
+    Combat
 }
 
 public enum DamageEffects
@@ -88,6 +89,14 @@ public struct TrapResult_Depths
     public int[] SuccessQuantity;
 }
 
+[System.Serializable]
+public struct TreasureRewards
+{
+    public int BasicGoldReward;
+    public int IncreasedGoldReward;
+    public ResourceReward[] Reward;
+}
+
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
 {
@@ -103,6 +112,7 @@ public class CardData : ScriptableObject
         Bonfire,
         Merchant,
         Treasure,
+        Treasure_Depths,
         Shrine,
         Reference
     }
@@ -151,6 +161,10 @@ public class CardData : ScriptableObject
     public List<TradeOption> TradeOptions = new List<TradeOption>();
 
     //Treasure
+    public TreasureRewards TreasureRewards = new TreasureRewards
+    {
+        Reward = new ResourceReward[6]
+    };
 
     //Shrine
 

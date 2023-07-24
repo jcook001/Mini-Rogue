@@ -64,6 +64,11 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Treasure:
                 // Draw fields relevant to treasure cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TreasureRewards"), true);
+                break;
+
+            case CardData.CardType.Treasure_Depths:
+                // Draw fields relevant to treasure cards.
                 break;
 
             case CardData.CardType.Shrine:

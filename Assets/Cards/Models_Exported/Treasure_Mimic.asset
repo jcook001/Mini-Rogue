@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Trap_Apparatus
+  m_Name: Treasure_Mimic
   m_EditorClassIdentifier: 
-  cardName: Trap
-  cardType: 4
+  cardName: Treasure
+  cardType: 8
   model: {fileID: 0}
   MonsterName:
   - 
@@ -39,35 +39,35 @@ MonoBehaviour:
     SuccessQuantity: 000000000000000000000000
   TrapResult_Depths:
     TrapNames:
-    - Simple Contraption
-    - Puzzling Mechanism
-    - Strange Enigma
-    - Cursed Apparatus
-    FailureResourceType: 03000000030000000300000003000000
-    FailureQuantity: 01000000020000000300000003000000
-    FailureResourceType2: 03000000030000000200000001000000
-    SuccessResourceType: 01000000010000000100000001000000
-    SuccessQuantity: 01000000020000000300000003000000
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
   TradeOptions: []
   TreasureRewards:
-    BasicGoldReward: 0
-    IncreasedGoldReward: 0
+    BasicGoldReward: 1
+    IncreasedGoldReward: 3
     Reward:
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 05000000
+      Quantity: 01000000
       Choice: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 05000000
+      Quantity: 02000000
       Choice: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 03000000
+      Quantity: 05000000
       Choice: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 12000000
+      Quantity: 01000000
+      Choice: 070000000800000009000000
+    - ResourceType: 1400000005000000
+      Quantity: 0100000002000000
       Choice: 
-    - ResourceType: 
-      Quantity: 
-      Choice: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 1400000002000000
+      Quantity: 0100000001000000
       Choice: 

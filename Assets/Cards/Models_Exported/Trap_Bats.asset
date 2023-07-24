@@ -49,3 +49,25 @@ MonoBehaviour:
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
   TradeOptions: []
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
