@@ -23,7 +23,7 @@ MonoBehaviour:
   OnePlayerHealth: 0400000006000000080000000a000000
   TwoPlayerHealth: 080000000c0000001000000014000000
   DamageValue: 02000000020000000500000005000000
-  DamageEffect: 04000000070000000400000005000000
+  DamageEffect: 1900000013000000190000001a000000
   DamageEffect2: 00000000000000000000000000000000
   RewardValue: 02000000020000000100000003000000
   RewardEffect: 05000000010000000400000005000000
@@ -49,6 +49,7 @@ MonoBehaviour:
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
   TombRewards:
+    RestoreToTenHealth: 0
     EventNames:
     - 
     - 
@@ -60,26 +61,53 @@ MonoBehaviour:
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BonfireRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
   TradeOptions: []
   TreasureRewards:
@@ -89,24 +117,30 @@ MonoBehaviour:
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 

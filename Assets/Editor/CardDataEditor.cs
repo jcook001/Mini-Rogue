@@ -55,6 +55,7 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Bonfire:
                 // Draw fields relevant to bonfire cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("BonfireRewards"), true);
                 break;
 
             case CardData.CardType.Merchant:
@@ -74,6 +75,7 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Shrine:
                 // Draw fields relevant to shrine cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TombRewards"), true);
                 break;
 
             case CardData.CardType.Reference:

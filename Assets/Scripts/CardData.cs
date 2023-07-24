@@ -24,19 +24,14 @@ public enum ResourceType
     CureCurse,
     Choice,
     DropFloor,
-    Combat
-}
-
-public enum DamageEffects
-{
-    None,
+    Combat,
+    Special,
     Curse,
     Poison,
     Blindness,
     IgnoreArmor,
     Weaken,
     Regeneration,
-    Fall
 }
 
 [System.Serializable]
@@ -72,7 +67,7 @@ public struct TrapResult
     public ResourceType[] FailureResourceType;
     //0 Quantitiy means equals floor
     public int[] FailureQuantity;
-    public DamageEffects[] FailureResourceType2;
+    public ResourceType[] FailureResourceType2;
     public ResourceType[] SuccessResourceType;
     //0 Quantitiy means equals floor
     public int[] SuccessQuantity;
@@ -85,7 +80,7 @@ public struct TrapResult_Depths
     public ResourceType[] FailureResourceType;
     //0 Quantitiy means equals floor
     public int[] FailureQuantity;
-    public DamageEffects[] FailureResourceType2;
+    public ResourceType[] FailureResourceType2;
     public ResourceType[] SuccessResourceType;
     //0 Quantitiy means equals floor
     public int[] SuccessQuantity;
@@ -95,6 +90,13 @@ public struct TrapResult_Depths
 public struct TombRewards
 {
     public bool RestoreToTenHealth;
+    public string[] EventNames;
+    public ResourceReward[] Reward;
+}
+
+[System.Serializable]
+public struct BonfireRewards
+{
     public string[] EventNames;
     public ResourceReward[] Reward;
 }
@@ -136,8 +138,8 @@ public class CardData : ScriptableObject
     public int[] OnePlayerHealth = new int[4];
     public int[] TwoPlayerHealth = new int[4];
     public int[] DamageValue = new int[4];
-    public DamageEffects[] DamageEffect = new DamageEffects[4];
-    public DamageEffects[] DamageEffect2 = new DamageEffects[4];
+    public ResourceType[] DamageEffect = new ResourceType[4];
+    public ResourceType[] DamageEffect2 = new ResourceType[4];
     public int[] RewardValue = new int[4];
     public ResourceType[] RewardEffect = new ResourceType[4];
 
@@ -147,7 +149,7 @@ public class CardData : ScriptableObject
         TrapNames = new string[3],
         FailureResourceType = new ResourceType[3],
         FailureQuantity = new int[3],
-        FailureResourceType2 = new DamageEffects[3],
+        FailureResourceType2 = new ResourceType[3],
         SuccessResourceType = new ResourceType[3],
         SuccessQuantity = new int[3]
     };
@@ -158,12 +160,12 @@ public class CardData : ScriptableObject
         TrapNames = new string[4],
         FailureResourceType = new ResourceType[4],
         FailureQuantity = new int[4],
-        FailureResourceType2 = new DamageEffects[4],
+        FailureResourceType2 = new ResourceType[4],
         SuccessResourceType = new ResourceType[4],
         SuccessQuantity = new int[4]
     };
 
-    //Tomb
+    ////Shrine + Tomb
     public TombRewards TombRewards = new TombRewards
     {
         RestoreToTenHealth = false,
@@ -172,6 +174,11 @@ public class CardData : ScriptableObject
     };
 
     //Bonfire
+    public BonfireRewards BonfireRewards = new BonfireRewards
+    {
+        EventNames = new string[3],
+        Reward = new ResourceReward[3]
+    };
 
     //Merchant
     public List<TradeOption> TradeOptions = new List<TradeOption>();
@@ -181,8 +188,6 @@ public class CardData : ScriptableObject
     {
         Reward = new ResourceReward[6]
     };
-
-    //Shrine
 
     //Reference
 }

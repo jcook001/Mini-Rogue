@@ -34,7 +34,7 @@ MonoBehaviour:
     - Bat Swarm
     FailureResourceType: 030000000200000004000000
     FailureQuantity: 000000000100000001000000
-    FailureResourceType2: 000000000300000003000000
+    FailureResourceType2: 000000001800000018000000
     SuccessResourceType: 090000000400000001000000
     SuccessQuantity: 010000000200000002000000
   TrapResult_Depths:
@@ -49,6 +49,7 @@ MonoBehaviour:
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
   TombRewards:
+    RestoreToTenHealth: 0
     EventNames:
     - 
     - 
@@ -60,26 +61,53 @@ MonoBehaviour:
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BonfireRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
   TradeOptions: []
   TreasureRewards:
@@ -89,24 +117,30 @@ MonoBehaviour:
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 
     - ResourceType: 
       Quantity: 
       Choice: 
+      ChoiceQuantity: 
       SecondaryEffect: 

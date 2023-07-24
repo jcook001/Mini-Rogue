@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Trap_Apparatus
+  m_Name: Shrine_Shrine
   m_EditorClassIdentifier: 
-  cardName: Trap
-  cardType: 4
+  cardName: Shrine
+  cardType: 10
   model: {fileID: 0}
   MonsterName:
   - 
@@ -39,52 +39,52 @@ MonoBehaviour:
     SuccessQuantity: 000000000000000000000000
   TrapResult_Depths:
     TrapNames:
-    - Simple Contraption
-    - Puzzling Mechanism
-    - Strange Enigma
-    - Cursed Apparatus
-    FailureResourceType: 03000000030000000300000003000000
-    FailureQuantity: 01000000020000000300000003000000
-    FailureResourceType2: 18000000180000001700000016000000
-    SuccessResourceType: 01000000010000000100000001000000
-    SuccessQuantity: 01000000020000000300000003000000
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
   TombRewards:
     RestoreToTenHealth: 0
     EventNames:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
+    - Disgrace!
+    - Be curesed, weakling!
+    - Be curesed, weakling!
+    - Terrible Spirit!
+    - A dark heart
+    - Ye of little faith
     Reward:
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 1700000016000000
+      Quantity: 0100000001000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 16000000
+      Quantity: 01000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 16000000
+      Quantity: 01000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 030000000f000000
+      Quantity: 0200000001000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 030000000f000000
+      Quantity: 0100000001000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 03000000
+      Quantity: 01000000
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
