@@ -48,6 +48,39 @@ MonoBehaviour:
     FailureResourceType2: 00000000000000000000000000000000
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
+  TombRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
   TradeOptions: []
   TreasureRewards:
     BasicGoldReward: 1
@@ -56,18 +89,24 @@ MonoBehaviour:
     - ResourceType: 05000000
       Quantity: 01000000
       Choice: 
+      SecondaryEffect: 
     - ResourceType: 05000000
       Quantity: 02000000
       Choice: 
+      SecondaryEffect: 
     - ResourceType: 03000000
       Quantity: 05000000
       Choice: 
+      SecondaryEffect: 
     - ResourceType: 12000000
       Quantity: 01000000
       Choice: 070000000800000009000000
+      SecondaryEffect: 
     - ResourceType: 1400000005000000
       Quantity: 0100000002000000
       Choice: 
+      SecondaryEffect: 
     - ResourceType: 1400000002000000
       Quantity: 0100000001000000
       Choice: 
+      SecondaryEffect: 

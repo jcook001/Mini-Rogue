@@ -61,6 +61,8 @@ public struct ResourceReward
     //0 Quantitiy means equals floor
     public List<int> Quantity;
     public List<ResourceType> Choice;
+    public List<int> ChoiceQuantity;
+    public List<ResourceType> SecondaryEffect;
 }
 
 [System.Serializable]
@@ -87,6 +89,14 @@ public struct TrapResult_Depths
     public ResourceType[] SuccessResourceType;
     //0 Quantitiy means equals floor
     public int[] SuccessQuantity;
+}
+
+[System.Serializable]
+public struct TombRewards
+{
+    public bool RestoreToTenHealth;
+    public string[] EventNames;
+    public ResourceReward[] Reward;
 }
 
 [System.Serializable]
@@ -154,6 +164,12 @@ public class CardData : ScriptableObject
     };
 
     //Tomb
+    public TombRewards TombRewards = new TombRewards
+    {
+        RestoreToTenHealth = false,
+        EventNames = new string[6],
+        Reward = new ResourceReward[6]
+    };
 
     //Bonfire
 

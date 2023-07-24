@@ -50,6 +50,7 @@ public class CardDataEditor : Editor
 
             case CardData.CardType.Tomb:
                 // Draw fields relevant to tomb cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("TombRewards"), true);
                 break;
 
             case CardData.CardType.Bonfire:

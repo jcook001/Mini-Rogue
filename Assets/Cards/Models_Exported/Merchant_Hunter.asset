@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Hunter
+  m_Name: Merchant_Hunter
   m_EditorClassIdentifier: 
   cardName: Hunter
   cardType: 7
@@ -48,6 +48,33 @@ MonoBehaviour:
     FailureResourceType2: 00000000000000000000000000000000
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
+  TombRewards:
+    EventNames: []
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
   TradeOptions:
   - Costs:
       ResourceType: 05000000
@@ -56,6 +83,7 @@ MonoBehaviour:
     - ResourceType: 04000000
       Quantity: 01000000
       Choice: 
+      SecondaryEffect: 
   - Costs:
       ResourceType: 05000000
       Quantity: 02000000
@@ -63,6 +91,7 @@ MonoBehaviour:
     - ResourceType: 0f000000
       Quantity: 01000000
       Choice: 
+      SecondaryEffect: 
   - Costs:
       ResourceType: 05000000
       Quantity: 03000000
@@ -70,6 +99,7 @@ MonoBehaviour:
     - ResourceType: 03000000
       Quantity: 04000000
       Choice: 
+      SecondaryEffect: 
   - Costs:
       ResourceType: 05000000
       Quantity: 05000000
@@ -77,6 +107,7 @@ MonoBehaviour:
     - ResourceType: 0d000000
       Quantity: 01000000
       Choice: 
+      SecondaryEffect: 
   - Costs:
       ResourceType: 02000000
       Quantity: 01000000
@@ -84,6 +115,7 @@ MonoBehaviour:
     - ResourceType: 05000000
       Quantity: 04000000
       Choice: 
+      SecondaryEffect: 
   - Costs:
       ResourceType: 0d000000
       Quantity: 01000000
@@ -91,3 +123,32 @@ MonoBehaviour:
     - ResourceType: 05000000
       Quantity: 02000000
       Choice: 
+      SecondaryEffect: 
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 

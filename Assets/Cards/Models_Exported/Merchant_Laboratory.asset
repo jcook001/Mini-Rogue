@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Trap_Bats
+  m_Name: Merchant_Laboratory
   m_EditorClassIdentifier: 
-  cardName: Trap
-  cardType: 3
+  cardName: Laboratory
+  cardType: 7
   model: {fileID: 0}
   MonsterName:
   - 
@@ -29,14 +29,14 @@ MonoBehaviour:
   RewardEffect: 00000000000000000000000000000000
   TrapResult:
     TrapNames:
-    - Tiny Thorns
-    - Thick Web
-    - Bat Swarm
-    FailureResourceType: 030000000200000004000000
-    FailureQuantity: 000000000100000001000000
-    FailureResourceType2: 000000000300000003000000
-    SuccessResourceType: 090000000400000001000000
-    SuccessQuantity: 010000000200000002000000
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
   TrapResult_Depths:
     TrapNames:
     - 
@@ -81,7 +81,47 @@ MonoBehaviour:
       Quantity: 
       Choice: 
       SecondaryEffect: 
-  TradeOptions: []
+  TradeOptions:
+  - Costs:
+      ResourceType: 040000000100000005000000
+      Quantity: 010000000100000002000000
+    Rewards:
+    - ResourceType: 12000000
+      Quantity: 01000000
+      Choice: 0a0000000b0000000c000000
+      SecondaryEffect: 
+  - Costs:
+      ResourceType: 040000000300000005000000
+      Quantity: 010000000100000002000000
+    Rewards:
+    - ResourceType: 12000000
+      Quantity: 01000000
+      Choice: 070000000800000009000000
+      SecondaryEffect: 
+  - Costs:
+      ResourceType: 0100000009000000
+      Quantity: 0100000001000000
+    Rewards:
+    - ResourceType: 10000000
+      Quantity: 01000000
+      Choice: 
+      SecondaryEffect: 
+  - Costs:
+      ResourceType: 0100000007000000
+      Quantity: 0100000001000000
+    Rewards:
+    - ResourceType: 13000000
+      Quantity: 01000000
+      Choice: 
+      SecondaryEffect: 
+  - Costs:
+      ResourceType: 0d000000
+      Quantity: 02000000
+    Rewards:
+    - ResourceType: 0d000000
+      Quantity: 01000000
+      Choice: 
+      SecondaryEffect: 
   TreasureRewards:
     BasicGoldReward: 0
     IncreasedGoldReward: 0

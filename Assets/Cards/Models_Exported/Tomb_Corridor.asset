@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Trap_Bats
+  m_Name: Tomb_Corridor
   m_EditorClassIdentifier: 
-  cardName: Trap
-  cardType: 3
+  cardName: Corridor
+  cardType: 5
   model: {fileID: 0}
   MonsterName:
   - 
@@ -29,14 +29,14 @@ MonoBehaviour:
   RewardEffect: 00000000000000000000000000000000
   TrapResult:
     TrapNames:
-    - Tiny Thorns
-    - Thick Web
-    - Bat Swarm
-    FailureResourceType: 030000000200000004000000
-    FailureQuantity: 000000000100000001000000
-    FailureResourceType2: 000000000300000003000000
-    SuccessResourceType: 090000000400000001000000
-    SuccessQuantity: 010000000200000002000000
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
   TrapResult_Depths:
     TrapNames:
     - 
@@ -50,35 +50,35 @@ MonoBehaviour:
     SuccessQuantity: 00000000000000000000000000000000
   TombRewards:
     EventNames:
-    - 
-    - 
-    - 
-    - 
-    - 
-    - 
+    - Nothing happens
+    - Nothing happens
+    - Can I eat that
+    - Can I eat that
+    - Rickety Planks
+    - Ambush!
     Reward:
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 00000000
+      Quantity: 01000000
       Choice: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 00000000
+      Quantity: 01000000
       Choice: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 04000000
+      Quantity: 01000000
       Choice: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 04000000
+      Quantity: 01000000
       Choice: 
       SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+    - ResourceType: 03000000
+      Quantity: feffffff
       Choice: 
-      SecondaryEffect: 
-    - ResourceType: 
-      Quantity: 
+      SecondaryEffect: 13000000
+    - ResourceType: 14000000
+      Quantity: 01000000
       Choice: 
       SecondaryEffect: 
   TradeOptions: []

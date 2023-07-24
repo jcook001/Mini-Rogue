@@ -27,4 +27,86 @@ MonoBehaviour:
   DamageEffect2: 00000000000000000000000000000000
   RewardValue: 02000000020000000100000003000000
   RewardEffect: 05000000010000000400000005000000
+  TrapResult:
+    TrapNames:
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
+  TrapResult_Depths:
+    TrapNames:
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
+  TombRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
   TradeOptions: []
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      SecondaryEffect: 

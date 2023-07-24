@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Laboratory
+  m_Name: Tomb_EmptyShelter
   m_EditorClassIdentifier: 
-  cardName: Laboratory
-  cardType: 7
+  cardName: Empty Shelter
+  cardType: 5
   model: {fileID: 0}
   MonsterName:
   - 
@@ -48,39 +48,78 @@ MonoBehaviour:
     FailureResourceType2: 00000000000000000000000000000000
     SuccessResourceType: 00000000000000000000000000000000
     SuccessQuantity: 00000000000000000000000000000000
-  TradeOptions:
-  - Costs:
-      ResourceType: 040000000100000005000000
-      Quantity: 010000000100000002000000
-    Rewards:
+  TombRewards:
+    RestoreToTenHealth: 1
+    EventNames:
+    - Fighter's Shelter
+    - Fighter's Shelter
+    - Mage's Trap
+    - Cleric's Shelter
+    - Rogue's Trap
+    - Adventurer's Ghost
+    Reward:
     - ResourceType: 12000000
       Quantity: 01000000
-      Choice: 0a0000000b0000000c000000
-  - Costs:
-      ResourceType: 040000000300000005000000
-      Quantity: 010000000100000002000000
-    Rewards:
+      Choice: 070000000900000001000000
+      ChoiceQuantity: 010000000100000002000000
+      SecondaryEffect: 
     - ResourceType: 12000000
       Quantity: 01000000
-      Choice: 070000000800000009000000
-  - Costs:
-      ResourceType: 0100000009000000
-      Quantity: 0100000001000000
-    Rewards:
-    - ResourceType: 10000000
+      Choice: 070000000900000001000000
+      ChoiceQuantity: 010000000100000002000000
+      SecondaryEffect: 
+    - ResourceType: 01000000
+      Quantity: ffffffff
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 12000000
+      Quantity: 01000000
+      Choice: 0b0000000a000000
+      ChoiceQuantity: 0100000001000000
+      SecondaryEffect: 
+    - ResourceType: 03000000
+      Quantity: fdffffff
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 14000000
       Quantity: 01000000
       Choice: 
-  - Costs:
-      ResourceType: 0100000007000000
-      Quantity: 0100000001000000
-    Rewards:
-    - ResourceType: 13000000
-      Quantity: 01000000
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  TradeOptions: []
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
       Choice: 
-  - Costs:
-      ResourceType: 0d000000
-      Quantity: 02000000
-    Rewards:
-    - ResourceType: 0d000000
-      Quantity: 01000000
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
       Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
