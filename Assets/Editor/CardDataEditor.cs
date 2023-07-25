@@ -83,7 +83,8 @@ public class CardDataEditor : Editor
                 break;
 
             case CardData.CardType.Monster_Bandit:
-                // Draw fields relevant to boss cards.
+                // Draw fields relevant to bandit cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("MonsterBanditStats"), true);
                 break;
         }
 

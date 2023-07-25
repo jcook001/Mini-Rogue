@@ -62,6 +62,16 @@ public struct ResourceReward
 }
 
 [System.Serializable]
+public struct TollResourceCost
+{
+    //0 Quantitiy means equals floor
+    public ResourceType Resource1;
+    public int Quantity1;
+    public ResourceType Resource2;
+    public int Quantity2;
+}
+
+[System.Serializable]
 public struct TrapResult
 {
     public string[] TrapNames;
@@ -107,6 +117,17 @@ public struct TreasureRewards
 {
     public int BasicGoldReward;
     public int IncreasedGoldReward;
+    public ResourceReward[] Reward;
+}
+
+[System.Serializable]
+public struct MonsterBanditStats
+{
+    public TollResourceCost[] Toll;
+    public int[] OnePlayerHealth;
+    public int[] TwoPlayerHealth;
+    public int[] DamageValue;
+    public ResourceType[] DamageEffect;
     public ResourceReward[] Reward;
 }
 
@@ -194,4 +215,13 @@ public class CardData : ScriptableObject
     //Reference
 
     //Bandit
+    public MonsterBanditStats MonsterBanditStats = new MonsterBanditStats
+    {
+        Toll = new TollResourceCost[4],
+        OnePlayerHealth = new int[4],
+        TwoPlayerHealth = new int[4],
+        DamageValue = new int[4],
+        DamageEffect = new ResourceType[4],
+        Reward = new ResourceReward[4]
+    };
 }
