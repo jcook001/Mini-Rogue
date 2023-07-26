@@ -15,18 +15,67 @@ MonoBehaviour:
   cardName: Monster
   cardType: 1
   model: {fileID: 0}
-  MonsterName:
-  - Mutant Fly
-  - Burrowing Worm
-  - Dire Wolf
-  - Ancestor Spirit
-  OnePlayerHealth: 0400000006000000080000000a000000
-  TwoPlayerHealth: 080000000c0000001000000014000000
-  DamageValue: 02000000020000000500000005000000
-  DamageEffect: 1900000013000000190000001a000000
-  DamageEffect2: 00000000000000000000000000000000
-  RewardValue: 02000000020000000100000003000000
-  RewardEffect: 05000000010000000400000005000000
+  ItemStats:
+    KeepCost:
+      ResourceType: 
+      Quantity: 
+    LeaveCost:
+      ResourceType: 
+      Quantity: 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  MonsterStats:
+    MonsterName:
+    - Mutant Fly
+    - Burrowing Worm
+    - Dire Wolf
+    - Ancestor Spirit
+    OnePlayerHealth: 0400000006000000080000000a000000
+    TwoPlayerHealth: 080000000c0000001000000014000000
+    DamageValue: 02000000020000000500000005000000
+    DamageEffect: 1900000013000000190000001a000000
+    DamageEffect2: 00000000000000000000000000000000
+    RewardValue: 02000000020000000100000003000000
+    RewardEffect: 05000000010000000400000005000000
+  BossStats:
+    OnePlayerHealth: 000000000000000000000000
+    TwoPlayerHealth: 000000000000000000000000
+    DamageValue: 000000000000000000000000
+    DamageEffect: 000000000000000000000000
+    DamageEffectValue: 000000000000000000000000
+    DamageEffect2: 000000000000000000000000
+    RewardEffect: 000000000000000000000000
+    RewardValue: 000000000000000000000000
+    RewardEffect2: 000000000000000000000000
   TrapResult:
     TrapNames:
     - 
@@ -144,3 +193,53 @@ MonoBehaviour:
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
+  MonsterBanditStats:
+    Toll:
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    OnePlayerHealth: 00000000000000000000000000000000
+    TwoPlayerHealth: 00000000000000000000000000000000
+    DamageValue: 00000000000000000000000000000000
+    DamageEffect: 00000000000000000000000000000000
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BossFinalStats:
+    OnePlayerHealth: 0000000000000000
+    TwoPlayerHealth: 0000000000000000
+    DamageValue: 0000000000000000
+    DamageEffect: 0000000000000000
+    DamageEffectValue: 0000000000000000
+    DamageEffect2: 0000000000000000
