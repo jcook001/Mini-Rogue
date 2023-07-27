@@ -12,9 +12,12 @@ public class GameManager : MonoBehaviour
     private Options options;
 
     public GameObject[] CardPoints = new GameObject[9];
-    public GameObject[] DungeonCardsTest = new GameObject[1];
+    public GameObject[] DungeonCardsTest = new GameObject[1]; //TODO remove?
+    public CardData placeholderCard;
     public List<CardData> DungeonDeck = new List<CardData>();
     public List<CardData> UsedDungeonDeck = new List<CardData>();
+    public List<CardData> BossDeck = new List<CardData>();
+    public CardData FinalBoss;
 
     public TextMeshProUGUI debugOverlay;
     public TextMeshProUGUI debugGamePrompts;
@@ -104,7 +107,7 @@ public class GameManager : MonoBehaviour
         //Get the options from the Main Menu
         //if there's no options manager to be found just use default values
         options_Manager = GameObject.Find("Options_Manager");
-        if(options_Manager)
+        if (options_Manager)
         {
             GameObject.Find("Options_Manager").TryGetComponent<Options>(out options);
 
@@ -117,33 +120,14 @@ public class GameManager : MonoBehaviour
             P1.SetClass("Crusader");
         }
 
-        //Place a default card in each card slot
-        foreach (GameObject tile in CardPoints)
-        {
-            //select a random card to deal
-            int randomCardInt = UnityEngine.Random.Range(0, DungeonDeck.Count - 1);
-            //create the card from the model specified in CardData
-            GameObject newDungeonCard = Instantiate(DungeonDeck[randomCardInt].model, tile.transform);
-            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+        //Place a card in each card slot 1-8
+        DealCards();
 
-            //TODO remove this - deal face up for debugging
-            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
-
-            newDungeonCard.transform.localScale = new Vector3(25, 25, 25);
-
-            //Add that card to the used cards list
-            UsedDungeonDeck.Add(DungeonDeck[randomCardInt]);
-            //remove that card from the deck
-            DungeonDeck.RemoveAt(randomCardInt);
-
-            //add components so the card can be interacted with
-            newDungeonCard.AddComponent<CardAnims>();
-            newDungeonCard.AddComponent<BoxCollider>();
-            newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
-        }
+        //Create a boss deck in slot 9
+        CreateBossPile();
 
         //Show character stats in debug overlay
-        debugOverlay.text = 
+        debugOverlay.text =
             "Chosen Character: " + P1.Character + "\n" +
             "<#656868><font=\"Icons SDF\">a</font> Armor: </color>" + P1.Armor + "\n" +
             "<#c84d4a><font=\"Icons SDF\">h</font> HP: </color>" + P1.HP + "\n" +
@@ -166,7 +150,66 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void DealCards()
+    {
+        for(int i = 0; i < CardPoints.Length - 1; i++)
+        {
+            //select a random card to deal
+            int randomCardInt = UnityEngine.Random.Range(0, DungeonDeck.Count - 1);
+            //create the card from the model specified in CardData
+            GameObject newDungeonCard;
+            if (DungeonDeck[randomCardInt].model == null)
+            {
+                newDungeonCard = Instantiate(placeholderCard.model, CardPoints[i].transform);
+            }
+            else
+            {
+                newDungeonCard = Instantiate(DungeonDeck[randomCardInt].model, CardPoints[i].transform);
+            }
+            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+
+            //TODO remove this - deal face up for debugging
+            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
+
+            newDungeonCard.transform.localScale = new Vector3(25, 25, 25);
+
+            //Add that card to the used cards list
+            UsedDungeonDeck.Add(DungeonDeck[randomCardInt]);
+            //remove that card from the deck
+            DungeonDeck.RemoveAt(randomCardInt);
+
+            //add components so the card can be interacted with
+            newDungeonCard.AddComponent<CardAnims>();
+            newDungeonCard.AddComponent<BoxCollider>();
+            newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
+        }
+    }
+
+    private void CreateBossPile()
+    {
+        GameObject pileCard;
+        if (FinalBoss.model == null)
+        {
+            pileCard = Instantiate(placeholderCard.model, CardPoints[8].transform);
+        }
+        else
+        {
+            pileCard = Instantiate(BossDeck[0].model, CardPoints[8].transform);
+        }
+
+        pileCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+
+        //TODO remove this - deal face up for debugging
+        pileCard.transform.rotation = Quaternion.Euler(180, 180, 0);
         
+        pileCard.transform.localScale = new Vector3(25, 25, 25);
+        
+        pileCard.AddComponent<CardAnims>();
+        pileCard.AddComponent<BoxCollider>();
+        pileCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
     }
 
     public void MoveActivePieceToCard(GameObject card)

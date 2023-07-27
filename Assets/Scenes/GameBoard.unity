@@ -1910,16 +1910,27 @@ MonoBehaviour:
   - {fileID: 260562352}
   DungeonCardsTest:
   - {fileID: 445394396}
+  placeholderCard: {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
   DungeonDeck:
+  - {fileID: 11400000, guid: 720df81fa5b33a040971dc33b40c0a6c, type: 2}
+  - {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
+  - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}
+  - {fileID: 11400000, guid: b2e1c32b3b5f96d40bfc6884d65331c2, type: 2}
   - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
-  - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
+  - {fileID: 11400000, guid: d4e0f0a985ba74c44996d8b9bf7c9d1e, type: 2}
+  - {fileID: 11400000, guid: 27cd7429f06e73c4192e25c527fbd751, type: 2}
+  - {fileID: 11400000, guid: 5c03ecf3f4e7fa9428ef99a8a641af91, type: 2}
+  - {fileID: 11400000, guid: 66b51eb39e489f44ca8c1b1f06078cbb, type: 2}
+  - {fileID: 11400000, guid: 30efb1969c798fd4196a858cb15e998f, type: 2}
+  - {fileID: 11400000, guid: 56e56841e327f4a488f3e7aa25e6036b, type: 2}
+  - {fileID: 11400000, guid: 5ff6fcef985e38041b08a28cbdb9a5cb, type: 2}
+  - {fileID: 11400000, guid: 43616d9ea0732f5459ad00b61acaef83, type: 2}
+  - {fileID: 11400000, guid: c9cd740c04d1d514faeac1d83ed10970, type: 2}
+  - {fileID: 11400000, guid: a783c6e2ee76ee049ba461d00a52b527, type: 2}
+  UsedDungeonDeck: []
+  BossDeck:
+  - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}
+  FinalBoss: {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
   debugOverlay: {fileID: 228240417}
   debugGamePrompts: {fileID: 1139847842}
   fontAsset: {fileID: 11400000, guid: 8489e1ca49847f34698d49ae6c29608c, type: 2}
