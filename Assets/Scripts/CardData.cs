@@ -32,7 +32,14 @@ public enum ResourceType
     IgnoreArmor,
     Weaken,
     Regeneration,
-    Lore
+    Lore,
+    SavedFeat,
+    SavedCurePoison,
+    SavedCureCurse,
+    Uncurable,
+    Success,
+    RewardsCard,
+    TakeCard
 }
 
 [System.Serializable]
@@ -59,6 +66,16 @@ public struct ResourceReward
     public List<ResourceType> Choice;
     public List<int> ChoiceQuantity;
     public List<ResourceType> SecondaryEffect;
+}
+
+[System.Serializable]
+public struct TollResourceCost
+{
+    //0 Quantitiy means equals floor
+    public ResourceType Resource1;
+    public int Quantity1;
+    public ResourceType Resource2;
+    public int Quantity2;
 }
 
 [System.Serializable]
@@ -110,6 +127,63 @@ public struct TreasureRewards
     public ResourceReward[] Reward;
 }
 
+[System.Serializable]
+public struct MonsterBanditStats
+{
+    public TollResourceCost[] Toll;
+    public int[] OnePlayerHealth;
+    public int[] TwoPlayerHealth;
+    public int[] DamageValue;
+    public ResourceType[] DamageEffect;
+    public ResourceReward[] Reward;
+}
+
+[System.Serializable]
+public struct ItemStats
+{
+    public ResourceCost KeepCost;
+    public ResourceCost LeaveCost;
+    public ResourceReward[] Reward;
+}
+
+[System.Serializable]
+public struct MonsterStats
+{
+    public string[] MonsterName;
+    public int[] OnePlayerHealth;
+    public int[] TwoPlayerHealth;
+    public int[] DamageValue;
+    public ResourceType[] DamageEffect;
+    public ResourceType[] DamageEffect2;
+    public int[] RewardValue;
+    public ResourceType[] RewardEffect;
+}
+
+[System.Serializable]
+public struct BossStats
+{
+    public int[] OnePlayerHealth;
+    public int[] TwoPlayerHealth;
+    public int[] DamageValue;
+    public ResourceType[] DamageEffect;
+    public int[] DamageEffectValue;
+    public ResourceType[] DamageEffect2;
+    public ResourceType[] RewardEffect;
+    public int[] RewardValue;
+    public ResourceType[] RewardEffect2;
+}
+
+[System.Serializable]
+public struct BossFinalStats
+{
+    public int[] OnePlayerHealth;
+    public int[] TwoPlayerHealth;
+    public int[] DamageValue;
+    public ResourceType[] DamageEffect;
+    public int[] DamageEffectValue;
+    public ResourceType[] DamageEffect2;
+}
+
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
 {
@@ -128,22 +202,45 @@ public class CardData : ScriptableObject
         Treasure_Depths,
         Shrine,
         Reference,
-        Monster_Bandit
+        Monster_Bandit,
+        Lore,
+        Boss_Final
     }
     public CardType cardType;
     public GameObject model;
 
     //Item
-    
-    //Monster + Boss
-    public string[] MonsterName = new string[4];
-    public int[] OnePlayerHealth = new int[4];
-    public int[] TwoPlayerHealth = new int[4];
-    public int[] DamageValue = new int[4];
-    public ResourceType[] DamageEffect = new ResourceType[4];
-    public ResourceType[] DamageEffect2 = new ResourceType[4];
-    public int[] RewardValue = new int[4];
-    public ResourceType[] RewardEffect = new ResourceType[4];
+    public ItemStats ItemStats = new ItemStats
+    {
+        Reward = new ResourceReward[6]
+    };
+
+    //Monster
+    public MonsterStats MonsterStats = new MonsterStats
+    {
+        MonsterName = new string[4],
+        OnePlayerHealth = new int[4],
+        TwoPlayerHealth = new int[4],
+        DamageValue = new int[4],
+        DamageEffect = new ResourceType[4],
+        DamageEffect2 = new ResourceType[4],
+        RewardValue = new int[4],
+        RewardEffect = new ResourceType[4]
+    };
+
+    //Boss
+    public BossStats BossStats = new BossStats
+    {
+        OnePlayerHealth = new int[3],
+        TwoPlayerHealth = new int[3],
+        DamageValue = new int[3],
+        DamageEffect = new ResourceType[3],
+        DamageEffectValue = new int[3],
+        DamageEffect2 = new ResourceType[3],
+        RewardEffect = new ResourceType[3],
+        RewardValue = new int[3],
+        RewardEffect2 = new ResourceType[3]
+    };
 
     //Trap
     public TrapResult TrapResult = new TrapResult
@@ -194,4 +291,25 @@ public class CardData : ScriptableObject
     //Reference
 
     //Bandit
+    public MonsterBanditStats MonsterBanditStats = new MonsterBanditStats
+    {
+        Toll = new TollResourceCost[4],
+        OnePlayerHealth = new int[4],
+        TwoPlayerHealth = new int[4],
+        DamageValue = new int[4],
+        DamageEffect = new ResourceType[4],
+        Reward = new ResourceReward[4]
+    };
+
+    //Boss_Final
+    public BossFinalStats BossFinalStats = new BossFinalStats
+    {
+        OnePlayerHealth = new int[2],
+        TwoPlayerHealth = new int[2],
+        DamageValue = new int[2],
+        DamageEffect = new ResourceType[2],
+        DamageEffectValue = new int[2],
+        DamageEffect2 = new ResourceType[2]
+    };
+
 }

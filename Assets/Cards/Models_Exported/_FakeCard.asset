@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
-  m_Name: Merchant_Hunter
+  m_Name: _FakeCard
   m_EditorClassIdentifier: 
-  cardName: Hunter
-  cardType: 7
-  model: {fileID: 919132149155446097, guid: 62449e28f22693043b6ad35c32968590, type: 3}
+  cardName: FakeCard
+  cardType: 11
+  model: {fileID: 919132149155446097, guid: f0075c5f26d0e48449f6e2fd11a68348, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 
@@ -99,7 +99,13 @@ MonoBehaviour:
     SuccessQuantity: 00000000000000000000000000000000
   TombRewards:
     RestoreToTenHealth: 0
-    EventNames: []
+    EventNames:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
     Reward:
     - ResourceType: 
       Quantity: 
@@ -152,61 +158,7 @@ MonoBehaviour:
       Choice: 
       ChoiceQuantity: 
       SecondaryEffect: 
-  TradeOptions:
-  - Costs:
-      ResourceType: 05000000
-      Quantity: 00000000
-    Rewards:
-    - ResourceType: 04000000
-      Quantity: 01000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
-  - Costs:
-      ResourceType: 05000000
-      Quantity: 02000000
-    Rewards:
-    - ResourceType: 0f000000
-      Quantity: 01000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
-  - Costs:
-      ResourceType: 05000000
-      Quantity: 03000000
-    Rewards:
-    - ResourceType: 03000000
-      Quantity: 04000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
-  - Costs:
-      ResourceType: 05000000
-      Quantity: 05000000
-    Rewards:
-    - ResourceType: 0d000000
-      Quantity: 01000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
-  - Costs:
-      ResourceType: 02000000
-      Quantity: 01000000
-    Rewards:
-    - ResourceType: 05000000
-      Quantity: 04000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
-  - Costs:
-      ResourceType: 0d000000
-      Quantity: 01000000
-    Rewards:
-    - ResourceType: 05000000
-      Quantity: 02000000
-      Choice: 
-      ChoiceQuantity: 
-      SecondaryEffect: 
+  TradeOptions: []
   TreasureRewards:
     BasicGoldReward: 0
     IncreasedGoldReward: 0

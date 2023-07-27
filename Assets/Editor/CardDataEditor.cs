@@ -21,21 +21,16 @@ public class CardDataEditor : Editor
         {
             case CardData.CardType.Item:
                 // Draw fields relevant to item cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("ItemStats"), true);
                 break;
 
             case CardData.CardType.Monster:
                 // Draw fields relevant to monster cards.
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("MonsterName"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("OnePlayerHealth"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("TwoPlayerHealth"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DamageValue"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DamageEffect"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("DamageEffect2"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("RewardValue"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("RewardEffect"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("MonsterStats"), true);
                 break;
 
             case CardData.CardType.Boss:
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("BossStats"), true);
                 // Draw fields relevant to boss cards.
                 break;
 
@@ -83,7 +78,13 @@ public class CardDataEditor : Editor
                 break;
 
             case CardData.CardType.Monster_Bandit:
-                // Draw fields relevant to boss cards.
+                // Draw fields relevant to bandit cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("MonsterBanditStats"), true);
+                break;
+
+            case CardData.CardType.Boss_Final:
+                // Draw fields relevant to bandit cards.
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("BossFinalStats"), true);
                 break;
         }
 
