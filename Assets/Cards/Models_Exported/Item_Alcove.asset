@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Alcove
   cardType: 0
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: ef9038226489fe9439cad59a6cacdc7c, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 21000000

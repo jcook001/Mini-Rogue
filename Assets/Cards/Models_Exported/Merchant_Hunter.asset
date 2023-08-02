@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Hunter
   cardType: 7
-  model: {fileID: 919132149155446097, guid: 62449e28f22693043b6ad35c32968590, type: 3}
+  model: {fileID: 919132149155446097, guid: 39bddb0430a3f434fa949d88e831eabf, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

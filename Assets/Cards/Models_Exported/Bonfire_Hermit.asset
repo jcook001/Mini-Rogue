@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Hermit
   cardType: 6
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 4258ad482c6d58a4f857cd39450d093b, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 
