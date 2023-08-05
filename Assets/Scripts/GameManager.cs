@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public float cardThickness = 50.0f;
     public float piecePlacementHeight = 0.29f;
+    public bool DebugShowDungeonCards = false;
     public GameObject[] CardPoints = new GameObject[9];
     public GameObject[] DungeonCardsTest = new GameObject[1]; //TODO remove?
     public CardData placeholderCard;
@@ -172,7 +173,15 @@ public class GameManager : MonoBehaviour
             {
                 newDungeonCard = Instantiate(DungeonDeck[randomCardInt].model, CardPoints[i].transform);
             }
-            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+
+            if (DebugShowDungeonCards)
+            {
+                newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
+            }
+            else
+            {
+                newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+            }
 
             newDungeonCard.transform.localScale = new Vector3(25, cardThickness, 25);
 
