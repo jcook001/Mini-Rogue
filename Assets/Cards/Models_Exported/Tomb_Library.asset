@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Library
   cardType: 5
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 1b4098b729d596b4d8db6e08e0f25763, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

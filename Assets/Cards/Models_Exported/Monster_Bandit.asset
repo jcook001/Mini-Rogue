@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Bandit
   cardType: 12
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 5dd79a69fbe957d4f97e174dec50f49c, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

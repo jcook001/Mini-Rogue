@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Empty Shelter
   cardType: 5
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 908cc250ec282f04287e6d67abd15a1c, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

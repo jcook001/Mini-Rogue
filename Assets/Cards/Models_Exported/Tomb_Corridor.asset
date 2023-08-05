@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Corridor
   cardType: 5
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 3243a260e32b6f8428d92289da99d47f, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

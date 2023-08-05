@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Shrine
   cardType: 10
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: 6a98013216fa0da4a9b244fe3473c3e6, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 

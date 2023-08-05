@@ -1819,8 +1819,7 @@ MonoBehaviour:
   placeholderCard: {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
   DungeonDeck:
   - {fileID: 11400000, guid: 720df81fa5b33a040971dc33b40c0a6c, type: 2}
-  - {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
-  - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}
+  - {fileID: 11400000, guid: a783c6e2ee76ee049ba461d00a52b527, type: 2}
   - {fileID: 11400000, guid: b2e1c32b3b5f96d40bfc6884d65331c2, type: 2}
   - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
   - {fileID: 11400000, guid: d4e0f0a985ba74c44996d8b9bf7c9d1e, type: 2}
@@ -1832,7 +1831,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ff6fcef985e38041b08a28cbdb9a5cb, type: 2}
   - {fileID: 11400000, guid: 43616d9ea0732f5459ad00b61acaef83, type: 2}
   - {fileID: 11400000, guid: c9cd740c04d1d514faeac1d83ed10970, type: 2}
-  - {fileID: 11400000, guid: a783c6e2ee76ee049ba461d00a52b527, type: 2}
   UsedDungeonDeck: []
   BossDeck:
   - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}

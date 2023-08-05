@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Monster
   cardType: 1
-  model: {fileID: 0}
+  model: {fileID: 919132149155446097, guid: bd0e0ef1f4102e84fa93ae586d99aacd, type: 3}
   ItemStats:
     KeepCost:
       ResourceType: 
