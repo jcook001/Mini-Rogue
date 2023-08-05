@@ -1,0 +1,245 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ec8d4a610593242bb7b2bfb2c1a349, type: 3}
+  m_Name: Boss_TheCursedDragon
+  m_EditorClassIdentifier: 
+  cardName: The Cursed Dragon
+  cardType: 2
+  model: {fileID: 919132149155446097, guid: 8d06cf9ee55abae4c9c1ca27d43ef1de, type: 3}
+  ItemStats:
+    KeepCost:
+      ResourceType: 
+      Quantity: 
+    LeaveCost:
+      ResourceType: 
+      Quantity: 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  MonsterStats:
+    MonsterName:
+    - 
+    - 
+    - 
+    - 
+    OnePlayerHealth: 00000000000000000000000000000000
+    TwoPlayerHealth: 00000000000000000000000000000000
+    DamageValue: 00000000000000000000000000000000
+    DamageEffect: 00000000000000000000000000000000
+    DamageEffect2: 00000000000000000000000000000000
+    RewardValue: 00000000000000000000000000000000
+    RewardEffect: 00000000000000000000000000000000
+  BossStats:
+    OnePlayerHealth: 0c0000001000000014000000
+    TwoPlayerHealth: 180000002000000028000000
+    DamageValue: 020000000400000006000000
+    DamageEffect: 170000001700000017000000
+    DamageEffectValue: 010000000100000001000000
+    DamageEffect2: 000000000000000000000000
+    RewardEffect: 010000000100000001000000
+    RewardValue: 020000000300000004000000
+    RewardEffect2: 060000000600000006000000
+  TrapResult:
+    TrapNames:
+    - 
+    - 
+    - 
+    FailureResourceType: 000000000000000000000000
+    FailureQuantity: 000000000000000000000000
+    FailureResourceType2: 000000000000000000000000
+    SuccessResourceType: 000000000000000000000000
+    SuccessQuantity: 000000000000000000000000
+  TrapResult_Depths:
+    TrapNames:
+    - 
+    - 
+    - 
+    - 
+    FailureResourceType: 00000000000000000000000000000000
+    FailureQuantity: 00000000000000000000000000000000
+    FailureResourceType2: 00000000000000000000000000000000
+    SuccessResourceType: 00000000000000000000000000000000
+    SuccessQuantity: 00000000000000000000000000000000
+  TombRewards:
+    RestoreToTenHealth: 0
+    EventNames:
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BonfireRewards:
+    EventNames:
+    - 
+    - 
+    - 
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  TradeOptions: []
+  TreasureRewards:
+    BasicGoldReward: 0
+    IncreasedGoldReward: 0
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  MonsterBanditStats:
+    Toll:
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    - Resource1: 0
+      Quantity1: 0
+      Resource2: 0
+      Quantity2: 0
+    OnePlayerHealth: 00000000000000000000000000000000
+    TwoPlayerHealth: 00000000000000000000000000000000
+    DamageValue: 00000000000000000000000000000000
+    DamageEffect: 00000000000000000000000000000000
+    Reward:
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+    - ResourceType: 
+      Quantity: 
+      Choice: 
+      ChoiceQuantity: 
+      SecondaryEffect: 
+  BossFinalStats:
+    OnePlayerHealth: 0000000000000000
+    TwoPlayerHealth: 0000000000000000
+    DamageValue: 0000000000000000
+    DamageEffect: 0000000000000000
+    DamageEffectValue: 0000000000000000
+    DamageEffect2: 0000000000000000

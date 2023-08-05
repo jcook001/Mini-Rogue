@@ -1737,6 +1737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86c16ba9e7ee804bbdb432ba9fdfae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardThickness: 50
+  piecePlacementHeight: 0.29
   CardPoints:
   - {fileID: 880928537}
   - {fileID: 2135416752}
@@ -1764,8 +1766,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ff6fcef985e38041b08a28cbdb9a5cb, type: 2}
   - {fileID: 11400000, guid: 43616d9ea0732f5459ad00b61acaef83, type: 2}
   - {fileID: 11400000, guid: c9cd740c04d1d514faeac1d83ed10970, type: 2}
-  UsedDungeonDeck: []
   BossDeck:
+  - {fileID: 11400000, guid: 372cd9d160185924d8f7d727a7412630, type: 2}
+  - {fileID: 11400000, guid: 01d2f0de347193642b68cf02085537ea, type: 2}
+  - {fileID: 11400000, guid: f2aafef53fb943f498b00ca4459fae76, type: 2}
+  - {fileID: 11400000, guid: 6e106dbe95cc9464e9ec8b39e6fa3442, type: 2}
   - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}
   FinalBoss: {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
   debugOverlay: {fileID: 228240417}

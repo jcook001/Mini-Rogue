@@ -11,12 +11,15 @@ public class GameManager : MonoBehaviour
     private GameObject options_Manager;
     private Options options;
 
+    public float cardThickness = 50.0f;
+    public float piecePlacementHeight = 0.29f;
     public GameObject[] CardPoints = new GameObject[9];
     public GameObject[] DungeonCardsTest = new GameObject[1]; //TODO remove?
     public CardData placeholderCard;
     public List<CardData> DungeonDeck = new List<CardData>();
-    public List<CardData> UsedDungeonDeck = new List<CardData>();
+    private List<CardData> UsedDungeonDeck = new List<CardData>();
     public List<CardData> BossDeck = new List<CardData>();
+    private List<CardData> UsedBossDeck = new List<CardData>();
     public CardData FinalBoss;
 
     public TextMeshProUGUI debugOverlay;
@@ -171,10 +174,7 @@ public class GameManager : MonoBehaviour
             }
             newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
 
-            //TODO remove this - deal face up for debugging
-            newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
-
-            newDungeonCard.transform.localScale = new Vector3(25, 25, 25);
+            newDungeonCard.transform.localScale = new Vector3(25, cardThickness, 25);
 
             //Add that card to the used cards list
             UsedDungeonDeck.Add(DungeonDeck[randomCardInt]);
@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
             //add components so the card can be interacted with
             newDungeonCard.AddComponent<CardAnims>();
             newDungeonCard.AddComponent<BoxCollider>();
-            newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
+            newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.0003f, 0.07f);
         }
     }
 
@@ -201,15 +201,12 @@ public class GameManager : MonoBehaviour
         }
 
         pileCard.transform.rotation = Quaternion.Euler(180, 180, 180);
-
-        //TODO remove this - deal face up for debugging
-        pileCard.transform.rotation = Quaternion.Euler(180, 180, 0);
         
-        pileCard.transform.localScale = new Vector3(25, 25, 25);
+        pileCard.transform.localScale = new Vector3(25, cardThickness * (4 - UsedBossDeck.Count), 25);
         
         pileCard.AddComponent<CardAnims>();
         pileCard.AddComponent<BoxCollider>();
-        pileCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.002f, 0.07f);
+        pileCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.0003f, 0.07f);
     }
 
     public void MoveActivePieceToCard(GameObject card)
@@ -276,7 +273,7 @@ public class GameManager : MonoBehaviour
         float randomZ = UnityEngine.Random.Range((-size.z * offsetMod) / 2, (size.z * offsetMod) / 2);
 
         //increase the height of the target so the object doesn't fall through and offset the card from the centre by a random amount
-        Vector3 targetPosition = card.transform.position + new Vector3(randomX, 0.2f, randomZ);
+        Vector3 targetPosition = card.transform.position + new Vector3(randomX, piecePlacementHeight, randomZ);
         isPieceMoving = true;
         float journey = 0f;
 
