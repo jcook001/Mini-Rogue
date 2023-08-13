@@ -200,6 +200,9 @@ public class GameManager : MonoBehaviour
             newDungeonCard.AddComponent<CardAnims>();
             newDungeonCard.AddComponent<BoxCollider>();
             newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.0003f, 0.07f);
+            newDungeonCard.AddComponent<Rigidbody>();
+            newDungeonCard.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
+            newDungeonCard.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         }
     }
 
@@ -242,6 +245,11 @@ public class GameManager : MonoBehaviour
                 activePiece = P1_Piece;
             }
         }
+    }
+
+    public void FlipCard(GameObject card, float raiseHeight, float flipTime)
+    {
+        StartCoroutine(SmoothCardFlip(card, raiseHeight, flipTime));
     }
 
     private IEnumerator SmoothMove(GameObject piece, GameObject target)
@@ -328,6 +336,41 @@ public class GameManager : MonoBehaviour
         piece.transform.position = targetPosition;
         piece.transform.rotation = Quaternion.Euler(newRotation);
         isPieceMoving = false;
+    }
+
+    private IEnumerator SmoothCardFlip(GameObject card, float raiseHeight, float flipTime)
+    {
+        Vector3 originalPosition = card.transform.position;
+        Quaternion originalRotation = card.transform.rotation;
+        Quaternion flippedRotation = originalRotation * Quaternion.Euler(0, 0, 180);
+        float elapsedTime = 0f;
+        float finalRaiseHeight = 0.1f;
+
+        while (elapsedTime < flipTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            // Calculate the percentage of the flip completed
+            float t = elapsedTime / flipTime;
+
+            // Modifying the height calculation for a smoother drop at the end of the flip
+            float heightOffset = (Mathf.Sin(t * Mathf.PI) * raiseHeight) + (t * finalRaiseHeight);
+            Vector3 raisedPosition = originalPosition + Vector3.up * heightOffset;
+
+            card.transform.position = Vector3.Lerp(originalPosition, raisedPosition, t);
+
+            // Rotate the card, starting roughly in the middle of the movement
+            if (t > 0.25f)
+            {
+                card.transform.rotation = Quaternion.Lerp(originalRotation, flippedRotation, (t - 0.25f) * 2);
+            }
+
+            yield return null;
+        }
+
+        // Snap to final position and rotation for accuracy
+        card.transform.position = originalPosition;
+        card.transform.rotation = flippedRotation;
     }
 
     private void InitialFloorSetup()

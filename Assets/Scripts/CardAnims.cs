@@ -18,11 +18,20 @@ public class CardAnims : MonoBehaviour
         
     }
 
+    //left click
     public void OnMouseDown()
     {
         //Flip the card
-        //this.transform.Rotate(0, 0, 180);
+        gameManager.FlipCard(this.gameObject, 1.0f, 1.0f);
+        
+    }
 
-        gameManager.MoveActivePieceToCard(this.gameObject);
+    //right click
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            gameManager.MoveActivePieceToCard(this.gameObject);
+        }
     }
 }
