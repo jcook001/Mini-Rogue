@@ -1737,9 +1737,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86c16ba9e7ee804bbdb432ba9fdfae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugShowDungeonCards: 0
+  DebugShowFontSymbols: 0
   cardThickness: 50
   piecePlacementHeight: 0.29
-  CardPoints:
+  cardPoints:
   - {fileID: 880928537}
   - {fileID: 2135416752}
   - {fileID: 1551897658}
@@ -1749,12 +1751,9 @@ MonoBehaviour:
   - {fileID: 443982806}
   - {fileID: 1690659437}
   - {fileID: 260562352}
-  DungeonCardsTest:
-  - {fileID: 0}
   placeholderCard: {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
-  DungeonDeck:
+  dungeonDeck:
   - {fileID: 11400000, guid: 720df81fa5b33a040971dc33b40c0a6c, type: 2}
-  - {fileID: 11400000, guid: a783c6e2ee76ee049ba461d00a52b527, type: 2}
   - {fileID: 11400000, guid: b2e1c32b3b5f96d40bfc6884d65331c2, type: 2}
   - {fileID: 11400000, guid: 302ea7d760b64be47a0f9ffaef06a0af, type: 2}
   - {fileID: 11400000, guid: d4e0f0a985ba74c44996d8b9bf7c9d1e, type: 2}
@@ -1766,13 +1765,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ff6fcef985e38041b08a28cbdb9a5cb, type: 2}
   - {fileID: 11400000, guid: 43616d9ea0732f5459ad00b61acaef83, type: 2}
   - {fileID: 11400000, guid: c9cd740c04d1d514faeac1d83ed10970, type: 2}
-  BossDeck:
+  - {fileID: 11400000, guid: a783c6e2ee76ee049ba461d00a52b527, type: 2}
+  bossDeck:
   - {fileID: 11400000, guid: 372cd9d160185924d8f7d727a7412630, type: 2}
   - {fileID: 11400000, guid: 01d2f0de347193642b68cf02085537ea, type: 2}
   - {fileID: 11400000, guid: f2aafef53fb943f498b00ca4459fae76, type: 2}
   - {fileID: 11400000, guid: 6e106dbe95cc9464e9ec8b39e6fa3442, type: 2}
   - {fileID: 11400000, guid: 84d2d8cdc1e203646aa7c4cb1a9fc519, type: 2}
-  FinalBoss: {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
+  finalBoss: {fileID: 11400000, guid: 8c32217649d75b34c82e953460a4149e, type: 2}
   debugOverlay: {fileID: 228240417}
   debugGamePrompts: {fileID: 1139847842}
   fontAsset: {fileID: 11400000, guid: 8489e1ca49847f34698d49ae6c29608c, type: 2}

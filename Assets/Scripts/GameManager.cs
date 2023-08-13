@@ -11,17 +11,18 @@ public class GameManager : MonoBehaviour
     private GameObject options_Manager;
     private Options options;
 
+    public bool DebugShowDungeonCards = false;
+    public bool DebugShowFontSymbols = false;
+
     public float cardThickness = 50.0f;
     public float piecePlacementHeight = 0.29f;
-    public bool DebugShowDungeonCards = false;
-    public GameObject[] CardPoints = new GameObject[9];
-    public GameObject[] DungeonCardsTest = new GameObject[1]; //TODO remove?
+    public GameObject[] cardPoints = new GameObject[9];
     public CardData placeholderCard;
-    public List<CardData> DungeonDeck = new List<CardData>();
-    private List<CardData> UsedDungeonDeck = new List<CardData>();
-    public List<CardData> BossDeck = new List<CardData>();
-    private List<CardData> UsedBossDeck = new List<CardData>();
-    public CardData FinalBoss;
+    public List<CardData> dungeonDeck = new List<CardData>();
+    private List<CardData> usedDungeonDeck = new List<CardData>();
+    public List<CardData> bossDeck = new List<CardData>();
+    private List<CardData> usedBossDeck = new List<CardData>();
+    public CardData finalBoss;
 
     public TextMeshProUGUI debugOverlay;
     public TextMeshProUGUI debugGamePrompts;
@@ -143,6 +144,11 @@ public class GameManager : MonoBehaviour
             "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.poisoned + "\n" +
             "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.cursed + "\n";
 
+        if (DebugShowFontSymbols)
+        {
+            debugOverlay.text = PrintAllChars();
+        }
+
         //Place the player pieces on the first card
         debugGamePrompts.text = "Select a location to place your player token";
 
@@ -159,19 +165,19 @@ public class GameManager : MonoBehaviour
 
     private void DealCards()
     {
-        for(int i = 0; i < CardPoints.Length - 1; i++)
+        for(int i = 0; i < cardPoints.Length - 1; i++)
         {
             //select a random card to deal
-            int randomCardInt = UnityEngine.Random.Range(0, DungeonDeck.Count - 1);
+            int randomCardInt = UnityEngine.Random.Range(0, dungeonDeck.Count - 1);
             //create the card from the model specified in CardData
             GameObject newDungeonCard;
-            if (DungeonDeck[randomCardInt].model == null)
+            if (dungeonDeck[randomCardInt].model == null)
             {
-                newDungeonCard = Instantiate(placeholderCard.model, CardPoints[i].transform);
+                newDungeonCard = Instantiate(placeholderCard.model, cardPoints[i].transform);
             }
             else
             {
-                newDungeonCard = Instantiate(DungeonDeck[randomCardInt].model, CardPoints[i].transform);
+                newDungeonCard = Instantiate(dungeonDeck[randomCardInt].model, cardPoints[i].transform);
             }
 
             if (DebugShowDungeonCards)
@@ -186,9 +192,9 @@ public class GameManager : MonoBehaviour
             newDungeonCard.transform.localScale = new Vector3(25, cardThickness, 25);
 
             //Add that card to the used cards list
-            UsedDungeonDeck.Add(DungeonDeck[randomCardInt]);
+            usedDungeonDeck.Add(dungeonDeck[randomCardInt]);
             //remove that card from the deck
-            DungeonDeck.RemoveAt(randomCardInt);
+            dungeonDeck.RemoveAt(randomCardInt);
 
             //add components so the card can be interacted with
             newDungeonCard.AddComponent<CardAnims>();
@@ -200,18 +206,18 @@ public class GameManager : MonoBehaviour
     private void CreateBossPile()
     {
         GameObject pileCard;
-        if (FinalBoss.model == null)
+        if (finalBoss.model == null)
         {
-            pileCard = Instantiate(placeholderCard.model, CardPoints[8].transform);
+            pileCard = Instantiate(placeholderCard.model, cardPoints[8].transform);
         }
         else
         {
-            pileCard = Instantiate(BossDeck[0].model, CardPoints[8].transform);
+            pileCard = Instantiate(bossDeck[0].model, cardPoints[8].transform);
         }
 
         pileCard.transform.rotation = Quaternion.Euler(180, 180, 180);
         
-        pileCard.transform.localScale = new Vector3(25, cardThickness * (4 - UsedBossDeck.Count), 25);
+        pileCard.transform.localScale = new Vector3(25, cardThickness * (4 - usedBossDeck.Count), 25);
         
         pileCard.AddComponent<CardAnims>();
         pileCard.AddComponent<BoxCollider>();
