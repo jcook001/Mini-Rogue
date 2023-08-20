@@ -33,5 +33,9 @@ public class CardAnims : MonoBehaviour
         {
             gameManager.MoveActivePieceToCard(this.gameObject);
         }
+        else if (Input.GetMouseButtonDown(2))
+        {
+            gameManager.Zoom(this.gameObject);
+        }
     }
 }

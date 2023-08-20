@@ -157,12 +157,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void DealCards()
     {
         for(int i = 0; i < cardPoints.Length - 1; i++)
@@ -250,6 +244,11 @@ public class GameManager : MonoBehaviour
     public void FlipCard(GameObject card, float raiseHeight, float flipTime)
     {
         StartCoroutine(SmoothCardFlip(card, raiseHeight, flipTime));
+    }
+
+    public void Zoom(GameObject card)
+    {
+        StartCoroutine(SmoothZoomCard(card));
     }
 
     private IEnumerator SmoothMove(GameObject piece, GameObject target)
@@ -371,6 +370,15 @@ public class GameManager : MonoBehaviour
         // Snap to final position and rotation for accuracy
         card.transform.position = originalPosition;
         card.transform.rotation = flippedRotation;
+    }
+
+    private IEnumerator SmoothZoomCard(GameObject card)
+    {
+        Destroy(card.GetComponent<Rigidbody>());
+        card.transform.parent = null;
+        card.transform.position = new Vector3(0, 5.4f, -3.35f);
+        card.transform.rotation = Quaternion.Euler(-18, 0, 180);
+        yield return null;
     }
 
     private void InitialFloorSetup()
