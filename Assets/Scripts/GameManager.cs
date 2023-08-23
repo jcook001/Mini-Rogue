@@ -43,6 +43,11 @@ public class GameManager : MonoBehaviour
     public float moveHeight = 1f;
     private bool isPieceMoving = false;
 
+    public bool isAnyCardZoomed = false;
+    private Vector3 zoomedCardPosition;
+    private Quaternion zoomedCardRotation;
+    private GameObject zoomedcardParent = null;
+
     /*Icon Map
      * a = Armor
      * b = Ignore Armor
@@ -219,6 +224,9 @@ public class GameManager : MonoBehaviour
         pileCard.AddComponent<CardAnims>();
         pileCard.AddComponent<BoxCollider>();
         pileCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.0003f, 0.07f);
+        pileCard.AddComponent<Rigidbody>();
+        pileCard.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
+        pileCard.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
     }
 
     public void MoveActivePieceToCard(GameObject card)
@@ -246,9 +254,19 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SmoothCardFlip(card, raiseHeight, flipTime));
     }
 
-    public void Zoom(GameObject card)
+    public void ZoomIn(GameObject card)
     {
+        if (isAnyCardZoomed) { return; } // don't zoom a card if one is already zoomed
+        zoomedCardPosition = card.transform.position;
+        zoomedCardRotation = card.transform.rotation;
         StartCoroutine(SmoothZoomCard(card));
+    }
+
+    public void ZoomOut(GameObject card)
+    {
+        if (!isAnyCardZoomed) { return; } // don't zoom out a card if one isn't already zoomed
+        if (!card.GetComponent<CardAnims>().isCardZoomed) { return; }
+        StartCoroutine(SmoothRetractCard(card));
     }
 
     private IEnumerator SmoothMove(GameObject piece, GameObject target)
@@ -374,10 +392,29 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SmoothZoomCard(GameObject card)
     {
-        Destroy(card.GetComponent<Rigidbody>());
+        //Destroy(card.GetComponent<Rigidbody>());
+        isAnyCardZoomed = true;
+        card.GetComponent<CardAnims>().isCardZoomed = true;
+        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX |
+                                                     RigidbodyConstraints.FreezePositionY |
+                                                     RigidbodyConstraints.FreezePositionZ |
+                                                     RigidbodyConstraints.FreezeRotationX |
+                                                     RigidbodyConstraints.FreezeRotationY |
+                                                     RigidbodyConstraints.FreezeRotationZ;
+
         card.transform.parent = null;
         card.transform.position = new Vector3(0, 5.4f, -3.35f);
         card.transform.rotation = Quaternion.Euler(-18, 0, 180);
+        yield return null;
+    }
+
+    private IEnumerator SmoothRetractCard(GameObject card)
+    {
+        isAnyCardZoomed = false;
+        card.GetComponent<CardAnims>().isCardZoomed = false;
+        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        card.transform.position = zoomedCardPosition;
+        card.transform.rotation = zoomedCardRotation;
         yield return null;
     }
 

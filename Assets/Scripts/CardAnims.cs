@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardAnims : MonoBehaviour
 {
     private GameManager gameManager;
+    public bool isCardZoomed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,16 +29,31 @@ public class CardAnims : MonoBehaviour
         
     }
 
-    //right click
+    
     public void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)) // Right click
         {
-            gameManager.MoveActivePieceToCard(this.gameObject);
+            gameManager.MoveActivePieceToCard(this.gameObject); 
         }
-        else if (Input.GetMouseButtonDown(2))
+        else if (Input.GetMouseButtonDown(2)) // Middle click
         {
-            gameManager.Zoom(this.gameObject);
+            if (gameManager.isAnyCardZoomed)
+            {
+                gameManager.ZoomOut(this.gameObject);
+            }
+            else
+            {
+                gameManager.ZoomIn(this.gameObject);
+            }
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0) // Scroll up
+        {
+            gameManager.ZoomIn(this.gameObject);
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") < 0) // Scroll down
+        {
+            gameManager.ZoomOut(this.gameObject);
         }
     }
 }
