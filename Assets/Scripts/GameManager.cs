@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private bool isPieceMoving = false;
 
     public bool isAnyCardZoomed = false;
+    public bool isAnyCardZooming = false;
     private Vector3 zoomedCardPosition;
     private Quaternion zoomedCardRotation;
     private GameObject zoomedcardParent = null;
@@ -257,15 +258,19 @@ public class GameManager : MonoBehaviour
     public void ZoomIn(GameObject card)
     {
         if (isAnyCardZoomed) { return; } // don't zoom a card if one is already zoomed
+        if (isAnyCardZooming) { return; }// or if one is being zoomed
         zoomedCardPosition = card.transform.position;
         zoomedCardRotation = card.transform.rotation;
+        isAnyCardZooming = true;
         StartCoroutine(SmoothZoomCard(card));
     }
 
     public void ZoomOut(GameObject card)
     {
         if (!isAnyCardZoomed) { return; } // don't zoom out a card if one isn't already zoomed
+        if (isAnyCardZooming) { return; }// or if one is being zoomed
         if (!card.GetComponent<CardAnims>().isCardZoomed) { return; }
+        isAnyCardZooming = true;
         StartCoroutine(SmoothRetractCard(card));
     }
 
@@ -392,20 +397,45 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SmoothZoomCard(GameObject card)
     {
-        //Destroy(card.GetComponent<Rigidbody>());
         isAnyCardZoomed = true;
         card.GetComponent<CardAnims>().isCardZoomed = true;
-        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX |
-                                                     RigidbodyConstraints.FreezePositionY |
-                                                     RigidbodyConstraints.FreezePositionZ |
-                                                     RigidbodyConstraints.FreezeRotationX |
-                                                     RigidbodyConstraints.FreezeRotationY |
-                                                     RigidbodyConstraints.FreezeRotationZ;
+        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
+        zoomedcardParent = card.transform.parent.gameObject;
         card.transform.parent = null;
-        card.transform.position = new Vector3(0, 5.4f, -3.35f);
-        card.transform.rotation = Quaternion.Euler(-18, 0, 180);
-        yield return null;
+
+        Vector3 startPos = card.transform.position;
+        Quaternion startRot = card.transform.rotation;
+
+        Vector3 endPos = new Vector3(0, 5.4f, -3.35f);
+        Quaternion endRot = Quaternion.Euler(-18, 0, 180);
+
+        float journeyLength = Vector3.Distance(startPos, endPos);
+        float speed = 10f;  // Set to desired speed value
+        float startTime = Time.time;
+
+        float distanceCovered = 0;
+
+        while (distanceCovered < journeyLength)
+        {
+            float timeSinceStarted = Time.time - startTime;
+            float percentageComplete = timeSinceStarted * speed / journeyLength;
+
+            // Move the card to the interpolated position
+            card.transform.position = Vector3.Lerp(startPos, endPos, percentageComplete);
+
+            // Rotate the card to the interpolated rotation
+            card.transform.rotation = Quaternion.Slerp(startRot, endRot, percentageComplete);
+
+            distanceCovered = (card.transform.position - startPos).magnitude;
+
+            yield return null;
+        }
+
+        // Just to ensure that card reaches the final position and rotation
+        card.transform.position = endPos;
+        card.transform.rotation = endRot;
+        isAnyCardZooming = false;
     }
 
     private IEnumerator SmoothRetractCard(GameObject card)
@@ -413,8 +443,41 @@ public class GameManager : MonoBehaviour
         isAnyCardZoomed = false;
         card.GetComponent<CardAnims>().isCardZoomed = false;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        card.transform.position = zoomedCardPosition;
-        card.transform.rotation = zoomedCardRotation;
+        card.transform.parent = zoomedcardParent.transform;
+
+        Vector3 startPos = card.transform.position;
+        Quaternion startRot = card.transform.rotation;
+
+        Vector3 endPos = zoomedCardPosition;
+        Quaternion endRot = zoomedCardRotation;
+
+        float journeyLength = Vector3.Distance(startPos, endPos);
+        float speed = 10f;  // Set to desired speed value
+        float startTime = Time.time;
+
+        float distanceCovered = 0;
+
+        while (distanceCovered < journeyLength)
+        {
+            float timeSinceStarted = Time.time - startTime;
+            float percentageComplete = timeSinceStarted * speed / journeyLength;
+
+            // Move the card to the interpolated position
+            card.transform.position = Vector3.Lerp(startPos, endPos, percentageComplete);
+
+            // Rotate the card to the interpolated rotation
+            card.transform.rotation = Quaternion.Slerp(startRot, endRot, percentageComplete);
+
+            distanceCovered = (card.transform.position - startPos).magnitude;
+
+            yield return null;
+        }
+
+        // Just to ensure that card reaches the final position and rotation
+        card.transform.position = endPos;
+        card.transform.rotation = endRot;
+        isAnyCardZooming = false;
+
         yield return null;
     }
 
