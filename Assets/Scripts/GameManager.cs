@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     public bool isAnyCardZoomed = false;
     public bool isAnyCardZooming = false;
+    public bool isAnyCardFlipping = false;
     private Vector3 zoomedCardPosition;
     private Quaternion zoomedCardRotation;
     private GameObject zoomedcardParent = null;
@@ -259,17 +260,20 @@ public class GameManager : MonoBehaviour
     {
         if (isAnyCardZoomed) { return; } // don't zoom a card if one is already zoomed
         if (isAnyCardZooming) { return; }// or if one is being zoomed
-        zoomedCardPosition = card.transform.position;
-        zoomedCardRotation = card.transform.rotation;
-        isAnyCardZooming = true;
-        StartCoroutine(SmoothZoomCard(card));
+        if (card.GetComponent<CardAnims>().isFaceUp)
+        {
+            zoomedCardPosition = card.transform.position;
+            zoomedCardRotation = card.transform.rotation;
+            isAnyCardZooming = true;
+            StartCoroutine(SmoothZoomCard(card));
+        }
     }
 
     public void ZoomOut(GameObject card)
     {
         if (!isAnyCardZoomed) { return; } // don't zoom out a card if one isn't already zoomed
         if (isAnyCardZooming) { return; }// or if one is being zoomed
-        if (!card.GetComponent<CardAnims>().isCardZoomed) { return; }
+        if (!card.GetComponent<CardAnims>().isZoomed) { return; }
         isAnyCardZooming = true;
         StartCoroutine(SmoothRetractCard(card));
     }
@@ -362,6 +366,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SmoothCardFlip(GameObject card, float raiseHeight, float flipTime)
     {
+        if (card.GetComponent<CardAnims>().isZoomed) { yield break; }
+        if (isAnyCardZooming) { yield break; }
+        isAnyCardFlipping = true;
         Vector3 originalPosition = card.transform.position;
         Quaternion originalRotation = card.transform.rotation;
         Quaternion flippedRotation = originalRotation * Quaternion.Euler(0, 0, 180);
@@ -390,15 +397,26 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        if (card.GetComponent<CardAnims>().isFaceUp)
+        {
+            card.GetComponent<CardAnims>().isFaceUp = false;
+        }
+        else
+        {
+            card.GetComponent<CardAnims>().isFaceUp = true;
+        }
+
         // Snap to final position and rotation for accuracy
         card.transform.position = originalPosition;
         card.transform.rotation = flippedRotation;
+        isAnyCardFlipping = false;
     }
 
     private IEnumerator SmoothZoomCard(GameObject card)
     {
+        if(isAnyCardFlipping) { yield break; }
         isAnyCardZoomed = true;
-        card.GetComponent<CardAnims>().isCardZoomed = true;
+        card.GetComponent<CardAnims>().isZoomed = true;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
         zoomedcardParent = card.transform.parent.gameObject;
@@ -441,7 +459,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator SmoothRetractCard(GameObject card)
     {
         isAnyCardZoomed = false;
-        card.GetComponent<CardAnims>().isCardZoomed = false;
+        card.GetComponent<CardAnims>().isZoomed = false;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         card.transform.parent = zoomedcardParent.transform;
 

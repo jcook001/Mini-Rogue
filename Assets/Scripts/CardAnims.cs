@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class CardAnims : MonoBehaviour
 {
     private GameManager gameManager;
-    public bool isCardZoomed = false;
+    public bool isZoomed = false;
+    public bool isFaceUp = false;
 
     // Start is called before the first frame update
     void Start()
