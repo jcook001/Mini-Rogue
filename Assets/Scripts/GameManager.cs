@@ -258,23 +258,15 @@ public class GameManager : MonoBehaviour
 
     public void ZoomIn(GameObject card)
     {
-        if (isAnyCardZoomed) { return; } // don't zoom a card if one is already zoomed
-        if (isAnyCardZooming) { return; }// or if one is being zoomed
         if (card.GetComponent<CardAnims>().isFaceUp)
         {
-            zoomedCardPosition = card.transform.position;
-            zoomedCardRotation = card.transform.rotation;
-            isAnyCardZooming = true;
             StartCoroutine(SmoothZoomCard(card));
         }
     }
 
     public void ZoomOut(GameObject card)
     {
-        if (!isAnyCardZoomed) { return; } // don't zoom out a card if one isn't already zoomed
-        if (isAnyCardZooming) { return; }// or if one is being zoomed
         if (!card.GetComponent<CardAnims>().isZoomed) { return; }
-        isAnyCardZooming = true;
         StartCoroutine(SmoothRetractCard(card));
     }
 
@@ -414,8 +406,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SmoothZoomCard(GameObject card)
     {
-        if(isAnyCardFlipping) { yield break; }
-        isAnyCardZoomed = true;
+        if (isAnyCardZoomed) { yield break; } // don't zoom a card if one is already zoomed
+        if (isAnyCardZooming) { yield break; }// or if one is being zoomed
+        if (isAnyCardFlipping) { yield break; }
+        zoomedCardPosition = card.transform.position;
+        zoomedCardRotation = card.transform.rotation;
+        isAnyCardZooming = true;
         card.GetComponent<CardAnims>().isZoomed = true;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
@@ -453,12 +449,17 @@ public class GameManager : MonoBehaviour
         // Just to ensure that card reaches the final position and rotation
         card.transform.position = endPos;
         card.transform.rotation = endRot;
+        yield return null;
         isAnyCardZooming = false;
+        isAnyCardZoomed = true;
+        yield return null;
     }
 
     private IEnumerator SmoothRetractCard(GameObject card)
     {
-        isAnyCardZoomed = false;
+        if (!isAnyCardZoomed) { yield break; } // don't zoom out a card if one isn't already zoomed
+        if (isAnyCardZooming) { yield break; }// or if one is being zoomed
+        isAnyCardZooming = true;
         card.GetComponent<CardAnims>().isZoomed = false;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         card.transform.parent = zoomedcardParent.transform;
@@ -494,8 +495,9 @@ public class GameManager : MonoBehaviour
         // Just to ensure that card reaches the final position and rotation
         card.transform.position = endPos;
         card.transform.rotation = endRot;
+        yield return null;
         isAnyCardZooming = false;
-
+        isAnyCardZoomed = false;
         yield return null;
     }
 
