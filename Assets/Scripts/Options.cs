@@ -29,6 +29,14 @@ public class Options : MonoBehaviour
 
     }
 
+    void Awake()
+    {
+#if PLATFORM_ANDROID
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    
+#endif
+    }
+
     public void P1CharacterNext()
     {
         //update the character choice index
