@@ -181,9 +181,12 @@ public class GameManager : MonoBehaviour
                 newDungeonCard = Instantiate(dungeonDeck[randomCardInt].model, cardPoints[i].transform);
             }
 
+            newDungeonCard.AddComponent<CardAnims>();
+
             if (DebugShowDungeonCards)
             {
                 newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
+                newDungeonCard.GetComponent<CardAnims>().isFaceUp = true;
             }
             else
             {
@@ -198,7 +201,6 @@ public class GameManager : MonoBehaviour
             dungeonDeck.RemoveAt(randomCardInt);
 
             //add components so the card can be interacted with
-            newDungeonCard.AddComponent<CardAnims>();
             newDungeonCard.AddComponent<BoxCollider>();
             newDungeonCard.GetComponent<BoxCollider>().size = new Vector3(0.05f, 0.0003f, 0.07f);
             newDungeonCard.AddComponent<Rigidbody>();
@@ -359,13 +361,17 @@ public class GameManager : MonoBehaviour
     private IEnumerator SmoothCardFlip(GameObject card, float raiseHeight, float flipTime)
     {
         if (card.GetComponent<CardAnims>().isZoomed) { yield break; }
+        if (card.GetComponent <CardAnims>().isFlipping) { yield break; }
+        if (isAnyCardZoomed) { yield break; }
         if (isAnyCardZooming) { yield break; }
         isAnyCardFlipping = true;
+        card.GetComponent<CardAnims>().isFlipping = true;
         Vector3 originalPosition = card.transform.position;
         Quaternion originalRotation = card.transform.rotation;
         Quaternion flippedRotation = originalRotation * Quaternion.Euler(0, 0, 180);
         float elapsedTime = 0f;
         float finalRaiseHeight = 0.1f;
+        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
         while (elapsedTime < flipTime)
         {
@@ -402,6 +408,8 @@ public class GameManager : MonoBehaviour
         card.transform.position = originalPosition;
         card.transform.rotation = flippedRotation;
         isAnyCardFlipping = false;
+        card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        card.GetComponent<CardAnims>().isFlipping = false;
     }
 
     private IEnumerator SmoothZoomCard(GameObject card)

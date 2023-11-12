@@ -9,6 +9,7 @@ public class CardAnims : MonoBehaviour
     private GameManager gameManager;
     public bool isZoomed = false;
     public bool isFaceUp = false;
+    public bool isFlipping = false;
 
     // Start is called before the first frame update
     void Start()

@@ -1938,6 +1938,9 @@ MonoBehaviour:
   P2_Piece: {fileID: 1504296681}
   moveSpeed: 1
   moveHeight: 1
+  isAnyCardZoomed: 0
+  isAnyCardZooming: 0
+  isAnyCardFlipping: 0
 --- !u!4 &1036691558
 Transform:
   m_ObjectHideFlags: 0
