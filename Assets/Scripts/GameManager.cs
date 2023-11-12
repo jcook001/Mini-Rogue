@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
@@ -206,6 +207,55 @@ public class GameManager : MonoBehaviour
             newDungeonCard.AddComponent<Rigidbody>();
             newDungeonCard.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
             newDungeonCard.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+            //TODO change rotation for facedown cards
+            // Add a Canvas to the new card
+            GameObject canvasObject = new GameObject("CardCanvas");
+            canvasObject.transform.SetParent(newDungeonCard.transform, false);
+            Canvas canvas = canvasObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.worldCamera = Camera.main;
+
+            RectTransform rectTransform = canvasObject.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(0.1f, 0.1f); // Set the size of the canvas to match the card's size
+            rectTransform.localPosition = Vector3.zero; // Adjust as needed
+            rectTransform.localEulerAngles = new Vector3(-90, 0, 0); // Adjust as needed
+            rectTransform.localScale = Vector3.one;
+
+            CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
+            canvasScaler.dynamicPixelsPerUnit = 10; // Adjust this to match the actual size of your card
+
+            GraphicRaycaster raycaster = canvasObject.AddComponent<GraphicRaycaster>();
+
+            //Add a Button to the Canvas
+            GameObject buttonObject = new GameObject("CardButton");
+            buttonObject.transform.SetParent(canvasObject.transform, false);
+
+            // Add an Image component first, which will automatically add a RectTransform
+            Image buttonImage = buttonObject.AddComponent<Image>();
+            buttonImage.color = new Color(1, 1, 1, 0); // Set the colour to white with 0 alpha for transparency
+
+            // Now, add the Button component
+            Button button = buttonObject.AddComponent<Button>();
+
+            RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
+            buttonRectTransform.sizeDelta = new Vector2(100, 50); // Set the size of the button
+            buttonRectTransform.anchoredPosition = Vector2.zero; // Center the button on the canvas
+            buttonRectTransform.localScale = Vector3.one;
+
+            //Set up the button interaction
+            button.onClick.AddListener(() => { Debug.Log("Button Clicked! on card " + newDungeonCard.name); });
+
+            //GameObject canvasObject = new GameObject("CardCanvas");
+            //canvasObject.transform.SetParent(newDungeonCard.transform, false);
+            //canvasObject.transform.localPosition = Vector3.zero;
+            //Canvas canvas = canvasObject.AddComponent<Canvas>();
+            //canvas.renderMode = RenderMode.WorldSpace;
+            //canvas.worldCamera = Camera.main;
+            //canvas.transform.localPosition = new Vector3(0, -0.0002f, 0);
+            //canvas.transform.localScale = new Vector3(1, 1, 1);
+            //canvas.transform.Rotate(-90, 180, 0);
+            //Button button = canvas.AddComponent<Button>();
         }
     }
 
