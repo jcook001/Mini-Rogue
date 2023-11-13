@@ -215,9 +215,23 @@ public class GameManager : MonoBehaviour
             Canvas canvas = canvasObject.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
             canvas.worldCamera = Camera.main;
+            MeshRenderer cardRenderer = newDungeonCard.GetComponent<MeshRenderer>();
+            // Calculate the size of the card taking into account its local scale
+            Vector3 cardLocalScale = newDungeonCard.transform.localScale;
+            Vector3 cardSize = new Vector3(
+                cardRenderer.bounds.size.x / cardLocalScale.x,
+                cardRenderer.bounds.size.y / cardLocalScale.y,
+                cardRenderer.bounds.size.z / cardLocalScale.z
+            );
 
             RectTransform rectTransform = canvasObject.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(0.1f, 0.1f); // Set the size of the canvas to match the card's size
+            rectTransform.sizeDelta = new Vector2(cardSize.x, cardSize.z); // Set the size of the canvas to match the card's size
+            rectTransform.localScale = new Vector3(
+                1f / cardLocalScale.x,
+                1f / cardLocalScale.z,
+                1f
+                );
+
             rectTransform.localPosition = Vector3.zero; // Adjust as needed
             rectTransform.localEulerAngles = new Vector3(-90, 0, 0); // Adjust as needed
             rectTransform.localScale = Vector3.one;
