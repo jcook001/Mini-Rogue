@@ -232,7 +232,11 @@ public class GameManager : MonoBehaviour
                 1f
                 );
 
-            rectTransform.localPosition = Vector3.zero; // Adjust as needed
+            // Calculate a small offset to raise the canvas just above the card surface
+            float heightOffset = cardSize.y * -0.5f - 0.0001f; // Raise by half the card's height plus a small additional amount
+
+            // Now set the local position of the canvas
+            rectTransform.localPosition = new Vector3(0, heightOffset, 0);
             rectTransform.localEulerAngles = new Vector3(-90, 0, 0); // Adjust as needed
             rectTransform.localScale = Vector3.one;
 
@@ -247,13 +251,13 @@ public class GameManager : MonoBehaviour
 
             // Add an Image component first, which will automatically add a RectTransform
             Image buttonImage = buttonObject.AddComponent<Image>();
-            buttonImage.color = new Color(1, 1, 1, 0); // Set the colour to white with 0 alpha for transparency
+            //buttonImage.color = new Color(1, 1, 1, 0); // Set the colour to white with 0 alpha for transparency
 
             // Now, add the Button component
             Button button = buttonObject.AddComponent<Button>();
 
             RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
-            buttonRectTransform.sizeDelta = new Vector2(100, 50); // Set the size of the button
+            buttonRectTransform.sizeDelta = new Vector2(1 / cardLocalScale.x, 0.3f / cardLocalScale.z); // Set the size of the button
             buttonRectTransform.anchoredPosition = Vector2.zero; // Center the button on the canvas
             buttonRectTransform.localScale = Vector3.one;
 
