@@ -176,6 +176,7 @@ public class GameManager : MonoBehaviour
             if (dungeonDeck[randomCardInt].model == null)
             {
                 newDungeonCard = Instantiate(placeholderCard.model, cardPoints[i].transform);
+                Debug.LogError("there's no model for " + dungeonDeck[randomCardInt].model.name);
             }
             else
             {
