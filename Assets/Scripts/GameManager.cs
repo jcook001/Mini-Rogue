@@ -209,7 +209,6 @@ public class GameManager : MonoBehaviour
             newDungeonCard.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.Continuous;
             newDungeonCard.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
 
-            //TODO change rotation for facedown cards
             // Add a Canvas to the new card
             GameObject canvasObject = new GameObject("CardCanvas");
             canvasObject.transform.SetParent(newDungeonCard.transform, false);
@@ -246,51 +245,70 @@ public class GameManager : MonoBehaviour
 
             GraphicRaycaster raycaster = canvasObject.AddComponent<GraphicRaycaster>();
 
-            //Add a Button to the Canvas
-            GameObject buttonObject = new GameObject("CardButton");
-            buttonObject.transform.SetParent(canvasObject.transform, false);
-
-            // Add an Image component first, which will automatically add a RectTransform
-            Image buttonImage = buttonObject.AddComponent<Image>();
-            //buttonImage.color = new Color(1, 1, 1, 0); // Set the colour to white with 0 alpha for transparency
-
-            // Now, add the Button component
-            Button button = buttonObject.AddComponent<Button>();
-
-            // Find the empty GameObject that serves as the anchor point for the button
-            Transform buttonAnchor = newDungeonCard.transform.Find("EmptyAxis");
-
-            RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
-
-            if (buttonAnchor != null)
+            //for each child object
+            foreach (Transform child in newDungeonCard.transform)
             {
-                // Convert the position of the empty GameObject to the local space of the Canvas
-                Vector2 anchorPositionOnCanvas = canvasObject.transform.InverseTransformPoint(buttonAnchor.position);
+                if (child.name.StartsWith("CardType"))
+                {
+                    CreateCardButton(0.20f, 0.20f, child, canvasObject, cardLocalScale, newDungeonCard);
 
-                // Now set the position of the button
-                buttonRectTransform.sizeDelta = new Vector2(1 / cardLocalScale.x, 0.3f / cardLocalScale.z); // Adjust the size as needed
+                }
+                else if (child.name.StartsWith("SubCardType"))
+                {
+                    CreateCardButton(0.3f, 0.1f, child, canvasObject, cardLocalScale, newDungeonCard);
 
-                // Since the Canvas might be at a different height, we only use the x and z coordinates (which corresponds to width and length)
-                buttonRectTransform.anchoredPosition = new Vector2(anchorPositionOnCanvas.x, anchorPositionOnCanvas.y);
-                // Adjust the local z position (height) of the button as necessary to avoid intersection with the card
-                // Note: You may need to adjust the value based on the orientation and the position of the canvas relative to the card
-                buttonRectTransform.localPosition = new Vector3(buttonRectTransform.localPosition.x, buttonRectTransform.localPosition.y, 0);
+                }
+                else if (child.name.StartsWith("Option"))
+                {
+                    CreateCardButton(0.4f, 0.087f, child, canvasObject, cardLocalScale, newDungeonCard);
 
-                // Optionally, adjust the scale if needed to match the empty's scale
-                buttonRectTransform.localScale = buttonAnchor.localScale;
+                }
+                else if (child.name.StartsWith("CardCanvas"))
+                {
+
+                }
+                else
+                {
+                    Debug.LogError("Unknown object " + child.name + " on card " + newDungeonCard.name);
+                }
             }
-            else
-            {
-                Debug.LogWarning("ButtonPositionAnchor not found in the card model.");
-                buttonRectTransform.anchoredPosition = Vector2.zero; // Center the button on the canvas
-                buttonRectTransform.localScale = Vector3.one;
-            }
-
-            buttonRectTransform.sizeDelta = new Vector2(0.5f / cardLocalScale.x, 0.15f / cardLocalScale.z); // Set the size of the button
-
-            //Set up the button interaction
-            button.onClick.AddListener(() => { Debug.Log("Button Clicked! on card " + newDungeonCard.name); });
         }
+    }
+
+    private void CreateCardButton(float width, float height, Transform child, GameObject canvasObject, Vector3 cardLocalScale, GameObject newDungeonCard)
+    {
+        //Add a Button to the Canvas
+        GameObject buttonObject = new GameObject("CardButton");
+        buttonObject.transform.SetParent(canvasObject.transform, false);
+
+        // Add an Image component first, which will automatically add a RectTransform
+        Image buttonImage = buttonObject.AddComponent<Image>();
+        buttonImage.color = new Color(1, 1, 1, 0.5f); // Set the colour to white with 0 alpha for transparency
+
+        // Now, add the Button component
+        Button button = buttonObject.AddComponent<Button>();
+
+        // Assign the empty GameObject that serves as the anchor point for the button
+        Transform buttonAnchor = child;
+
+        RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
+
+        // Convert the position of the empty GameObject to the local space of the Canvas
+        Vector2 anchorPositionOnCanvas = canvasObject.transform.InverseTransformPoint(buttonAnchor.position);
+
+        // Now set the position of the button
+        buttonRectTransform.sizeDelta = new Vector2(width / cardLocalScale.x, height / cardLocalScale.z); // Adjust the size as needed
+
+        // Since the Canvas might be at a different height, we only use the x and z coordinates (which corresponds to width and length)
+        buttonRectTransform.anchoredPosition = new Vector2(anchorPositionOnCanvas.x, anchorPositionOnCanvas.y);
+        // Adjust the local z position (height) of the button as necessary to avoid intersection with the card
+        buttonRectTransform.localPosition = new Vector3(buttonRectTransform.localPosition.x, buttonRectTransform.localPosition.y, 0);
+
+        // Optionally, adjust the scale if needed to match the empty's scale
+        buttonRectTransform.localScale = buttonAnchor.localScale;
+
+        //Set up the button interaction
+        button.onClick.AddListener(() => { Debug.Log(child.name + " clicked! On card " + newDungeonCard.name); });
     }
 
     private void CreateBossPile()
