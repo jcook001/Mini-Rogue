@@ -7,13 +7,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
+//TODO re-enable this later
+#pragma warning disable 0414 //disables unused variable warning
+
 public class GameManager : MonoBehaviour
 {
     private GameObject options_Manager;
     private Options options;
 
-    public bool DebugShowDungeonCards = false;
-    public bool DebugShowFontSymbols = false;
+    //Game pieces
+    public GameObject P1_Piece; //TODO make player choose their piece so this can be private 
+    public GameObject P2_Piece; //TODO make player choose their piece so this can be private 
+    public GameObject monsterBoard;
+    public GameObject playerTracker;
 
     public float cardThickness = 50.0f;
     public float piecePlacementHeight = 0.29f;
@@ -25,16 +31,10 @@ public class GameManager : MonoBehaviour
     private List<CardData> usedBossDeck = new List<CardData>();
     public CardData finalBoss;
 
-    public TextMeshProUGUI debugOverlay;
-    public TextMeshProUGUI debugGamePrompts;
-    public TMP_FontAsset fontAsset; //Debug
-
     private Player P1 = new Player();
     private Player P2 = new Player();
 
     private int playerCount = 1;
-    public GameObject P1_Piece; //TODO make player choose their piece so this can be private 
-    public GameObject P2_Piece; //TODO make player choose their piece so this can be private 
     private int P1_Location = 1;
     private int P2_Location = 1;
     private int playerTurn = 1;
@@ -50,6 +50,19 @@ public class GameManager : MonoBehaviour
     private Vector3 zoomedCardPosition;
     private Quaternion zoomedCardRotation;
     private GameObject zoomedcardParent = null;
+
+    //Gameplay
+    private bool hasGameStarted = false;
+    private int currentFloor = 0;
+    private int currentRoom = 0;
+
+    //DEBUG
+    public bool DebugShowDungeonCards = false;
+    public bool DebugShowFontSymbols = false;
+
+    public TextMeshProUGUI debugOverlay;
+    public TextMeshProUGUI debugGamePrompts;
+    public TMP_FontAsset fontAsset;
 
     /*Icon Map
      * a = Armor
@@ -133,12 +146,6 @@ public class GameManager : MonoBehaviour
             P1.SetClass("Crusader");
         }
 
-        //Place a card in each card slot 1-8
-        DealCards();
-
-        //Create a boss deck in slot 9
-        CreateBossPile();
-
         //Show character stats in debug overlay
         debugOverlay.text =
             "Chosen Character: " + P1.Character + "\n" +
@@ -158,7 +165,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Place the player pieces on the first card
-        debugGamePrompts.text = "Select a location to place your player token";
+        debugGamePrompts.text = "Press the start game button to begin!";
 
         //TODO Assign this properly in UI
         activePiece = P1_Piece;
@@ -275,6 +282,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //TODO rename variables here so it's more readable out of context
     private void CreateCardButton(float width, float height, Transform child, GameObject canvasObject, Vector3 cardLocalScale, GameObject newDungeonCard)
     {
         //Add a Button to the Canvas
@@ -611,15 +619,51 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    private void InitialFloorSetup()
+    public void InitialFloorSetup()
     {
-        //Shuffle Dungeon Cards
+        //Check if game has started!
+        if (hasGameStarted) {  return; }
+        hasGameStarted = true;
 
-        //Deal 8 Cards into slots 1-8 face down
+        //Check chosen game mode
+        if (options == null)
+        {
+            //DEBUG we haven't started from the main menu
+        }
+        else if (options.gameTypeDropdown.value == 0)
+        {
+            //The Dungeon has been selected but this is the default
+        }
+        else if (options.gameTypeDropdown.value ==1)
+        {
+            //The Tower has been selected, so flip the gameboard
+            monsterBoard.transform.Rotate(180, 0, 0);
+        }
 
-        //Shuffle and instantiate Monster Deck face down + increase Y size to match height * cards
+        //Place a card in each card slot 1-8
+        //TODO add animation for game start
+        DealCards();
+
+        //Create a boss deck in slot 9
+        CreateBossPile();
 
         //Set Current floor and room to 1
+        currentFloor = 1;
+        currentRoom = 1;
+
+        //Place appropriate game pieces on card 1
+        if (options == null || options.gameTypeDropdown.value == 0 || options.gameTypeDropdown.value == 1)
+        {
+            debugGamePrompts.text = "";
+            //Move player 1 piece to the first card
+            MoveActivePieceToCard(cardPoints[0].transform.GetChild(0).gameObject);
+        }
+        else if (options.gameTypeDropdown.value > 1)
+        {
+            //The Tower has been selected, so flip the gameboard
+            debugGamePrompts.text = "There's no support for multiplayer yet :(";
+        }
+
     }
 
     //Debug functions

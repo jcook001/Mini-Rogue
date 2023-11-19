@@ -23,6 +23,7 @@ public class MenuFunctions : MonoBehaviour
 
     public void LoadLevel()
     {
+        if (options.GetComponent<Options>().gameTypeDropdown.value > 1) { Debug.LogError("This gamemode is not ready yet!"); return; }
         SceneManager.LoadScene(levelIndex);
     }
 }
