@@ -1,0 +1,7 @@
+Script found here https://blender.stackexchange.com/questions/6940/config-blender-to-save-backup-files-in-subfolder
+
+"Simply save the code below into a file called something .py [...]
+
+Then import the file by clicking: File > User Preferences > Addons > Install From File... > Finally select the file and activate the addon."
+
+That script didn't work but Chat GPT updated the script for me which is what is saved in this folder.
