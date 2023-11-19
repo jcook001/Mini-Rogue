@@ -34,12 +34,6 @@ public class GameManager : MonoBehaviour
     private Player P1 = new Player();
     private Player P2 = new Player();
 
-    private int playerCount = 1;
-    private int P1_Location = 1;
-    private int P2_Location = 1;
-    private int playerTurn = 1;
-    private GameObject activePiece;
-
     public float moveSpeed = 1f;
     public float moveHeight = 1f;
     private bool isPieceMoving = false;
@@ -55,6 +49,11 @@ public class GameManager : MonoBehaviour
     private bool hasGameStarted = false;
     private int currentFloor = 0;
     private int currentRoom = 0;
+    private int playerCount = 1;
+    private int playerTurn = 1;
+    private GameObject activePiece;
+    private int P1_Location = 0;
+    private int P2_Location = 0;
 
     //DEBUG
     public bool DebugShowDungeonCards = false;
@@ -62,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI debugOverlay;
     public TextMeshProUGUI debugGamePrompts;
+    public TextMeshProUGUI floorStatusPrompts;
     public TMP_FontAsset fontAsset;
 
     /*Icon Map
@@ -345,22 +345,24 @@ public class GameManager : MonoBehaviour
 
     public void MoveActivePieceToCard(GameObject card)
     {
-        if (!isPieceMoving)
+        if(playerCount == 2)
         {
-            StartCoroutine(SmoothMoveRandomPos(activePiece, card));
-
-            //update the active player turn
-            if(playerTurn == 1)
+            if (!isPieceMoving)
             {
-                playerTurn = 2;
-                activePiece = P2_Piece;
-            }
-            else
-            {
-                playerTurn = 1;
-                activePiece = P1_Piece;
+                //update the active player turn
+                if (playerTurn == 1)
+                {
+                    playerTurn = 2;
+                    activePiece = P2_Piece;
+                }
+                else
+                {
+                    playerTurn = 1;
+                    activePiece = P1_Piece;
+                }
             }
         }
+        StartCoroutine(SmoothMoveRandomPos(activePiece, card));
     }
 
     public void FlipCard(GameObject card, float raiseHeight, float flipTime)
@@ -634,7 +636,7 @@ public class GameManager : MonoBehaviour
         {
             //The Dungeon has been selected but this is the default
         }
-        else if (options.gameTypeDropdown.value ==1)
+        else if (options.gameTypeDropdown.value == 1)
         {
             //The Tower has been selected, so flip the gameboard
             monsterBoard.transform.Rotate(180, 0, 0);
@@ -650,6 +652,7 @@ public class GameManager : MonoBehaviour
         //Set Current floor and room to 1
         currentFloor = 1;
         currentRoom = 1;
+        UpdateFloor();
 
         //Place appropriate game pieces on card 1
         if (options == null || options.gameTypeDropdown.value == 0 || options.gameTypeDropdown.value == 1)
@@ -657,6 +660,10 @@ public class GameManager : MonoBehaviour
             debugGamePrompts.text = "";
             //Move player 1 piece to the first card
             MoveActivePieceToCard(cardPoints[0].transform.GetChild(0).gameObject);
+            
+            //TODO update the card to be moved to at the start of the piece movement
+            //P1_Location = Array.IndexOf(cardPoints, P1_Piece.transform.parent.gameObject);
+            //Debug.Log("player 1 location is " + P1_Location);
         }
         else if (options.gameTypeDropdown.value > 1)
         {
@@ -664,6 +671,31 @@ public class GameManager : MonoBehaviour
             debugGamePrompts.text = "There's no support for multiplayer yet :(";
         }
 
+        StartCoroutine(DoTurn());
+    }
+
+    private IEnumerator DoTurn()
+    {
+        //wait for pieces to stop moving
+        while (isPieceMoving) 
+        {
+            yield return new WaitForSeconds(1);
+        }
+        //extra pause?
+
+        //zoom card
+        StartCoroutine(SmoothZoomCard(cardPoints[P1_Location].transform.GetChild(0).gameObject));
+
+        //wait for button press
+
+        //Do button press action
+        yield return null;
+    }
+
+    private void UpdateFloor()
+    {
+        floorStatusPrompts.text = "test";
+        floorStatusPrompts.text = "Floor: " + currentFloor + "   Room: " + currentRoom;
     }
 
     //Debug functions
