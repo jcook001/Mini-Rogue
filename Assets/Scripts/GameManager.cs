@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     private int P1_Location = 0;
     private int P2_Location = 0;
 
+    //animations and transitions
+    WaitForSeconds PieceMoveDelay = new WaitForSeconds(1);
+
     //DEBUG
     public bool DebugShowDungeonCards = false;
     public bool DebugShowFontSymbols = false;
@@ -677,14 +680,25 @@ public class GameManager : MonoBehaviour
         //wait for pieces to stop moving
         while (isPieceMoving) 
         {
-            yield return new WaitForSeconds(1);
+            yield return PieceMoveDelay;
         }
         //extra pause?
 
-        //zoom card
-        StartCoroutine(SmoothZoomCard(cardPoints[P1_Location].transform.GetChild(0).gameObject));
+        //Save the active card
+        GameObject activeCard = cardPoints[P1_Location].transform.GetChild(0).gameObject;
 
-        //wait for button press
+        //zoom card
+        StartCoroutine(SmoothZoomCard(activeCard));
+
+        //Wait for the card to zoom in
+        while (isAnyCardZooming)
+        {
+            yield return PieceMoveDelay;
+        }
+
+        //Check the card, what do we need to do?
+
+
 
         //Do button press action
         yield return null;
