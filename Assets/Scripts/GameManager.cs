@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
     public bool isAnyCardZoomed = false;
     public bool isAnyCardZooming = false;
     public bool isAnyCardFlipping = false;
-    private Vector3 zoomedCardPosition;
-    private Quaternion zoomedCardRotation;
+    private Quaternion faceUpCardRotation = Quaternion.Euler(180, 180, 0);
+    private Quaternion faceDownCardRotation = Quaternion.Euler(180, 180, 180);
     private GameObject zoomedcardParent = null;
 
     //Gameplay
@@ -194,12 +194,12 @@ public class GameManager : MonoBehaviour
 
             if (DebugShowDungeonCards)
             {
-                newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 0);
+                newDungeonCard.transform.rotation = faceUpCardRotation;
                 newDungeonCard.GetComponent<CardAnims>().isFaceUp = true;
             }
             else
             {
-                newDungeonCard.transform.rotation = Quaternion.Euler(180, 180, 180);
+                newDungeonCard.transform.rotation = faceDownCardRotation;
             }
 
             newDungeonCard.transform.localScale = new Vector3(25, cardThickness, 25);
@@ -529,8 +529,6 @@ public class GameManager : MonoBehaviour
         if (isAnyCardZoomed) { yield break; } // don't zoom a card if one is already zoomed
         if (isAnyCardZooming) { yield break; }// or if one is being zoomed
         if (isAnyCardFlipping) { yield break; }
-        zoomedCardPosition = card.transform.position;
-        zoomedCardRotation = card.transform.rotation;
         isAnyCardZooming = true;
         card.GetComponent<CardAnims>().isZoomed = true;
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -587,8 +585,8 @@ public class GameManager : MonoBehaviour
         Vector3 startPos = card.transform.position;
         Quaternion startRot = card.transform.rotation;
 
-        Vector3 endPos = zoomedCardPosition;
-        Quaternion endRot = zoomedCardRotation;
+        Vector3 endPos = card.transform.parent.position;
+        Quaternion endRot = faceUpCardRotation;
 
         float journeyLength = Vector3.Distance(startPos, endPos);
         float speed = 10f;  // Set to desired speed value
