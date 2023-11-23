@@ -705,6 +705,40 @@ public class GameManager : MonoBehaviour
         switch (activeCardData.cardType)
         {
             case CardData.CardType.Item:
+                //roll
+                break;
+            case CardData.CardType.Monster:
+                //Combat!
+                break;
+            case CardData.CardType.Trap:
+                //roll
+                break;
+            case CardData.CardType.Trap_Depths:
+                //roll
+                break;
+            case CardData.CardType.Tomb:
+                //roll
+                break;
+            case CardData.CardType.Bonfire:
+                //make choice
+                break;
+            case CardData.CardType.Merchant:
+                //make choice
+                break;
+            case CardData.CardType.Treasure:
+                //roll
+                break;
+            case CardData.CardType.Treasure_Depths:
+                //roll
+                break;
+            case CardData.CardType.Shrine:
+                //make choice
+                //roll
+                break;
+            case CardData.CardType.Monster_Bandit:
+                //make choice
+                break;
+            case CardData.CardType.Boss:
                 break;
         }
             
