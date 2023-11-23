@@ -191,6 +191,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 newDungeonCard = Instantiate(dungeonDeck[randomCardInt].model, cardPoints[i].transform);
+                newDungeonCard.AddComponent<Card>();
+                newDungeonCard.GetComponent<Card>().cardData = dungeonDeck[randomCardInt];
             }
 
             newDungeonCard.AddComponent<CardAnims>();
@@ -697,7 +699,15 @@ public class GameManager : MonoBehaviour
         }
 
         //Check the card, what do we need to do?
+        CardData activeCardData = activeCard.GetComponent<Card>().cardData;
+        debugGamePrompts.text = activeCardData.cardType.ToString();
 
+        switch (activeCardData.cardType)
+        {
+            case CardData.CardType.Item:
+                break;
+        }
+            
 
 
         //Do button press action
