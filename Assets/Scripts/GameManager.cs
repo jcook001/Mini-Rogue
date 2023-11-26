@@ -167,8 +167,8 @@ public class GameManager : MonoBehaviour
             "<#ce982c><font=\"Icons SDF\">g</font> Gold: </color>" + P1.Gold + "\n" +
             "<#231f20><font=\"Icons SDF\">)</font> Potion 1: </color>" + P1.potion1 + "\n" +
             "<#231f20><font=\"Icons SDF\">)</font> Potion 2: </color>" + P1.potion2 + "\n" +
-            "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.poisoned + "\n" +
-            "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.cursed + "\n";
+            "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.isPoisoned + "\n" +
+            "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.isCursed + "\n";
 
         if (DebugShowFontSymbols)
         {
@@ -712,42 +712,39 @@ public class GameManager : MonoBehaviour
 
         switch (activeCardData.cardType)
         {
-            case CardData.CardType.Item:
-                //roll
-                break;
-            case CardData.CardType.Monster:
-                //Combat!
-                break;
-            case CardData.CardType.Trap:
-                //roll
-
-                break;
-            case CardData.CardType.Trap_Depths:
-                //roll
-                break;
-            case CardData.CardType.Tomb:
-                //roll
-                break;
+            //choice
+            case CardData.CardType.Merchant:
             case CardData.CardType.Bonfire:
                 //make choice
                 break;
-            case CardData.CardType.Merchant:
-                //make choice
-                break;
-            case CardData.CardType.Treasure:
-                //roll
-                break;
-            case CardData.CardType.Treasure_Depths:
-                //roll
-                break;
+
+            //choice then roll
             case CardData.CardType.Shrine:
                 //make choice
-                //roll
                 break;
+
+            //roll then choice
+            case CardData.CardType.Item:
+                break;
+
+            //choice then fight
             case CardData.CardType.Monster_Bandit:
                 //make choice
                 break;
+
+            //Fight
+            case CardData.CardType.Monster:
             case CardData.CardType.Boss:
+                //Combat!
+                break;
+
+            //Roll
+            case CardData.CardType.Tomb:
+            case CardData.CardType.Trap:
+            case CardData.CardType.Trap_Depths:
+            case CardData.CardType.Treasure:
+            case CardData.CardType.Treasure_Depths:
+                //roll
                 break;
         }
             
@@ -757,13 +754,49 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    private void RollDice()
+    private void RollDice(CardData.CardType cardType)
     {
+        List<GameObject> diceToRoll = new List<GameObject>();
         //Check what dice are required by card
-        //Check dice suitable for active player
-        //what level is player
-        //is player poisoned
-        //is player cursed
+        switch (cardType)
+        {
+            //Player Dice + Poison + Curse
+            case CardData.CardType.Item:
+            case CardData.CardType.Tomb:
+            case CardData.CardType.Trap:
+            case CardData.CardType.Trap_Depths:
+            case CardData.CardType.Treasure:
+            case CardData.CardType.Treasure_Depths:
+            case CardData.CardType.Monster:
+            case CardData.CardType.Boss:
+            case CardData.CardType.Monster_Bandit:
+                //Check dice suitable for active player
+                //what level is player
+                for(int i = 0; i < P1.level; i++)
+                {
+                    diceToRoll.Add(player1PlayerDice[i]);
+                }
+                //is player poisoned
+                if (P1.isPoisoned)
+                {
+                    diceToRoll.Add(player1PoisonDice);
+                }
+                //is player isCursed
+                if (P1.isCursed)
+                {
+                    diceToRoll.Add(player1PoisonDice);
+                }
+                //add monster dice
+                diceToRoll.Add(player1MonsterDice);
+                break;
+            //Monster Dice
+            case CardData.CardType.Shrine:
+                diceToRoll.Add(player1MonsterDice);
+                break;
+            
+        }
+
+        DiceManager.Instance.RollDice(diceToRoll);
     }
 
     private void UpdateFloor()

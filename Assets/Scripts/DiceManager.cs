@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DiceManager : MonoBehaviour
 {
+    public static DiceManager Instance { get; private set; } // Static property to access the instance
+
     public List<Rigidbody> diceRigidbodies = new List<Rigidbody>();  // List to hold the rigidbodies of the dice
     public Transform tableTransform; // Transform of the table object
     public float pickUpHeight = 1.0f; // Height above the table to hold the dice
@@ -16,6 +18,15 @@ public class DiceManager : MonoBehaviour
     private Camera mainCamera;
 
     private bool itsTimeToRoll = false;
+
+    void Awake()
+    {
+        // Singleton pattern for easy access
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     private void Start()
     {

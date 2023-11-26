@@ -7,6 +7,7 @@ public class Player
 {
     // Start is called before the first frame update
     public string Character = "none";
+    public int level = 1;
     public int Armor = 0;
     public int HP = 0;
     public int XP = 0;
@@ -14,8 +15,8 @@ public class Player
     public int Gold = 0;
     public string potion1 = "none";
     public string potion2 = "none";
-    public bool poisoned = false;
-    public bool cursed = false;
+    public bool isPoisoned = false;
+    public bool isCursed = false;
 
     /// <summary>
     /// Set the default values for a specified class
@@ -34,8 +35,8 @@ public class Player
                 Gold = 0;
                 potion1 = "none";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Priestess":
                 Character = className;
@@ -46,8 +47,8 @@ public class Player
                 Gold = 2;
                 potion1 = "Holy";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Rogue":
                 Character = className;
@@ -58,8 +59,8 @@ public class Player
                 Gold = 5;
                 potion1 = "none";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Mage":
                 Character = className;
@@ -70,8 +71,8 @@ public class Player
                 Gold = 3;
                 potion1 = "Perception";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Bones":
                 Character = className;
@@ -82,8 +83,8 @@ public class Player
                 Gold = 0;
                 potion1 = "none";
                 potion2 = "none";
-                poisoned = false;
-                cursed = true;
+                isPoisoned = false;
+                isCursed = true;
                 break;
             case "Cleric":
                 Character = className;
@@ -94,8 +95,8 @@ public class Player
                 Gold = 0;
                 potion1 = "Health";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Thief":
                 Character = className;
@@ -106,8 +107,8 @@ public class Player
                 Gold = 10;
                 potion1 = "Perception";
                 potion2 = "none";
-                poisoned = false;
-                cursed = false;
+                isPoisoned = false;
+                isCursed = false;
                 break;
             case "Witch":
                 Character = className;
@@ -118,8 +119,8 @@ public class Player
                 Gold = 3;
                 potion1 = "none";
                 potion2 = "none";
-                poisoned = true;
-                cursed = false;
+                isPoisoned = true;
+                isCursed = false;
                 break;
             default:
                 Console.Error.WriteLine("Class has not been found! Class is: %s", className);
