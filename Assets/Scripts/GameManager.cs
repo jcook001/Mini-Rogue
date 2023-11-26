@@ -20,6 +20,14 @@ public class GameManager : MonoBehaviour
     public GameObject P2_Piece; //TODO make player choose their piece so this can be private 
     public GameObject monsterBoard;
     public GameObject playerTracker;
+    public GameObject[] player1PlayerDice;
+    public GameObject player1MonsterDice;
+    public GameObject player1PoisonDice;
+    public GameObject player1CurseDice;
+    public GameObject[] player2playerDice;
+    public GameObject player2MonsterDice;
+    public GameObject player2PoisonDice;
+    public GameObject player2CurseDice;
 
     public float cardThickness = 50.0f;
     public float piecePlacementHeight = 0.29f;
@@ -712,6 +720,7 @@ public class GameManager : MonoBehaviour
                 break;
             case CardData.CardType.Trap:
                 //roll
+
                 break;
             case CardData.CardType.Trap_Depths:
                 //roll
@@ -748,9 +757,17 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
+    private void RollDice()
+    {
+        //Check what dice are required by card
+        //Check dice suitable for active player
+        //what level is player
+        //is player poisoned
+        //is player cursed
+    }
+
     private void UpdateFloor()
     {
-        floorStatusPrompts.text = "test";
         floorStatusPrompts.text = "Floor: " + currentFloor + "   Room: " + currentRoom;
     }
 
