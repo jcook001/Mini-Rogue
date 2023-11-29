@@ -12,6 +12,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; } // Static property to access the instance
+
     private GameObject options_Manager;
     private Options options;
 
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
     private Quaternion faceUpCardRotation = Quaternion.Euler(180, 180, 0);
     private Quaternion faceDownCardRotation = Quaternion.Euler(180, 180, 180);
     private GameObject zoomedcardParent = null;
+    public GameObject zoomedCard = null;
 
     //Gameplay
     private bool hasGameStarted = false;
@@ -129,6 +132,15 @@ public class GameManager : MonoBehaviour
      * 9 = Holy Potion
      * 0 = Dice Blank
     */
+
+    private void Awake()
+    {
+        // Singleton pattern for easy access
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -292,6 +304,9 @@ public class GameManager : MonoBehaviour
                     Debug.LogError("Unknown object " + child.name + " on card " + newDungeonCard.name);
                 }
             }
+
+            int layerCard = LayerMask.NameToLayer("Card");
+            newDungeonCard.layer = layerCard;
         }
     }
 
@@ -547,6 +562,7 @@ public class GameManager : MonoBehaviour
         card.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
         zoomedcardParent = card.transform.parent.gameObject;
+        zoomedCard = card;
         card.transform.parent = null;
 
         Vector3 startPos = card.transform.position;
@@ -629,6 +645,7 @@ public class GameManager : MonoBehaviour
         yield return null;
         isAnyCardZooming = false;
         isAnyCardZoomed = false;
+        zoomedCard = null;
         yield return null;
     }
 
@@ -747,8 +764,9 @@ public class GameManager : MonoBehaviour
                 //roll
                 break;
         }
-            
 
+        //TEMP - make all cards allow dice rolling
+        RollDice(activeCardData.cardType);
 
         //Do button press action
         yield return null;

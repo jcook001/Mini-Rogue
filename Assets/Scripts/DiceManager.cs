@@ -19,6 +19,12 @@ public class DiceManager : MonoBehaviour
 
     private bool itsTimeToRoll = false;
 
+    public Transform[] dice; // Assign all the dice transforms in the inspector
+    public GameObject card; // Assign the card game object in the inspector
+    public Material[] cardMaterial; // Assign a transparent material to fade the card
+    private float originalTransparency = 1.0f; // To store the original transparency level of the card
+    private int cardLayer; // To store the layer number of the card
+
     void Awake()
     {
         // Singleton pattern for easy access
@@ -33,12 +39,20 @@ public class DiceManager : MonoBehaviour
         mainCamera = Camera.main;
         dicePositions = new Vector3[diceRigidbodies.Count];
         velocity = new Vector3[diceRigidbodies.Count];
+        cardLayer = LayerMask.NameToLayer("Card");
+
     }
 
     private void Update()
     {
         if (itsTimeToRoll)
         {
+            if (GameManager.Instance.isAnyCardZoomed)
+            {
+                // Check every frame to see if the dice is behind the card
+                CheckDiceBehindCard();
+            }
+
             // Cast a ray from the camera to the mouse position
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             // Calculate a plane at the pick-up height above the table
@@ -102,5 +116,42 @@ public class DiceManager : MonoBehaviour
         }
 
         itsTimeToRoll = true;
+    }
+
+    void CheckDiceBehindCard()
+    {
+        bool anyDiceBehindCard = false;
+        card = GameManager.Instance.zoomedCard;
+
+        foreach (Rigidbody rigidbody in diceRigidbodies)
+        {
+            Transform die = rigidbody.gameObject.transform;
+            RaycastHit hit;
+            // Cast a ray from the camera towards the die
+            //Debug.DrawRay(Camera.main.transform.position, (die.position - Camera.main.transform.position).normalized, Color.magenta);
+            if (Physics.Raycast(Camera.main.transform.position, (die.position - Camera.main.transform.position).normalized, out hit))
+            {
+                // Check if the ray hit the card layer
+                if (hit.transform.gameObject.layer == cardLayer && hit.transform == card.transform)
+                {
+                    card = hit.transform.gameObject;
+                    cardMaterial = card.GetComponent<Renderer>().materials;
+                    anyDiceBehindCard = true;
+                    break; // Exit the loop as soon as one die is found behind the card
+                }
+            }
+        }
+
+        // Change the card material transparency only if any dice are behind it
+        if (anyDiceBehindCard)
+        {
+            Debug.LogWarning("There's a die behind the card");
+            Color newColor = cardMaterial[0].color;
+            newColor.a = anyDiceBehindCard ? 0.5f : originalTransparency; // Set desired transparency level or original
+            foreach(Material m in cardMaterial)
+            {
+                m.color = newColor;
+            }
+        }
     }
 }
