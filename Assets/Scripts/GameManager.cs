@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
@@ -652,7 +653,7 @@ public class GameManager : MonoBehaviour
     public void InitialFloorSetup()
     {
         //Check if game has started!
-        if (hasGameStarted) {  return; }
+        if (hasGameStarted) { hasGameStarted = false; SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); return; }
         hasGameStarted = true;
 
         //Check chosen game mode
