@@ -3,7 +3,22 @@ guid: f248ced843738554285f3ac496ea3a4c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BossBack_Mat
+    second: {fileID: 2100000, guid: 826de1a8ac3d3704fa45d21fa23e394f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boss_theSpiderQueen_Mat
+    second: {fileID: 2100000, guid: 9af03dbc24303b34a830dbf12073fb15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -10,11 +10,26 @@ public class CardAnims : MonoBehaviour
     public bool isZoomed = false;
     public bool isFaceUp = false;
     public bool isFlipping = false;
+    public Material[] cardMaterials;
+    float[] originalTransparency;
+    private bool IsTransparent = false;
+    private bool IsFading = false;
+    private float fadeDuration = 1.0f; // Duration for the fade effect
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        Renderer cardRenderer = this.GetComponent<Renderer>();
+        cardMaterials = cardRenderer.materials; // Get all materials
+
+        // Store original transparency of each material
+        originalTransparency = new float[cardMaterials.Length];
+        for (int i = 0; i < cardMaterials.Length; i++)
+        {
+            originalTransparency[i] = cardMaterials[i].color.a;
+        }
     }
 
     // Update is called once per frame
@@ -56,5 +71,35 @@ public class CardAnims : MonoBehaviour
         {
             gameManager.ZoomIn(this.gameObject);
         }
+    }
+
+    public IEnumerator FadeCardToTransparency(float targetTransparency)
+    {
+        if(IsFading || IsTransparent) { yield break; }
+        IsFading = true;
+        float elapsedTime = 0;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float currentAlpha = Mathf.Lerp(originalTransparency[0], targetTransparency, elapsedTime / fadeDuration);
+            foreach (Material mat in cardMaterials)
+            {
+                if (mat.HasProperty("_BaseColor"))
+                {
+                    Color newColor = mat.GetColor("_BaseColor");
+                    newColor.a = currentAlpha;
+                    mat.SetColor("_BaseColor", newColor);
+                }
+                else
+                {
+                    Debug.LogError("Material " + mat + "in card " + this.gameObject.name + "has no _BaseColor property");
+                }
+            }
+
+            yield return null;
+        }
+        IsFading = false;
+        IsTransparent = true;
     }
 }

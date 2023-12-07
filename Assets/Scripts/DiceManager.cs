@@ -145,13 +145,7 @@ public class DiceManager : MonoBehaviour
         // Change the card material transparency only if any dice are behind it
         if (anyDiceBehindCard)
         {
-            Debug.LogWarning("There's a die behind the card");
-            Color newColor = cardMaterial[0].color;
-            newColor.a = anyDiceBehindCard ? 0.5f : originalTransparency; // Set desired transparency level or original
-            foreach(Material m in cardMaterial)
-            {
-                m.color = newColor;
-            }
+            StartCoroutine(card.GetComponent<CardAnims>().FadeCardToTransparency(0f));
         }
     }
 }

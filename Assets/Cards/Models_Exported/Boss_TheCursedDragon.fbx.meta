@@ -3,7 +3,22 @@ guid: 8d06cf9ee55abae4c9c1ca27d43ef1de
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BossBack_Mat
+    second: {fileID: 2100000, guid: 826de1a8ac3d3704fa45d21fa23e394f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Boss_TheCursedDragon_Mat
+    second: {fileID: 2100000, guid: 8ddee0f27ade93445a6c1b76a40da13d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

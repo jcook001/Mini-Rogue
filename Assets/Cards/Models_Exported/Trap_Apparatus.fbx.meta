@@ -3,7 +3,37 @@ guid: 99f7e3fb71b96c944bf58db79b0d9b86
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DungeonBack_Mat
+    second: {fileID: 2100000, guid: b4135cdc166093e47957ac6370569a8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 5851d93823a9f1e4290f50c8902fcdf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 17607be55f048dd4197601df07c847f1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 138303342b21e9a4a84da157ab21348a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trap_Apparatus_Mat
+    second: {fileID: 2100000, guid: f75cbc167fe6a934a8cbd97d62e9f384, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

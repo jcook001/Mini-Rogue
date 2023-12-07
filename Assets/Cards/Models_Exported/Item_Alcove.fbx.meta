@@ -3,7 +3,22 @@ guid: ef9038226489fe9439cad59a6cacdc7c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DungeonBack_Mat
+    second: {fileID: 2100000, guid: b4135cdc166093e47957ac6370569a8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Item_Alcove_Mat
+    second: {fileID: 2100000, guid: 00ef9eb8480422843bcfffebf2d41c09, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

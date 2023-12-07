@@ -3,7 +3,22 @@ guid: bd0e0ef1f4102e84fa93ae586d99aacd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DungeonBack_Mat
+    second: {fileID: 2100000, guid: b4135cdc166093e47957ac6370569a8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monster_Worm_Mat
+    second: {fileID: 2100000, guid: e60ced3a4b7a7a140bd32ed06f5fb64b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

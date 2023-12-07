@@ -3,7 +3,22 @@ guid: 6a98013216fa0da4a9b244fe3473c3e6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DungeonBack_Mat
+    second: {fileID: 2100000, guid: b4135cdc166093e47957ac6370569a8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edge_Mat
+    second: {fileID: 2100000, guid: 6e4d1d1b9a292164abe7c508bfeb5681, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shrine_Shrine_Mat
+    second: {fileID: 2100000, guid: 18bb398c6a158b84e92edf8f64cdac97, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
