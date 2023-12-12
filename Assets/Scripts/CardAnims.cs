@@ -11,10 +11,9 @@ public class CardAnims : MonoBehaviour
     public bool isFaceUp = false;
     public bool isFlipping = false;
     public Material[] cardMaterials;
-    float[] originalTransparency;
-    private bool IsTransparent = false;
-    private bool IsFading = false;
-    private float fadeDuration = 1.0f; // Duration for the fade effect
+    private float fadeDuration = 0.5f; // Duration for the fade effect
+    private Coroutine fadeCoroutine;
+    private bool isFadingOut = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +22,6 @@ public class CardAnims : MonoBehaviour
 
         Renderer cardRenderer = this.GetComponent<Renderer>();
         cardMaterials = cardRenderer.materials; // Get all materials
-
-        // Store original transparency of each material
-        originalTransparency = new float[cardMaterials.Length];
-        for (int i = 0; i < cardMaterials.Length; i++)
-        {
-            originalTransparency[i] = cardMaterials[i].color.a;
-        }
     }
 
     // Update is called once per frame
@@ -73,33 +65,48 @@ public class CardAnims : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeCardToTransparency(float targetTransparency)
+    public void FadeOut()
     {
-        if(IsFading || IsTransparent) { yield break; }
-        IsFading = true;
+        if (!isFadingOut)
+        {
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
+
+            fadeCoroutine = StartCoroutine(FadeToTransparency(0f, false));
+            isFadingOut = true;
+        }
+    }
+
+    public void FadeIn()
+    {
+        if (isFadingOut)
+        {
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
+
+            fadeCoroutine = StartCoroutine(FadeToTransparency(1.0f, true));
+            isFadingOut = false;
+        }
+    }
+
+    IEnumerator FadeToTransparency(float targetTransparency, bool fadeIn)
+    {
         float elapsedTime = 0;
+        float startAlpha = fadeIn ? cardMaterials[0].color.a : 1.0f;
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float currentAlpha = Mathf.Lerp(originalTransparency[0], targetTransparency, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(startAlpha, targetTransparency, elapsedTime / fadeDuration);
+
             foreach (Material mat in cardMaterials)
             {
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    Color newColor = mat.GetColor("_BaseColor");
-                    newColor.a = currentAlpha;
-                    mat.SetColor("_BaseColor", newColor);
-                }
-                else
-                {
-                    Debug.LogError("Material " + mat + "in card " + this.gameObject.name + "has no _BaseColor property");
-                }
+                Color newColor = mat.color;
+                newColor.a = alpha;
+                mat.color = newColor;
             }
 
             yield return null;
         }
-        IsFading = false;
-        IsTransparent = true;
     }
 }
