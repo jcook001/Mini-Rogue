@@ -14,19 +14,23 @@ public class Die : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if the die is moving or rotating
-        if (!rb.IsSleeping() && !isRolling)
+        if(DiceManager.Instance.itsTimeToRoll)
         {
-            // The die started rolling
-            isRolling = true;
-        }
-        else if (rb.IsSleeping() && isRolling)
-        {
-            // The die stopped rolling
-            isRolling = false;
-            int value = GetDieValue();
-            // Do something with the value
-            Debug.Log(this.name + " Die value: " + value);
+            // Check if the die is moving or rotating
+            if (!rb.IsSleeping() && !isRolling)
+            {
+                // The die started rolling
+                isRolling = true;
+            }
+            else if (rb.IsSleeping() && isRolling)
+            {
+                // The die stopped rolling
+                isRolling = false;
+                int value = GetDieValue();
+                // Do something with the value
+                Debug.Log(this.name + " Die value: " + value);
+                GameManager.Instance.DieRolled(value); // Notify the GameManager
+            }
         }
     }
 

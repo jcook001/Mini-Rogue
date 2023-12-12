@@ -70,6 +70,12 @@ public class GameManager : MonoBehaviour
     //animations and transitions
     WaitForSeconds PieceMoveDelay = new WaitForSeconds(1);
 
+    public delegate void DieRollComplete(int value);
+    public event DieRollComplete OnDieRollComplete;
+    List<GameObject> diceToRoll = new List<GameObject>();
+    private int diceRolled = 0;
+    private List<int> rollResults = new List<int>();
+
     //DEBUG
     public bool DebugShowDungeonCards = false;
     public bool DebugShowFontSymbols = false;
@@ -194,6 +200,8 @@ public class GameManager : MonoBehaviour
         //TODO Assign this properly in UI
         activePiece = P1_Piece;
 
+        // Subscribe to the dice roll event
+        OnDieRollComplete += HandleDieRollComplete;
     }
 
     private void DealCards()
@@ -767,15 +775,23 @@ public class GameManager : MonoBehaviour
         }
 
         //TEMP - make all cards allow dice rolling
-        RollDice(activeCardData.cardType);
+        ChooseDiceAndRoll(activeCardData.cardType);
+
+        // wait for dice to be rolled
+        while(diceRolled < diceToRoll.Count)
+        {
+            yield return null;
+        }
+
+        Debug.LogWarning("All dice have been rolled!");
 
         //Do button press action
         yield return null;
     }
 
-    private void RollDice(CardData.CardType cardType)
+    private void ChooseDiceAndRoll(CardData.CardType cardType)
     {
-        List<GameObject> diceToRoll = new List<GameObject>();
+        diceToRoll.Clear();
         //Check what dice are required by card
         switch (cardType)
         {
@@ -816,6 +832,24 @@ public class GameManager : MonoBehaviour
         }
 
         DiceManager.Instance.RollDice(diceToRoll);
+    }
+
+    // Call this from the Die when it finishes rolling
+    public void DieRolled(int value)
+    {
+        OnDieRollComplete?.Invoke(value);
+    }
+
+    // Function that gets called when a die roll is complete
+    private void HandleDieRollComplete(int value)
+    {
+        rollResults.Add(value);
+        diceRolled++;
+
+        if (diceRolled >= diceToRoll.Count)
+        {
+            // All dice have rolled
+        }
     }
 
     private void UpdateFloor()

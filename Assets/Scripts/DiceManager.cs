@@ -17,7 +17,7 @@ public class DiceManager : MonoBehaviour
     private bool isDragging = false; // Flag to check if the dice are being held
     private Camera mainCamera;
 
-    private bool itsTimeToRoll = false;
+    public bool itsTimeToRoll = false;
 
     public GameObject card; // Assign the card game object in the inspector
     private int cardLayer; // To store the layer number of the card
