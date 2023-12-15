@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
 
 //TODO re-enable this later
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject player1MonsterDice;
     public GameObject player1PoisonDice;
     public GameObject player1CurseDice;
-    public GameObject[] player2playerDice;
+    public GameObject[] player2PlayerDice;
     public GameObject player2MonsterDice;
     public GameObject player2PoisonDice;
     public GameObject player2CurseDice;
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
     private int currentFloor = 0;
     private int currentRoom = 0;
     private int playerCount = 1;
-    private int playerTurn = 1;
+    private int activePlayerIndex = 1; //starts from 1
     private GameObject activePiece;
     private int P1_Location = 0;
     private int P2_Location = 0;
@@ -70,11 +72,12 @@ public class GameManager : MonoBehaviour
     //animations and transitions
     WaitForSeconds PieceMoveDelay = new WaitForSeconds(1);
 
-    public delegate void DieRollComplete(int value);
+    public delegate void DieRollComplete(int value, Die.DieType diceType);
     public event DieRollComplete OnDieRollComplete;
     List<GameObject> diceToRoll = new List<GameObject>();
     private int diceRolled = 0;
     private List<int> rollResults = new List<int>();
+    private List<Die.DieType> rollResultsDieType = new List<Die.DieType>();
 
     //DEBUG
     public bool DebugShowDungeonCards = false;
@@ -200,8 +203,34 @@ public class GameManager : MonoBehaviour
         //TODO Assign this properly in UI
         activePiece = P1_Piece;
 
+        //Give all dice a type
+        AssignDiceTypes();
+
         // Subscribe to the dice roll event
         OnDieRollComplete += HandleDieRollComplete;
+    }
+
+    private void AssignDiceTypes()
+    {
+        foreach(GameObject die in player1PlayerDice)
+        {
+            Die DieComponent = die.GetComponent<Die>();
+            DieComponent.type = Die.DieType.Player;
+        }
+
+        player1MonsterDice.GetComponent<Die>().type = Die.DieType.Monster;
+        player1PoisonDice.GetComponent<Die>().type = Die.DieType.Poison;
+        player1CurseDice.GetComponent<Die>().type = Die.DieType.Curse;
+
+        foreach (GameObject die in player2PlayerDice)
+        {
+            Die DieComponent = die.GetComponent<Die>();
+            DieComponent.type = Die.DieType.Player;
+        }
+
+        player2MonsterDice.GetComponent<Die>().type = Die.DieType.Monster;
+        player2PoisonDice.GetComponent<Die>().type = Die.DieType.Poison;
+        player2CurseDice.GetComponent<Die>().type = Die.DieType.Curse;
     }
 
     private void DealCards()
@@ -387,14 +416,14 @@ public class GameManager : MonoBehaviour
             if (!isPieceMoving)
             {
                 //update the active player turn
-                if (playerTurn == 1)
+                if (activePlayerIndex == 1)
                 {
-                    playerTurn = 2;
+                    activePlayerIndex = 2;
                     activePiece = P2_Piece;
                 }
                 else
                 {
-                    playerTurn = 1;
+                    activePlayerIndex = 1;
                     activePiece = P1_Piece;
                 }
             }
@@ -771,19 +800,13 @@ public class GameManager : MonoBehaviour
             case CardData.CardType.Treasure:
             case CardData.CardType.Treasure_Depths:
                 //roll
+                yield return StartCoroutine(HandleCardRoll(activeCardData));
                 break;
         }
 
-        //TEMP - make all cards allow dice rolling
-        ChooseDiceAndRoll(activeCardData.cardType);
 
-        // wait for dice to be rolled
-        while(diceRolled < diceToRoll.Count)
-        {
-            yield return null;
-        }
 
-        Debug.LogWarning("All dice have been rolled!");
+        //Debug.LogWarning("All dice have been rolled! (or there's no dice to roll!)");
 
         //Do button press action
         yield return null;
@@ -835,21 +858,113 @@ public class GameManager : MonoBehaviour
     }
 
     // Call this from the Die when it finishes rolling
-    public void DieRolled(int value)
+    public void DieRolled(int value, Die.DieType diceType)
     {
-        OnDieRollComplete?.Invoke(value);
+        OnDieRollComplete?.Invoke(value, diceType);
     }
 
     // Function that gets called when a die roll is complete
-    private void HandleDieRollComplete(int value)
+    private void HandleDieRollComplete(int value, Die.DieType diceType)
     {
         rollResults.Add(value);
+        rollResultsDieType.Add(diceType);
         diceRolled++;
 
         if (diceRolled >= diceToRoll.Count)
         {
             // All dice have rolled
         }
+    }
+
+    private IEnumerator HandleCardRoll(CardData card)
+    {
+        bool critRolled = false;
+        int monsterResult = 0;
+        bool cursedRoll = false;
+        ChooseDiceAndRoll(card.cardType);
+
+        // wait for dice to be rolled
+        while (diceRolled < diceToRoll.Count)
+        {
+            yield return null;
+        }
+
+        //check for curse die first
+        foreach (var (result, i) in rollResults.WithIndex())
+        {
+            if ((rollResultsDieType[i] == Die.DieType.Curse && result == 1) ||
+                (rollResultsDieType[i] == Die.DieType.Curse && result == 2) ||
+                (rollResultsDieType[i] == Die.DieType.Curse && result == 5))
+            {
+                //-1 to all dice results
+                cursedRoll = true;
+
+                //show this to the player
+                //TODO Broadcast the cursed roll
+            }
+
+        }
+
+        //Determine if special die rolls do something
+        foreach (var (result, i) in rollResults.WithIndex())
+        {
+            //did the player roll a crit?
+            if (cursedRoll)
+            {
+                if (result == 5 && rollResultsDieType[i] == Die.DieType.Player)
+                {
+                    critRolled = true;
+                }
+            }
+            else
+            {
+                if ((result == 5 && rollResultsDieType[i] == Die.DieType.Player) ||
+                    (result == 6 && rollResultsDieType[i] == Die.DieType.Player))
+                {
+                    critRolled = true;
+                }
+            }
+
+
+            //record the monster die roll
+            if (rollResultsDieType[i] == Die.DieType.Monster)
+            {
+                monsterResult = result;
+            }
+
+            if (rollResultsDieType[i] == Die.DieType.Poison)
+            {
+                //-1 health
+                if(activePlayerIndex == 1)
+                {
+                    P1.HP -= 1;
+                    //TODO check if dead
+                    //TODO make function that changes health
+                }
+                else
+                {
+                    P2.HP -= 1;
+                    //TODO check if dead
+                    //TODO make function that changes health
+                }
+
+                //broadcast this to the player
+            }
+        }
+
+        switch (card.cardType)
+        {
+            case CardData.CardType.Tomb:
+                if (critRolled)
+                {
+                    //Give player option to +/- 1 to their roll
+                }
+
+
+                break;
+        }
+
+        yield return null;
     }
 
     private void UpdateFloor()
@@ -889,4 +1004,16 @@ public class GameManager : MonoBehaviour
         
         return allCharacters;
     }
+}
+
+/// <summary>
+/// Allows foreach iterations to easily track iteration count:
+/// foreach (var (item, index) in collection.WithIndex())
+/// </summary>
+public static class IEnumerableExtensions
+{
+    // Found here https://stackoverflow.com/questions/43021/how-do-you-get-the-index-of-the-current-iteration-of-a-foreach-loop
+    //TODO have a go at understanding how this works :sweatsmile:
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> self)
+       => self.Select((item, index) => (item, index));
 }

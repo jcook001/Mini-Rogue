@@ -5,6 +5,16 @@ public class Die : MonoBehaviour
     private Rigidbody rb;
     private bool isRolling = false;
 
+    public enum DieType
+    {
+        Player,
+        Monster,
+        Poison,
+        Curse
+    }
+
+    public DieType type;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +39,7 @@ public class Die : MonoBehaviour
                 int value = GetDieValue();
                 // Do something with the value
                 Debug.Log(this.name + " Die value: " + value);
-                GameManager.Instance.DieRolled(value); // Notify the GameManager
+                GameManager.Instance.DieRolled(value, type); // Notify the GameManager
             }
         }
     }
