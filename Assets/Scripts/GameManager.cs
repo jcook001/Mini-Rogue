@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     private Player P1 = new Player();
     private Player P2 = new Player();
+    private Player activePlayer;
 
     public float moveSpeed = 1f;
     public float moveHeight = 1f;
@@ -82,6 +83,12 @@ public class GameManager : MonoBehaviour
     //DEBUG
     public bool DebugShowDungeonCards = false;
     public bool DebugShowFontSymbols = false;
+    public bool DebugRollAllDice = false;
+    public bool DebugOverrideDungeonCards;
+    [HideInInspector]
+    public List<CardData> allCardData; // List to hold all CardData objects
+    [HideInInspector]
+    public int selectedCardIndex = 0; // Index of the selected card
 
     public TextMeshProUGUI debugOverlay;
     public TextMeshProUGUI debugGamePrompts;
@@ -156,7 +163,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        //Limit the framrate in Unity Editor so that GPU usage is reduced
+        //Limit the framerate in Unity Editor so that GPU usage is reduced
         if (UnityEditor.EditorApplication.isPlaying)
         {
             Application.targetFrameRate = 60;
@@ -246,6 +253,12 @@ public class GameManager : MonoBehaviour
                 newDungeonCard = Instantiate(placeholderCard.model, cardPoints[i].transform);
                 Debug.LogError("there's no model for " + dungeonDeck[randomCardInt].model.name);
             }
+            else if (DebugOverrideDungeonCards)
+            {
+                newDungeonCard = Instantiate(allCardData[selectedCardIndex].model, cardPoints[i].transform);
+                newDungeonCard.AddComponent<Card>();
+                newDungeonCard.GetComponent<Card>().cardData = allCardData[selectedCardIndex];
+            }
             else
             {
                 newDungeonCard = Instantiate(dungeonDeck[randomCardInt].model, cardPoints[i].transform);
@@ -291,16 +304,14 @@ public class GameManager : MonoBehaviour
             Vector3 cardSize = new Vector3(
                 cardRenderer.bounds.size.x / cardLocalScale.x,
                 cardRenderer.bounds.size.y / cardLocalScale.y,
-                cardRenderer.bounds.size.z / cardLocalScale.z
-            );
+                cardRenderer.bounds.size.z / cardLocalScale.z );
 
             RectTransform rectTransform = canvasObject.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(cardSize.x, cardSize.z); // Set the size of the canvas to match the card's size
             rectTransform.localScale = new Vector3(
                 1f / cardLocalScale.x,
                 1f / cardLocalScale.z,
-                1f
-                );
+                1f );
 
             // Calculate a small offset to raise the canvas just above the card surface
             float heightOffset = cardSize.y * -0.5f - 0.0001f; // Raise by half the card's height plus a small additional amount
@@ -747,7 +758,9 @@ public class GameManager : MonoBehaviour
         {
             yield return PieceMoveDelay;
         }
-        //extra pause?
+
+        //Swap the active player
+        SwitchActivePlayer();
 
         //Save the active card
         GameObject activeCard = cardPoints[P1_Location].transform.GetChild(0).gameObject;
@@ -804,8 +817,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-
-
         //Debug.LogWarning("All dice have been rolled! (or there's no dice to roll!)");
 
         //Do button press action
@@ -816,6 +827,22 @@ public class GameManager : MonoBehaviour
     {
         diceToRoll.Clear();
         //Check what dice are required by card
+
+        //Debug
+        if (DebugRollAllDice)
+        {
+            foreach(GameObject dice in activePlayerIndex == 1 ? player1PlayerDice : player2PlayerDice)
+            {
+                diceToRoll.Add(dice);
+            }
+            diceToRoll.Add(activePlayerIndex == 1 ? player1PoisonDice : player2PoisonDice);
+            diceToRoll.Add(activePlayerIndex == 1 ? player1CurseDice : player2CurseDice);
+            diceToRoll.Add(activePlayerIndex == 1 ? player1MonsterDice : player2MonsterDice);
+
+            DiceManager.Instance.RollDice(diceToRoll);
+            return;
+        }
+
         switch (cardType)
         {
             //Player Dice + Poison + Curse
@@ -830,26 +857,26 @@ public class GameManager : MonoBehaviour
             case CardData.CardType.Monster_Bandit:
                 //Check dice suitable for active player
                 //what level is player
-                for(int i = 0; i < P1.level; i++)
+                for(int i = 0; i < (activePlayerIndex == 1 ? P1.level : P2.level); i++)
                 {
-                    diceToRoll.Add(player1PlayerDice[i]);
+                    diceToRoll.Add(activePlayerIndex == 1 ? player1PlayerDice[i] : player2PlayerDice[i]);
                 }
                 //is player poisoned
-                if (P1.isPoisoned)
+                if (activePlayerIndex == 1 ? P1.isPoisoned : P2.isPoisoned)
                 {
-                    diceToRoll.Add(player1PoisonDice);
+                    diceToRoll.Add(activePlayerIndex == 1 ? player1PoisonDice : player2PoisonDice);
                 }
                 //is player isCursed
-                if (P1.isCursed)
+                if (activePlayerIndex == 1 ? P1.isCursed : P2.isCursed)
                 {
-                    diceToRoll.Add(player1PoisonDice);
+                    diceToRoll.Add(activePlayerIndex == 1 ? player1CurseDice : player2CurseDice);
                 }
                 //add monster dice
-                diceToRoll.Add(player1MonsterDice);
+                diceToRoll.Add(activePlayerIndex == 1 ? player1MonsterDice : player2MonsterDice);
                 break;
             //Monster Dice
             case CardData.CardType.Shrine:
-                diceToRoll.Add(player1MonsterDice);
+                diceToRoll.Add(activePlayerIndex == 1 ? player1MonsterDice : player2MonsterDice);
                 break;
             
         }
@@ -888,6 +915,8 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+
+        DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
 
         //check for curse die first
         foreach (var (result, i) in rollResults.WithIndex())
@@ -932,21 +961,12 @@ public class GameManager : MonoBehaviour
                 monsterResult = result;
             }
 
+            //Check if the player has been poisoned
+            
             if (rollResultsDieType[i] == Die.DieType.Poison)
             {
                 //-1 health
-                if(activePlayerIndex == 1)
-                {
-                    P1.HP -= 1;
-                    //TODO check if dead
-                    //TODO make function that changes health
-                }
-                else
-                {
-                    P2.HP -= 1;
-                    //TODO check if dead
-                    //TODO make function that changes health
-                }
+                activePlayer.HP -= 1;
 
                 //broadcast this to the player
             }
@@ -957,7 +977,8 @@ public class GameManager : MonoBehaviour
             case CardData.CardType.Tomb:
                 if (critRolled)
                 {
-                    //Give player option to +/- 1 to their roll
+                    //Player chooses -1 / = / +1
+                    //TODO Add in some suitable UI here
                 }
 
 
@@ -965,6 +986,18 @@ public class GameManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void SwitchActivePlayer()
+    {
+        if (playerCount > 1)
+        {
+            activePlayer = activePlayer == P1 ? P2 : P1;
+        }
+        else
+        {
+            activePlayer = P1;
+        }
     }
 
     private void UpdateFloor()

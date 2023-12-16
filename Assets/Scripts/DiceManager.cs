@@ -22,6 +22,12 @@ public class DiceManager : MonoBehaviour
     public GameObject card; // Assign the card game object in the inspector
     private int cardLayer; // To store the layer number of the card
 
+    //Dice Grid Display
+    public int rows = 2;
+    public int columns = 3;
+    public float diceSpacing = 1.0f; // Space between dice
+    public GameObject gridObject;
+
     void Awake()
     {
         // Singleton pattern for easy access
@@ -110,6 +116,7 @@ public class DiceManager : MonoBehaviour
         for (int i = 0; i < diceToRoll.Count; i++)
         {
             diceRigidbodies.Add(diceToRoll[i].GetComponent<Rigidbody>());
+            diceToRoll[i].GetComponent<Die>().canRoll = true;
         }
 
         itsTimeToRoll = true;
@@ -146,6 +153,30 @@ public class DiceManager : MonoBehaviour
         else
         {
             card.GetComponent<CardAnims>().FadeIn();
+        }
+    }
+
+    //TODO Probably going to need to make this account for different screen sizes?
+    public void ArrangeDiceInGrid(List<GameObject> dice)
+    {
+        for (int i = 0; i < dice.Count; i++)
+        {
+            int row = i / columns;
+            int column = i % columns;
+
+            Vector3 localPosition = new Vector3(
+                column * diceSpacing,
+                0,
+                row * diceSpacing
+            );
+
+            dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            dice[i].transform.SetParent(gridObject.transform, false);
+            dice[i].transform.localPosition = localPosition;
+            dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
+
+
+            //Debug.Log("Dice " + dice[i].name + " position set");
         }
     }
 }

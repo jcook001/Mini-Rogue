@@ -27,9 +27,12 @@ public class CardAnims : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) // Scroll down
+        if (IsMouseInGameWindow())
         {
-            gameManager.ZoomOut(this.gameObject);
+            if (Input.GetAxis("Mouse ScrollWheel") < 0) // Scroll down
+            {
+                gameManager.ZoomOut(this.gameObject);
+            }
         }
     }
 
@@ -64,6 +67,14 @@ public class CardAnims : MonoBehaviour
             gameManager.ZoomIn(this.gameObject);
         }
     }
+
+    bool IsMouseInGameWindow()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        return mousePosition.x >= 0 && mousePosition.x <= Screen.width &&
+               mousePosition.y >= 0 && mousePosition.y <= Screen.height;
+    }
+
 
     public void FadeOut()
     {
