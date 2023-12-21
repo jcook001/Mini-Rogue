@@ -748,6 +748,15 @@ public class GameManager : MonoBehaviour
             debugGamePrompts.text = "There's no support for multiplayer yet :(";
         }
 
+
+        //Set up player board(s)
+        BoardManager.Instance.SetUpPlayerStats(P1, 1);
+
+        if (playerCount == 2)
+        {
+            BoardManager.Instance.SetUpPlayerStats(P2, 2);
+        }
+
         StartCoroutine(DoTurn());
     }
 
