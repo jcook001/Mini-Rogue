@@ -1977,10 +1977,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Co-op Tower
       m_Image: {fileID: 0}
-    - m_Text: Vs Dungeon
-      m_Image: {fileID: 0}
-    - m_Text: Vs Tower
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

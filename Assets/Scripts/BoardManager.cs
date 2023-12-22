@@ -61,7 +61,9 @@ public class BoardManager : MonoBehaviour
     public GameObject dungeonFloorCube;
 
     private List<GameObject> dungeonFloorTrack = new List<GameObject>();
-    private List<GameObject> monsterHPTrack = new List<GameObject>();
+    private List<GameObject> towerFloorTrack = new List<GameObject>();
+    private List<GameObject> dungeonMonsterHPTrack = new List<GameObject>();
+    private List<GameObject> towerMonsterHPTrack = new List<GameObject>();
 
     private void Awake()
     {
@@ -129,6 +131,86 @@ public class BoardManager : MonoBehaviour
             else if (child.name.Contains("Bottom"))
             {
                 P1PotionNoneBottom = child.gameObject;
+            }
+        }
+
+        //If there's 2 players add all p2 board parts
+        if (GameManager.Instance.playerCount > 1)
+        {
+            foreach (Transform child in P2Board.transform)
+            {
+                if (child.name.Contains("Armor"))
+                {
+                    P2ArmorTrack.Add(child.gameObject);
+                }
+                else if (child.name.Contains("Food"))
+                {
+                    P2FoodTrack.Add(child.gameObject);
+                }
+                else if (child.name.Contains("HP"))
+                {
+                    P2HPTrack.Add(child.gameObject);
+                }
+                else if (child.name.Contains("XP"))
+                {
+                    P2XPTrack.Add(child.gameObject);
+                }
+                else if (child.name.Contains("Gold"))
+                {
+                    P2GoldTrack.Add(child.gameObject);
+                }
+                else if (child.name.Contains("Fire"))
+                {
+                    P2PotionFire = child.gameObject;
+                }
+                else if (child.name.Contains("Frost"))
+                {
+                    P2PotionFrost = child.gameObject;
+                }
+                else if (child.name.Contains("Poison"))
+                {
+                    P2PotionPoison = child.gameObject;
+                }
+                else if (child.name.Contains("Healing"))
+                {
+                    P2PotionHealing = child.gameObject;
+                }
+                else if (child.name.Contains("Holy"))
+                {
+                    P2PotionHoly = child.gameObject;
+                }
+                else if (child.name.Contains("Perception"))
+                {
+                    P2PotionPerception = child.gameObject;
+                }
+                else if (child.name.Contains("Top"))
+                {
+                    P2PotionNoneTop = child.gameObject;
+                }
+                else if (child.name.Contains("Bottom"))
+                {
+                    P2PotionNoneBottom = child.gameObject;
+                }
+            }
+        }
+
+        foreach (Transform child in dungeonBoard.transform)
+        {
+            if (child.name.Contains("DungeonFloor"))
+            {
+                dungeonFloorTrack.Add(child.gameObject);
+            }
+            else if (child.name.Contains("TowerFloor"))
+            {
+                towerFloorTrack.Add(child.gameObject);
+            }
+            else if (child.name.Contains("DungeonHP"))
+            {
+                dungeonMonsterHPTrack.Add(child.gameObject);
+            }
+            else if (child.name.Contains("TowerHP"))
+            {
+                towerMonsterHPTrack.Add(child.gameObject);
             }
         }
     }
@@ -230,5 +312,41 @@ public class BoardManager : MonoBehaviour
                 (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionPerception : P2PotionPerception).transform.rotation;
                 break;
         }
+    }
+
+    public void SetUpDungeonBoard(Options.level level)
+    {
+        switch (level)
+        {
+            case Options.level.soloDungeon:
+            case Options.level.coopDungeon:
+                //Set the board position
+                dungeonBoard.transform.localPosition = new Vector3(0.0026f, 0.01624f, 0f);
+
+                //place floor cube
+                dungeonFloorCube.transform.position = dungeonFloorTrack[0].transform.position;
+                dungeonFloorCube.transform.rotation = dungeonFloorTrack[0].transform.rotation;
+
+                //place monter hp cube
+                monsterHPCube.transform.position = dungeonMonsterHPTrack[0].transform.position;
+                monsterHPCube.transform.rotation = dungeonMonsterHPTrack[0].transform.rotation;
+                break;
+
+            case Options.level.soloTower:
+            case Options.level.coopTower:
+                dungeonBoard.transform.localPosition = new Vector3(-0.0026f, -0.01372f, 0f);
+                //flip the board
+                dungeonBoard.transform.Rotate(180, 0, 180);
+
+                //place floor cube
+                dungeonFloorCube.transform.position = towerFloorTrack[0].transform.position;
+                dungeonFloorCube.transform.rotation = towerFloorTrack[0].transform.rotation;
+
+                //place monter hp cube
+                monsterHPCube.transform.position = towerMonsterHPTrack[0].transform.position;
+                monsterHPCube.transform.rotation = towerMonsterHPTrack[0].transform.rotation;
+                break;
+        }
+
     }
 }

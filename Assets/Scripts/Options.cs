@@ -8,7 +8,10 @@ using UnityEngine.UIElements;
 
 public class Options : MonoBehaviour
 {
+    public static Options Instance { get; private set; } // Static property to access the instance
+
     public int levelToLoad = 1;
+    public level chosenLevel = level.soloDungeon;
 
     //Player character selection
     public string[] characters = { "Crusader", "Priestess", "Rogue", "Mage", "Bones", "Cleric", "Theif", "Witch" };
@@ -22,6 +25,29 @@ public class Options : MonoBehaviour
     public TMP_Dropdown gameTypeDropdown;
     public GameObject player2UI;
 
+    public enum level
+    {
+        soloDungeon,
+        soloTower,
+        soloCampaign,
+        coopDungeon,
+        coopTower
+    }
+
+    private void Awake()
+    {
+        // Singleton pattern for easy access
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
+#if PLATFORM_ANDROID
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    
+#endif
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +60,6 @@ public class Options : MonoBehaviour
 
         GameTypeChanged(gameTypeDropdown);
 
-    }
-
-    void Awake()
-    {
-#if PLATFORM_ANDROID
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-    
-#endif
     }
 
     public void P1CharacterNext()
@@ -118,8 +136,7 @@ public class Options : MonoBehaviour
 
     void GameTypeChanged(TMP_Dropdown change)
     {
-        Debug.Log("New Dropdown Value: " + change.value);
-
+        //Show or hide player 2 options
         switch (change.value)
         {
             case 0:
@@ -133,11 +150,35 @@ public class Options : MonoBehaviour
 
             case 3:
             case 4:
-            case 5:
                 if (!player2UI.activeSelf)
                 {
                     player2UI.SetActive(true);
                 }
+                break;
+        }
+
+        //Set Level type
+        switch (change.value)
+        {
+            case 0:
+                chosenLevel = level.soloDungeon;
+                levelToLoad = 1;
+                break;
+            case 1:
+                chosenLevel = level.soloTower;
+                levelToLoad = 1;
+                break;
+            case 2:
+                chosenLevel = level.soloCampaign;
+                levelToLoad = 2;
+                break;
+            case 3:
+                chosenLevel = level.coopDungeon;
+                levelToLoad = 1;
+                break;
+            case 4:
+                chosenLevel = level.coopTower;
+                levelToLoad = 1;
                 break;
         }
     }

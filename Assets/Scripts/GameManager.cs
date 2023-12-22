@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     private bool hasGameStarted = false;
     private int currentFloor = 0;
     private int currentRoom = 0;
-    private int playerCount = 1;
+    public int playerCount = 1;
     private int activePlayerIndex = 1; //starts from 1
     private GameObject activePiece;
     private int P1_Location = 0;
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     private List<Die.DieType> rollResultsDieType = new List<Die.DieType>();
 
     //DEBUG
+    public bool DebugShowPlayerStats = false;
     public bool DebugShowDungeonCards = false;
     public bool DebugShowFontSymbols = false;
     public bool DebugRollAllDice = false;
@@ -186,18 +187,25 @@ public class GameManager : MonoBehaviour
             P1.SetClass("Crusader");
         }
 
-        //Show character stats in debug overlay
-        debugOverlay.text =
-            "Chosen Character: " + P1.Character + "\n" +
-            "<#656868><font=\"Icons SDF\">a</font> Armor: </color>" + P1.Armor + "\n" +
-            "<#c84d4a><font=\"Icons SDF\">h</font> HP: </color>" + P1.HP + "\n" +
-            "<#2a737c><font=\"Icons SDF\">(</font> XP: </color>" + P1.XP + "\n" +
-            "<#7d5641><font=\"Icons SDF\">f</font> Food: </color>" + P1.Food + "\n" +
-            "<#ce982c><font=\"Icons SDF\">g</font> Gold: </color>" + P1.Gold + "\n" +
-            "<#231f20><font=\"Icons SDF\">)</font> Potion 1: </color>" + P1.potion1 + "\n" +
-            "<#231f20><font=\"Icons SDF\">)</font> Potion 2: </color>" + P1.potion2 + "\n" +
-            "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.isPoisoned + "\n" +
-            "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.isCursed + "\n";
+        if (DebugShowPlayerStats)
+        {
+            //Show character stats in debug overlay
+            debugOverlay.text =
+                "Chosen Character: " + P1.Character + "\n" +
+                "<#656868><font=\"Icons SDF\">a</font> Armor: </color>" + P1.Armor + "\n" +
+                "<#c84d4a><font=\"Icons SDF\">h</font> HP: </color>" + P1.HP + "\n" +
+                "<#2a737c><font=\"Icons SDF\">(</font> XP: </color>" + P1.XP + "\n" +
+                "<#7d5641><font=\"Icons SDF\">f</font> Food: </color>" + P1.Food + "\n" +
+                "<#ce982c><font=\"Icons SDF\">g</font> Gold: </color>" + P1.Gold + "\n" +
+                "<#231f20><font=\"Icons SDF\">)</font> Potion 1: </color>" + P1.potion1 + "\n" +
+                "<#231f20><font=\"Icons SDF\">)</font> Potion 2: </color>" + P1.potion2 + "\n" +
+                "<#00bc62><font=\"Icons SDF\">p</font> Poisoned: </color>" + P1.isPoisoned + "\n" +
+                "<#6600bf><font=\"Icons SDF\">c</font> Cursed: </color>" + P1.isCursed + "\n";
+        }
+        else
+        {
+            debugOverlay.enabled = false;
+        }
 
         if (DebugShowFontSymbols)
         {
@@ -704,21 +712,6 @@ public class GameManager : MonoBehaviour
         if (hasGameStarted) { hasGameStarted = false; SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); return; }
         hasGameStarted = true;
 
-        //Check chosen game mode
-        if (options == null)
-        {
-            //DEBUG we haven't started from the main menu
-        }
-        else if (options.gameTypeDropdown.value == 0)
-        {
-            //The Dungeon has been selected but this is the default
-        }
-        else if (options.gameTypeDropdown.value == 1)
-        {
-            //The Tower has been selected, so flip the gameboard
-            monsterBoard.transform.Rotate(180, 0, 0);
-        }
-
         //Place a card in each card slot 1-8
         //TODO add animation for game start
         DealCards();
@@ -757,6 +750,16 @@ public class GameManager : MonoBehaviour
             BoardManager.Instance.SetUpPlayerStats(P2, 2);
         }
 
+        //Set up dungeon board
+        if (Options.Instance)
+        {
+            BoardManager.Instance.SetUpDungeonBoard(Options.Instance.chosenLevel);
+        }
+        else //set up solo dungeon if we started from game board scene
+        {
+            BoardManager.Instance.SetUpDungeonBoard(Options.level.soloDungeon);
+        }
+        
         StartCoroutine(DoTurn());
     }
 
