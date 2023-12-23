@@ -224,92 +224,128 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    private IEnumerator MovePiece(GameObject piece, GameObject target)
+    {
+        piece.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+        float moveSpeed = 1;
+        float moveHeight = 1;
+
+        //increase the height of the target so the object doesn't fall through and offset the card from the centre by a random amount
+        Vector3 targetPosition = target.transform.position + new Vector3(0f, 0.29f, 0f);
+        float journey = 0f;
+
+        Vector3 startPosition = piece.transform.position;
+
+        Quaternion startRotation = piece.transform.rotation;
+
+        //Stand the piece upright and randomly change the direction it's facing slightly
+        Vector3 newRotation = target.transform.rotation.eulerAngles;
+
+        while (journey <= 1f)
+        {
+            journey += Time.deltaTime * moveSpeed;
+
+            // Apply an easing function for non-linear movement
+            float curve = Mathf.Sin(journey * Mathf.PI / 2); // Example of Ease-Out function
+
+            // Determine the current position along the path
+            Vector3 currentPos = Vector3.Lerp(startPosition, targetPosition, curve);
+
+            // Determine the current rotation along the path
+            Quaternion currentRot = Quaternion.Slerp(startRotation, Quaternion.Euler(newRotation), curve);
+
+            // Calculate the height of the arc at this point in the journey
+            float arc = moveHeight * Mathf.Sin(journey * Mathf.PI);
+
+            // Apply the arc height to the current position
+            currentPos.y += arc;
+
+            piece.transform.position = currentPos;
+            piece.transform.rotation = currentRot;
+
+            yield return null;
+        }
+
+        //Prevent piece falling out of it's hole in the board
+        piece.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX;
+        piece.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
+        piece.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+
+        // Ensure the piece ends exactly at the target
+        piece.transform.position = targetPosition;
+        piece.transform.rotation = Quaternion.Euler(newRotation);
+        yield return null;
+    }
+
     public void SetUpPlayerStats(Player player, int playerIndex)
     {
 
         //set up XP
-        (playerIndex == 1? P1XPCube:P2XPCube).transform.position = (playerIndex == 1 ? P1XPTrack[(player.XP)] : P2XPTrack[(player.XP)]).transform.position;
-        (playerIndex == 1 ? P1XPCube : P2XPCube).transform.rotation = (playerIndex == 1 ? P1XPTrack[(player.XP)] : P2XPTrack[(player.XP)]).transform.rotation;
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1XPCube : P2XPCube), (playerIndex == 1 ? P1XPTrack[(player.XP)] : P2XPTrack[(player.XP)])));
 
         //set up Armor
-        (playerIndex == 1 ? P1ArmorCube : P2ArmorCube).transform.position = (playerIndex == 1 ? P1ArmorTrack[(player.Armor)] : P2ArmorTrack[(player.Armor)]).transform.position;
-        (playerIndex == 1 ? P1ArmorCube : P2ArmorCube).transform.rotation = (playerIndex == 1 ? P1ArmorTrack[(player.Armor)] : P2ArmorTrack[(player.Armor)]).transform.rotation;
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1ArmorCube : P2ArmorCube), (playerIndex == 1 ? P1ArmorTrack[(player.Armor)] : P2ArmorTrack[(player.Armor)])));
 
         //set up HP
-        (playerIndex == 1 ? P1HPCube : P2HPCube).transform.position = (playerIndex == 1 ? P1HPTrack[(player.HP)] : P2HPTrack[(player.HP)]).transform.position;
-        (playerIndex == 1 ? P1HPCube : P2HPCube).transform.rotation = (playerIndex == 1 ? P1HPTrack[(player.HP)] : P2HPTrack[(player.HP)]).transform.rotation;
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1HPCube : P2HPCube), (playerIndex == 1 ? P1HPTrack[(player.HP)] : P2HPTrack[(player.HP)])));
 
         //set up food
-        (playerIndex == 1 ? P1FoodCube : P2FoodCube).transform.position = (playerIndex == 1 ? P1FoodTrack[(player.XP)] : P2FoodTrack[(player.XP)]).transform.position;
-        (playerIndex == 1 ? P1FoodCube : P2FoodCube).transform.rotation = (playerIndex == 1 ? P1FoodTrack[(player.XP)] : P2FoodTrack[(player.XP)]).transform.rotation;
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1FoodCube : P2FoodCube), (playerIndex == 1 ? P1FoodTrack[(player.Food)] : P2FoodTrack[(player.Food)])));
 
         //set up gold
-        (playerIndex == 1 ? P1GoldCube : P2GoldCube).transform.position = (playerIndex == 1 ? P1GoldTrack[(player.XP)] : P2GoldTrack[(player.XP)]).transform.position;
-        (playerIndex == 1 ? P1GoldCube : P2GoldCube).transform.rotation = (playerIndex == 1 ? P1GoldTrack[(player.XP)] : P2GoldTrack[(player.XP)]).transform.rotation;
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1GoldCube : P2GoldCube), (playerIndex == 1 ? P1GoldTrack[(player.Gold)] : P2GoldTrack[(player.Gold)])));
 
         //potion 1
         switch (player.potion1)
         {
             case potion.None:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionNoneTop : P2PotionNoneTop).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionNoneTop : P2PotionNoneTop).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionNoneTop : P2PotionNoneTop)));
                 break;
             case potion.Fire:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionFire : P2PotionFire).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionFire : P2PotionFire).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionFire : P2PotionFire)));
                 break;
             case potion.Frost:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionFrost : P2PotionFrost).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionFrost : P2PotionFrost).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionFrost : P2PotionFrost)));
                 break;
             case potion.Poison:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionPoison : P2PotionPoison).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionPoison : P2PotionPoison).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionPoison : P2PotionPoison)));
                 break;
             case potion.Healing:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionHealing : P2PotionHealing).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionHealing : P2PotionHealing).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionHealing : P2PotionHealing)));
                 break;
             case potion.Holy:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionHoly : P2PotionHoly).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionHoly : P2PotionHoly).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionHoly : P2PotionHoly)));
                 break;
             case potion.Perception:
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.position = (playerIndex == 1 ? P1PotionPerception : P2PotionPerception).transform.position;
-                (playerIndex == 1 ? P1PotionCube1 : P2PotionCube1).transform.rotation = (playerIndex == 1 ? P1PotionPerception : P2PotionPerception).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube1 : P2PotionCube1), (playerIndex == 1 ? P1PotionPerception : P2PotionPerception)));
                 break;
         }
 
         //potion 2
+        StartCoroutine(MovePiece((playerIndex == 1 ? P1XPCube : P2XPCube), (playerIndex == 1 ? P1XPTrack[(player.XP)] : P2XPTrack[(player.XP)])));
         switch (player.potion2)
         {
             case potion.None:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionNoneBottom : P2PotionNoneBottom).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionNoneBottom : P2PotionNoneBottom).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionNoneBottom : P2PotionNoneBottom)));
                 break;
             case potion.Fire:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionFire : P2PotionFire).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionFire : P2PotionFire).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionFire : P2PotionFire)));
                 break;
             case potion.Frost:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionFrost : P2PotionFrost).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionFrost : P2PotionFrost).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionFrost : P2PotionFrost)));
                 break;
             case potion.Poison:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionPoison : P2PotionPoison).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionPoison : P2PotionPoison).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionPoison : P2PotionPoison)));
                 break;
             case potion.Healing:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionHealing : P2PotionHealing).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionHealing : P2PotionHealing).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionHealing : P2PotionHealing)));
                 break;
             case potion.Holy:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionHoly : P2PotionHoly).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionHoly : P2PotionHoly).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionHoly : P2PotionHoly)));
                 break;
             case potion.Perception:
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.position = (playerIndex == 1 ? P1PotionPerception : P2PotionPerception).transform.position;
-                (playerIndex == 1 ? P1PotionCube2 : P2PotionCube2).transform.rotation = (playerIndex == 1 ? P1PotionPerception : P2PotionPerception).transform.rotation;
+                StartCoroutine(MovePiece((playerIndex == 1 ? P1PotionCube2 : P2PotionCube2), (playerIndex == 1 ? P1PotionPerception : P2PotionPerception)));
                 break;
         }
     }
@@ -324,12 +360,10 @@ public class BoardManager : MonoBehaviour
                 dungeonBoard.transform.localPosition = new Vector3(0.0026f, 0.01624f, 0f);
 
                 //place floor cube
-                dungeonFloorCube.transform.position = dungeonFloorTrack[0].transform.position;
-                dungeonFloorCube.transform.rotation = dungeonFloorTrack[0].transform.rotation;
+                StartCoroutine(MovePiece(dungeonFloorCube, dungeonFloorTrack[0]));
 
                 //place monter hp cube
-                monsterHPCube.transform.position = dungeonMonsterHPTrack[0].transform.position;
-                monsterHPCube.transform.rotation = dungeonMonsterHPTrack[0].transform.rotation;
+                StartCoroutine(MovePiece(monsterHPCube, dungeonMonsterHPTrack[0]));
                 break;
 
             case Options.level.soloTower:
@@ -339,12 +373,10 @@ public class BoardManager : MonoBehaviour
                 dungeonBoard.transform.Rotate(180, 0, 180);
 
                 //place floor cube
-                dungeonFloorCube.transform.position = towerFloorTrack[0].transform.position;
-                dungeonFloorCube.transform.rotation = towerFloorTrack[0].transform.rotation;
+                StartCoroutine(MovePiece(dungeonFloorCube, towerFloorTrack[0]));
 
                 //place monter hp cube
-                monsterHPCube.transform.position = towerMonsterHPTrack[0].transform.position;
-                monsterHPCube.transform.rotation = towerMonsterHPTrack[0].transform.rotation;
+                StartCoroutine(MovePiece(monsterHPCube, towerMonsterHPTrack[0]));
                 break;
         }
 
