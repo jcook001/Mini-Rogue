@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-using static UnityEngine.GraphicsBuffer;
 
 //TODO re-enable this later
 #pragma warning disable 0414 //disables unused variable warning
