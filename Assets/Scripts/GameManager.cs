@@ -988,11 +988,15 @@ public class GameManager : MonoBehaviour
                 {
                     //Player chooses -1 / = / +1
                     //TODO Add in some suitable UI here
+                    
+                    //player1MonsterDice.GetComponent<Die>().CreateButtons();
                 }
 
 
                 break;
         }
+
+        player1MonsterDice.GetComponent<Die>().CreateButtons();
 
         yield return null;
     }

@@ -1,11 +1,20 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Die : MonoBehaviour
 {
     private Rigidbody rb;
     private bool isRolling = false;
     public bool canRoll = false;
+
+    //Temporary buttons for crits
+    GameObject canvasObj;
+    Canvas canvas;
+    RectTransform canvasRect;
+    public GameObject buttonPrefab;
+    private float buttonOffset = 0.5f;
 
     public enum DieType
     {
@@ -21,6 +30,21 @@ public class Die : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        // Add and set up the Canvas component
+        canvasObj = new GameObject("DiceCanvas");
+        canvas = canvasObj.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+        canvas.AddComponent<CanvasScaler>();
+        canvas.AddComponent<GraphicRaycaster>();
+
+        // Set the size and position of the canvas
+        canvasRect = canvas.GetComponent<RectTransform>();
+        canvasRect.sizeDelta = new Vector2(1, 1);  // Set the size of the canvas (adjust as needed)
+        canvasRect.localPosition = Vector3.zero;  // Center the canvas on the dice
+        canvasRect.localEulerAngles = Vector3.zero;  // Reset rotation (will align with camera later)
+        canvasRect.localScale = new Vector3(0.001f, 0.001f, 0.001f);
     }
 
     // Update is called once per frame
@@ -184,4 +208,59 @@ public class Die : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
+    public void CreateButtons()
+    {
+        //Create a canvas on the die
+        GameObject DieCanvas = Instantiate(canvasObj, transform);
+
+        Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
+        DieCanvas.transform.rotation = Quaternion.LookRotation(DieCanvas.transform.position - Camera.main.transform.position);
+        //DieCanvas.transform.rotation = Camera.main.transform.rotation;
+        Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
+
+        //DieCanvas.transform.LookAt(Camera.main.transform);
+        DieCanvas.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
+        Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
+
+        // Calculate positions for the buttons
+        Vector3 abovePosition = this.transform.position + new Vector3(0, GetDieSize().y / 2 + buttonOffset, 0);
+        Vector3 belowPosition = this.transform.position - new Vector3(0, GetDieSize().y / 2 + buttonOffset, 0);
+
+        // Instantiate buttons
+        GameObject buttonAbove = Instantiate(buttonPrefab, abovePosition, Quaternion.identity, DieCanvas.transform);
+        GameObject buttonBelow = Instantiate(buttonPrefab, belowPosition, Quaternion.identity, DieCanvas.transform);
+
+        // Orient buttons to face camera - adjust this in the Update method of the buttons or right here
+        // ...
+
+        // Attach onClick functionality for the buttons
+        // buttonAbove.GetComponent<Button>().onClick.AddListener(() => AddToRoll());
+        // buttonBelow.GetComponent<Button>().onClick.AddListener(() => SubtractFromRoll());
+
+        if(buttonAbove.GetComponent<Button>() == null)
+        {
+            Debug.LogError("shit");
+        }
+        buttonAbove.GetComponent<Button>().onClick.AddListener(Test);
+        buttonBelow.GetComponent<Button>().onClick.AddListener(Test);
+    }
+
+    public void Test()
+    {
+        Debug.LogWarning("button has been pressed");
+    }
+
+    Vector3 GetDieSize()
+    {
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        if (renderer != null)
+        {
+            return renderer.bounds.size;
+        }
+        else
+        {
+            Debug.LogError("No MeshRenderer found on the die.");
+            return Vector3.zero;
+        }
+    }
 }
