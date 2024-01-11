@@ -4168,8 +4168,8 @@ MonoBehaviour:
   DebugShowPlayerStats: 0
   DebugShowDungeonCards: 0
   DebugShowFontSymbols: 0
-  DebugRollAllDice: 1
-  DebugOverrideDungeonCards: 1
+  DebugRollAllDice: 0
+  DebugOverrideDungeonCards: 0
   allCardData:
   - {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
   - {fileID: 11400000, guid: 720df81fa5b33a040971dc33b40c0a6c, type: 2}

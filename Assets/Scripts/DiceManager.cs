@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DiceManager : MonoBehaviour
@@ -25,7 +26,7 @@ public class DiceManager : MonoBehaviour
     //Dice Grid Display
     public int rows = 2;
     public int columns = 3;
-    public float diceSpacing = 1.0f; // Space between dice
+    public float diceSpacing = 5.0f; // Space between dice
     public GameObject gridObject;
 
     void Awake()
@@ -159,6 +160,7 @@ public class DiceManager : MonoBehaviour
     //TODO Probably going to need to make this account for different screen sizes?
     public void ArrangeDiceInGrid(List<GameObject> dice)
     {
+
         for (int i = 0; i < dice.Count; i++)
         {
             int row = i / columns;

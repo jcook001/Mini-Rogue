@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +16,9 @@ public class Die : MonoBehaviour
     Canvas canvas;
     RectTransform canvasRect;
     public GameObject buttonPrefab;
-    private float buttonOffset = 0.5f;
+    private float buttonOffsetX = 30.0f;
+    private float buttonOffsetY = 33.0f;
+    private float buttonOffsetZ = 30.0f;
 
     public enum DieType
     {
@@ -41,10 +45,13 @@ public class Die : MonoBehaviour
 
         // Set the size and position of the canvas
         canvasRect = canvas.GetComponent<RectTransform>();
-        canvasRect.sizeDelta = new Vector2(1, 1);  // Set the size of the canvas (adjust as needed)
+        canvasRect.sizeDelta = new Vector2(100, 100);  // Set the size of the canvas (adjust as needed)
         canvasRect.localPosition = Vector3.zero;  // Center the canvas on the dice
         canvasRect.localEulerAngles = Vector3.zero;  // Reset rotation (will align with camera later)
         canvasRect.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+
+        //Need to find a way to not spawn a Dice Canvas in the scene for each die
+        //canvasObj.SetActive(false);
     }
 
     // Update is called once per frame
@@ -208,40 +215,33 @@ public class Die : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
-    public void CreateButtons()
+    public IEnumerator CreateButtons()
     {
         //Create a canvas on the die
         GameObject DieCanvas = Instantiate(canvasObj, transform);
 
+        yield return null;
+        // Orient buttons to face camera - adjust this in the Update method of the buttons or right here
         Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
-        DieCanvas.transform.rotation = Quaternion.LookRotation(DieCanvas.transform.position - Camera.main.transform.position);
-        //DieCanvas.transform.rotation = Camera.main.transform.rotation;
-        Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
-
-        //DieCanvas.transform.LookAt(Camera.main.transform);
-        DieCanvas.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
+        DieCanvas.transform.rotation = Camera.main.transform.localRotation;
         Debug.Log(DieCanvas.transform.localRotation.eulerAngles);
 
-        // Calculate positions for the buttons
-        Vector3 abovePosition = this.transform.position + new Vector3(0, GetDieSize().y / 2 + buttonOffset, 0);
-        Vector3 belowPosition = this.transform.position - new Vector3(0, GetDieSize().y / 2 + buttonOffset, 0);
+        yield return null;
 
         // Instantiate buttons
-        GameObject buttonAbove = Instantiate(buttonPrefab, abovePosition, Quaternion.identity, DieCanvas.transform);
-        GameObject buttonBelow = Instantiate(buttonPrefab, belowPosition, Quaternion.identity, DieCanvas.transform);
+        GameObject buttonAbove = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
+        GameObject buttonMiddle = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
+        GameObject buttonBelow = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
 
-        // Orient buttons to face camera - adjust this in the Update method of the buttons or right here
-        // ...
+        buttonAbove.transform.localPosition = new Vector3(buttonOffsetX, buttonOffsetY, buttonOffsetZ);
+        buttonAbove.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+1";
+        buttonMiddle.transform.localPosition = new Vector3(buttonOffsetX, 0, buttonOffsetZ);
+        buttonMiddle.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "=";
+        buttonBelow.transform.localPosition = new Vector3(buttonOffsetX, -buttonOffsetY, buttonOffsetZ);
+        buttonBelow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-1";
 
-        // Attach onClick functionality for the buttons
-        // buttonAbove.GetComponent<Button>().onClick.AddListener(() => AddToRoll());
-        // buttonBelow.GetComponent<Button>().onClick.AddListener(() => SubtractFromRoll());
-
-        if(buttonAbove.GetComponent<Button>() == null)
-        {
-            Debug.LogError("shit");
-        }
         buttonAbove.GetComponent<Button>().onClick.AddListener(Test);
+        buttonMiddle.GetComponent<Button>().onClick.AddListener(Test);
         buttonBelow.GetComponent<Button>().onClick.AddListener(Test);
     }
 

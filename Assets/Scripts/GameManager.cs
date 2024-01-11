@@ -996,7 +996,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        player1MonsterDice.GetComponent<Die>().CreateButtons();
+        StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons());
 
         yield return null;
     }
