@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -175,10 +176,43 @@ public class DiceManager : MonoBehaviour
             dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             dice[i].transform.SetParent(gridObject.transform, false);
             dice[i].transform.localPosition = localPosition;
-            dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
+            //dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
+            //Probably need to wait a frame here
+            dice[i].transform.localRotation = Quaternion.Euler(dice[i].GetComponent<Die>().Face6);
 
 
             //Debug.Log("Dice " + dice[i].name + " position set");
+        }
+    }
+
+    public IEnumerator ArrangeDiceInGrid2(List<GameObject> dice)
+    {
+
+        for (int i = 0; i < dice.Count; i++)
+        {
+            int row = i / columns;
+            int column = i % columns;
+
+            Vector3 localPosition = new Vector3(
+                column * diceSpacing,
+                0,
+                row * diceSpacing
+            );
+
+            dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            dice[i].transform.SetParent(gridObject.transform, false);
+            //yield return null;
+            dice[i].transform.localPosition = localPosition;
+            //dice[0].GetComponent<Rigidbody>().MovePosition(localPosition);
+            //yield return null;
+            dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
+
+            //dice[i].transform.localRotation = Quaternion.Euler(dice[i].GetComponent<Die>().Face3);
+            //dice[i].GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(dice[i].GetComponent<Die>().Face3));
+
+
+            //Debug.Log("Dice " + dice[i].name + " position set");
+            yield return null;
         }
     }
 }

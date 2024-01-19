@@ -20,6 +20,14 @@ public class Die : MonoBehaviour
     private float buttonOffsetY = 33.0f;
     private float buttonOffsetZ = 30.0f;
 
+    //Dice Face Rotations
+    public Vector3 Face1 = new Vector3(270, 180 ,0);
+    public Vector3 Face2 = new Vector3(0, 90, 90);
+    public Vector3 Face3 = new Vector3(180, 270, 0);
+    public Vector3 Face4 = new Vector3(0, 270, 0);
+    public Vector3 Face5 = new Vector3(180, 90, 90);
+    public Vector3 Face6 = new Vector3(90, 0, 0);
+
     public enum DieType
     {
         Player,

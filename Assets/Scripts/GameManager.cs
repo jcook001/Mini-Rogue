@@ -925,7 +925,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
+        //DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
+        yield return(StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid2(diceToRoll)));
 
         //check for curse die first
         foreach (var (result, i) in rollResults.WithIndex())
@@ -988,15 +989,14 @@ public class GameManager : MonoBehaviour
                 {
                     //Player chooses -1 / = / +1
                     //TODO Add in some suitable UI here
-                    
+
                     //player1MonsterDice.GetComponent<Die>().CreateButtons();
+                    StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons());
                 }
 
 
                 break;
         }
-
-        StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons());
 
         yield return null;
     }
