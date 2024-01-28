@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DiceManager : MonoBehaviour
@@ -28,6 +26,7 @@ public class DiceManager : MonoBehaviour
     public int rows = 2;
     public int columns = 3;
     public float diceSpacing = 5.0f; // Space between dice
+    public float secondRowOffset = 2.5f;
     public GameObject gridObject;
 
     void Awake()
@@ -190,29 +189,81 @@ public class DiceManager : MonoBehaviour
 
         for (int i = 0; i < dice.Count; i++)
         {
-            int row = i / columns;
+            int row = -i / columns;
             int column = i % columns;
 
+            secondRowOffset = row == -1 ? 0.1f : 0f;
+
             Vector3 localPosition = new Vector3(
-                column * diceSpacing,
+                column * diceSpacing + secondRowOffset,
                 0,
                 row * diceSpacing
             );
 
             dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            dice[i].transform.SetParent(gridObject.transform, false);
-            //yield return null;
-            dice[i].transform.localPosition = localPosition;
-            //dice[0].GetComponent<Rigidbody>().MovePosition(localPosition);
-            //yield return null;
-            dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
 
-            //dice[i].transform.localRotation = Quaternion.Euler(dice[i].GetComponent<Die>().Face3);
-            //dice[i].GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(dice[i].GetComponent<Die>().Face3));
+
+            //dice[i].transform.localPosition = localPosition;
+
+            //dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
 
 
             //Debug.Log("Dice " + dice[i].name + " position set");
+            yield return StartCoroutine(MoveDieToPosition(dice[i], gridObject.transform. position + localPosition, dice[i].GetComponent<Die>().RolledFaceToCameraRotation(gridObject.transform.position + localPosition)));
+            dice[i].transform.SetParent(gridObject.transform, true);
+        }
+    }
+
+    public IEnumerator MoveDieToPosition(GameObject die, Vector3 targetLocation, Quaternion targetRotation)
+    {
+        Vector3 startPos = die.transform.position;
+        Quaternion startRot = die.transform.rotation;
+
+        float journeyLength = Vector3.Distance(startPos, targetLocation);
+        float speed = 10f;  // Set to desired speed value
+        float startTime = Time.time;
+
+        float distanceCovered = 0;
+
+        while (distanceCovered < journeyLength)
+        {
+            float timeSinceStarted = Time.time - startTime;
+            float percentageComplete = timeSinceStarted * speed / journeyLength;
+
+            // Move the card to the interpolated position
+            die.transform.position = Vector3.Lerp(startPos, targetLocation, percentageComplete);
+
+            // Rotate the card to the interpolated rotation
+            die.transform.rotation = Quaternion.Slerp(startRot, targetRotation, percentageComplete);
+
+            distanceCovered = (die.transform.position - startPos).magnitude;
+
             yield return null;
         }
+
+        // Just to ensure that card reaches the final position and rotation
+        die.transform.position = targetLocation;
+        die.transform.rotation = targetRotation;
+        yield return null;
+    }
+
+    public IEnumerator RotateTowardsTarget(GameObject objectToRotate, GameObject targetObject, Vector3 localVectorToFaceTarget, float duration)
+    {
+        Quaternion startRotation = objectToRotate.transform.rotation;
+        Vector3 targetDirection = targetObject.transform.position - objectToRotate.transform.position;
+        Quaternion endRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+
+        // Correct for the local vector facing the target
+        Quaternion localVectorRotation = Quaternion.FromToRotation(localVectorToFaceTarget.normalized, objectToRotate.transform.forward);
+        endRotation *= Quaternion.Inverse(localVectorRotation);
+
+        for (float t = 0; t < 1.0f; t += Time.deltaTime / duration)
+        {
+            objectToRotate.transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            yield return null;
+        }
+
+        // Ensure the final rotation is exactly the target rotation
+        objectToRotate.transform.rotation = endRotation;
     }
 }

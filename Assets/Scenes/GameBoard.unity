@@ -827,8 +827,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 5364939344845518297, guid: 245e9155ba909984cb068160c27376b8,
     type: 3}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &170831686
 BoxCollider:
@@ -2032,8 +2039,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 5364939344845518297, guid: 245e9155ba909984cb068160c27376b8,
     type: 3}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &365922285
 BoxCollider:
@@ -2800,7 +2814,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &578346821
 BoxCollider:
@@ -3377,7 +3398,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &876886997
 BoxCollider:
@@ -3536,7 +3564,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &885718630
 BoxCollider:
@@ -3792,6 +3827,7 @@ MonoBehaviour:
   rows: 2
   columns: 3
   diceSpacing: 0.5
+  secondRowOffset: 2.5
   gridObject: {fileID: 100758197}
 --- !u!1 &991429967 stripped
 GameObject:
@@ -3935,7 +3971,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &1013910918
 BoxCollider:
@@ -4168,8 +4211,8 @@ MonoBehaviour:
   DebugShowPlayerStats: 0
   DebugShowDungeonCards: 0
   DebugShowFontSymbols: 0
-  DebugRollAllDice: 0
-  DebugOverrideDungeonCards: 0
+  DebugRollAllDice: 1
+  DebugOverrideDungeonCards: 1
   allCardData:
   - {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
   - {fileID: 11400000, guid: 720df81fa5b33a040971dc33b40c0a6c, type: 2}
@@ -5668,7 +5711,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &1537765001
 BoxCollider:
@@ -6351,7 +6401,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &1899191573
 BoxCollider:
@@ -6570,7 +6627,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &1981522883
 BoxCollider:
@@ -6858,7 +6922,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &2060451432
 BoxCollider:
@@ -6933,7 +7004,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &2060654016
 BoxCollider:
@@ -7626,7 +7704,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRoll: 0
+  lastRolledValue: 0
   buttonPrefab: {fileID: 0}
+  Face1: {x: 270, y: 180, z: 0}
+  Face2: {x: 0, y: 90, z: 90}
+  Face3: {x: 180, y: 270, z: 0}
+  Face4: {x: 0, y: 270, z: 0}
+  Face5: {x: 180, y: 90, z: 90}
+  Face6: {x: 90, y: 0, z: 0}
   type: 0
 --- !u!65 &2145762707
 BoxCollider:

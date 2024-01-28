@@ -925,19 +925,16 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        //DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
-        yield return(StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid2(diceToRoll)));
-
         //check for curse die first
         foreach (var (result, i) in rollResults.WithIndex())
         {
-            if ((rollResultsDieType[i] == Die.DieType.Curse && result == 1) ||
-                (rollResultsDieType[i] == Die.DieType.Curse && result == 2) ||
-                (rollResultsDieType[i] == Die.DieType.Curse && result == 5))
+            if ((rollResultsDieType[i] == Die.DieType.Curse && result == 3) ||
+                (rollResultsDieType[i] == Die.DieType.Curse && result == 1) ||
+                (rollResultsDieType[i] == Die.DieType.Curse && result == 6))
             {
                 //-1 to all dice results
                 cursedRoll = true;
-
+                Debug.Log("You're cursed!");
                 //show this to the player
                 //TODO Broadcast the cursed roll
             }
@@ -947,12 +944,14 @@ public class GameManager : MonoBehaviour
         //Determine if special die rolls do something
         foreach (var (result, i) in rollResults.WithIndex())
         {
+            Debug.LogWarning(rollResultsDieType[i] + " die result is: " +  result);
             //did the player roll a crit?
             if (cursedRoll)
             {
-                if (result == 5 && rollResultsDieType[i] == Die.DieType.Player)
+                if (result == 6 && rollResultsDieType[i] == Die.DieType.Player)
                 {
                     critRolled = true;
+                    Debug.Log("it's a cursed crit!");
                 }
             }
             else
@@ -961,6 +960,7 @@ public class GameManager : MonoBehaviour
                     (result == 6 && rollResultsDieType[i] == Die.DieType.Player))
                 {
                     critRolled = true;
+                    Debug.Log("it's a crit!");
                 }
             }
 
@@ -981,6 +981,9 @@ public class GameManager : MonoBehaviour
                 //broadcast this to the player
             }
         }
+
+        //DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
+        yield return (StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid2(diceToRoll)));
 
         switch (card.cardType)
         {
