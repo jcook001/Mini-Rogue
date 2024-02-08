@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LookAt : MonoBehaviour
 {
     public GameObject target;
+    public GameObject moveToTarget;
     public int FaceTo = 1;
 
     private void Awake()
@@ -23,6 +26,12 @@ public class LookAt : MonoBehaviour
         //PointFaceAtTargetWithCorrectUp(this.transform, FaceTo, target.transform);
         //this.transform.rotation = CalculateTargetRotationWithCorrectUp(this.transform, FaceTo, this.transform.position, target.transform);
         //this.transform.rotation = CalculateRotationForTargetMatchRotation(this.transform, FaceTo, this.transform.position, target.transform);
+    }
+
+    public void OnMouseDown()
+    {
+        StartCoroutine(SmoothMoveAndRotate(this.gameObject, moveToTarget.transform.position, CalculateRotation(this.gameObject, FaceTo, moveToTarget.transform.position, target)));
+
     }
 
     void PointLeftAtTarget(Transform objectTransform, Vector3 targetPosition)
@@ -270,5 +279,76 @@ public class LookAt : MonoBehaviour
         return targetRotation;
     }
 
+    private IEnumerator SmoothMoveAndRotate(GameObject objectToMove, Vector3 targetLocation, Quaternion targetRotation, float duration = 1f)
+    {
+        Vector3 startPos = objectToMove.transform.position;
+        Quaternion startRot = objectToMove.transform.rotation;
+
+        float startTime = Time.time;
+
+        while (Time.time - startTime < duration)
+        {
+            float percentageComplete = (Time.time - startTime) / duration;
+
+            // Move the object to the interpolated position
+            objectToMove.transform.position = Vector3.Lerp(startPos, targetLocation, percentageComplete);
+
+            // Rotate the object to the interpolated rotation
+            objectToMove.transform.rotation = Quaternion.Slerp(startRot, targetRotation, percentageComplete);
+
+            yield return null;
+        }
+
+        // Ensure that object reaches the final position and rotation
+        objectToMove.transform.position = targetLocation;
+        objectToMove.transform.rotation = targetRotation;
+    }
+
+    public Quaternion CalculateRotation(GameObject dieToMove, int faceNumber, Vector3 viewFromPosition, GameObject lookAtTarget)
+    {
+        Transform diceTransform = dieToMove.transform;
+        Vector3 faceDirection;
+        Vector3 faceUpDirection;
+
+        // Map the face number to the corresponding local vector and its up vector
+        switch (faceNumber)
+        {
+            case 1:
+                faceDirection = diceTransform.forward;
+                faceUpDirection = diceTransform.up;
+                break;
+            case 2:
+                faceDirection = diceTransform.right;
+                faceUpDirection = diceTransform.up;
+                break;
+            case 3:
+                faceDirection = -diceTransform.up;
+                faceUpDirection = diceTransform.right;
+                break;
+            case 4:
+                faceDirection = diceTransform.up;
+                faceUpDirection = diceTransform.right;
+                break;
+            case 5:
+                faceDirection = -diceTransform.right;
+                faceUpDirection = diceTransform.up;
+                break;
+            case 6:
+                faceDirection = -diceTransform.forward;
+                faceUpDirection = diceTransform.up;
+                break;
+            default:
+                throw new ArgumentException("Invalid face number");
+        }
+
+        Vector3 toTarget = (lookAtTarget.transform.position - viewFromPosition).normalized;
+        Quaternion faceToTargetRotation = Quaternion.LookRotation(toTarget, faceUpDirection);
+
+        Quaternion localToTarget = Quaternion.FromToRotation(faceDirection, toTarget);
+        Quaternion finalRotation = dieToMove.transform.rotation * localToTarget;
+
+
+        return finalRotation;
+    }
 
 }
