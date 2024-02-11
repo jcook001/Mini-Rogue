@@ -30,8 +30,22 @@ public class LookAt : MonoBehaviour
 
     public void OnMouseDown()
     {
-        StartCoroutine(SmoothMoveAndRotate(this.gameObject, moveToTarget.transform.position, CalculateRotation(this.gameObject, FaceTo, moveToTarget.transform.position, target)));
+        //Correct up
+        //this.transform.rotation = CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, this.transform.position, target.transform);
+        //StartCoroutine(DiceManager.Instance.MoveDieToPosition(this.gameObject, moveToTarget.transform.position, CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform)));
 
+        //correct face
+        //StartCoroutine(DiceManager.Instance.MoveDieToPosition(this.gameObject, moveToTarget.transform.position, AngleToPointFaceAtTarget(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform.position)));
+        //this.transform.rotation = AngleToPointFaceAtTarget(this.gameObject.transform, FaceTo, this.transform.position, target.transform.position);
+
+        //better movement correct face
+        //StartCoroutine(DiceManager.Instance.SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position, AngleToPointFaceAtTarget(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform.position)));
+
+        //better movement correct face correct up
+        //StartCoroutine(DiceManager.Instance.SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position, CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform)));
+
+        //better movement and calculate end rotation every frame?
+        StartCoroutine(SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position));
     }
 
     void PointLeftAtTarget(Transform objectTransform, Vector3 targetPosition)
@@ -70,6 +84,32 @@ public class LookAt : MonoBehaviour
 
         // Apply the rotation
         diceTransform.rotation = targetRotation;
+    }
+
+    Quaternion AngleToPointFaceAtTarget(Transform diceTransform, int faceNumber, Vector3 lookFrom, Vector3 targetPosition)
+    {
+        Vector3 faceDirection;
+
+        // Map the face number to the corresponding local vector
+        switch (faceNumber)
+        {
+            case 1: faceDirection = diceTransform.forward; break; // Assuming 1 maps to the forward face
+            case 2: faceDirection = diceTransform.right; break; // Assuming 2 maps to the back face
+            case 3: faceDirection = -diceTransform.up; break; // Assuming 3 maps to the up face
+            case 4: faceDirection = diceTransform.up; break; // Assuming 4 maps to the down face
+            case 5: faceDirection = -diceTransform.right; break; // Assuming 5 maps to the left face
+            case 6: faceDirection = -diceTransform.forward; break; // Assuming 6 maps to the right face
+            default: throw new ArgumentException("Invalid face number");
+        }
+
+        // Calculate the desired direction from the dice to the target
+        Vector3 desiredDirection = (targetPosition - lookFrom).normalized;
+
+        // Calculate the rotation needed to align the specified face with the desired direction
+        Quaternion targetRotation = Quaternion.FromToRotation(faceDirection, desiredDirection) * diceTransform.rotation;
+
+        // Return the rotation
+        return targetRotation;
     }
 
     void PointFaceAtTargetWithCorrectUpMatchRotation(Transform diceTransform, int faceNumber, Transform target)
@@ -226,6 +266,7 @@ public class LookAt : MonoBehaviour
 
         // Compute the final rotation
         Quaternion finalRotation = Quaternion.AngleAxis(angle, rotationAxis) * initialRotation;
+
         return finalRotation;
     }
 
@@ -304,9 +345,8 @@ public class LookAt : MonoBehaviour
         objectToMove.transform.rotation = targetRotation;
     }
 
-    public Quaternion CalculateRotation(GameObject dieToMove, int faceNumber, Vector3 viewFromPosition, GameObject lookAtTarget)
+    public Quaternion CalculateRotation(GameObject objectToRotate, int faceNumber, Vector3 viewFromPosition, GameObject lookAtTarget)
     {
-        Transform diceTransform = dieToMove.transform;
         Vector3 faceDirection;
         Vector3 faceUpDirection;
 
@@ -314,41 +354,75 @@ public class LookAt : MonoBehaviour
         switch (faceNumber)
         {
             case 1:
-                faceDirection = diceTransform.forward;
-                faceUpDirection = diceTransform.up;
+                faceDirection = objectToRotate.transform.forward;
+                faceUpDirection = objectToRotate.transform.up;
                 break;
             case 2:
-                faceDirection = diceTransform.right;
-                faceUpDirection = diceTransform.up;
+                faceDirection = objectToRotate.transform.right;
+                faceUpDirection = objectToRotate.transform.up;
                 break;
             case 3:
-                faceDirection = -diceTransform.up;
-                faceUpDirection = diceTransform.right;
+                faceDirection = -objectToRotate.transform.up;
+                faceUpDirection = objectToRotate.transform.right;
                 break;
             case 4:
-                faceDirection = diceTransform.up;
-                faceUpDirection = diceTransform.right;
+                faceDirection = objectToRotate.transform.up;
+                faceUpDirection = objectToRotate.transform.right;
                 break;
             case 5:
-                faceDirection = -diceTransform.right;
-                faceUpDirection = diceTransform.up;
+                faceDirection = -objectToRotate.transform.right;
+                faceUpDirection = objectToRotate.transform.up;
                 break;
             case 6:
-                faceDirection = -diceTransform.forward;
-                faceUpDirection = diceTransform.up;
+                faceDirection = -objectToRotate.transform.forward;
+                faceUpDirection = objectToRotate.transform.up;
                 break;
             default:
                 throw new ArgumentException("Invalid face number");
         }
 
         Vector3 toTarget = (lookAtTarget.transform.position - viewFromPosition).normalized;
-        Quaternion faceToTargetRotation = Quaternion.LookRotation(toTarget, faceUpDirection);
-
-        Quaternion localToTarget = Quaternion.FromToRotation(faceDirection, toTarget);
-        Quaternion finalRotation = dieToMove.transform.rotation * localToTarget;
+        Quaternion faceToTargetRotation = Quaternion.FromToRotation(faceDirection, toTarget);
 
 
-        return finalRotation;
+
+        return faceToTargetRotation;
+    }
+
+    public IEnumerator SmoothSyncMoveRotate(GameObject die, Vector3 targetLocation)
+    {
+        Vector3 startPos = die.transform.position;
+        Quaternion startRot = die.transform.rotation;
+
+        Vector3 endPos = targetLocation;
+        //Quaternion endRot = targetRotation;
+
+        float journeyLength = Vector3.Distance(startPos, endPos);
+        float speed = 10f;  // Set to desired speed value
+        float startTime = Time.time;
+
+        float distanceCovered = 0;
+
+        while (distanceCovered < journeyLength)
+        {
+            float timeSinceStarted = Time.time - startTime;
+            float percentageComplete = timeSinceStarted * speed / journeyLength;
+
+            // Move the card to the interpolated position
+            die.transform.position = Vector3.Lerp(startPos, endPos, percentageComplete);
+
+            // Rotate the card to the interpolated rotation
+            die.transform.rotation = Quaternion.Slerp(startRot, CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform), percentageComplete);
+
+            distanceCovered = (die.transform.position - startPos).magnitude;
+
+            yield return null;
+        }
+
+        // Just to ensure that card reaches the final position and rotation
+        die.transform.position = endPos;
+        die.transform.rotation = CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform);
+        yield return null;
     }
 
 }

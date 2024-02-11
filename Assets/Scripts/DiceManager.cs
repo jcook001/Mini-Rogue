@@ -247,6 +247,44 @@ public class DiceManager : MonoBehaviour
         yield return null;
     }
 
+
+    public IEnumerator SmoothSyncMoveRotate(GameObject die, Vector3 targetLocation, Quaternion targetRotation)
+    {
+        Vector3 startPos = die.transform.position;
+        Quaternion startRot = die.transform.rotation;
+
+        Vector3 endPos = targetLocation;
+        Quaternion endRot = targetRotation;
+
+        float journeyLength = Vector3.Distance(startPos, endPos);
+        float speed = 10f;  // Set to desired speed value
+        float startTime = Time.time;
+
+        float distanceCovered = 0;
+
+        while (distanceCovered < journeyLength)
+        {
+            float timeSinceStarted = Time.time - startTime;
+            float percentageComplete = timeSinceStarted * speed / journeyLength;
+
+            // Move the card to the interpolated position
+            die.transform.position = Vector3.Lerp(startPos, endPos, percentageComplete);
+
+            // Rotate the card to the interpolated rotation
+            die.transform.rotation = Quaternion.Slerp(startRot, endRot, percentageComplete);
+
+            distanceCovered = (die.transform.position - startPos).magnitude;
+
+            yield return null;
+        }
+
+        // Just to ensure that card reaches the final position and rotation
+        die.transform.position = endPos;
+        die.transform.rotation = endRot;
+        yield return null;
+    }
+
+
     public IEnumerator RotateTowardsTarget(GameObject objectToRotate, GameObject targetObject, Vector3 localVectorToFaceTarget, float duration)
     {
         Quaternion startRotation = objectToRotate.transform.rotation;
