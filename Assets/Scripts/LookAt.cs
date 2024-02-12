@@ -45,7 +45,18 @@ public class LookAt : MonoBehaviour
         //StartCoroutine(DiceManager.Instance.SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position, CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform)));
 
         //better movement and calculate end rotation every frame?
-        StartCoroutine(SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position));
+        //StartCoroutine(SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position));
+
+        //Check if there is any distance to move
+        if(this.gameObject.transform.position == moveToTarget.transform.position)
+        {
+            StartCoroutine(SmoothRotate(this.gameObject, 1.0f));
+        }
+        else
+        {
+            StartCoroutine(SmoothSyncMoveRotate(this.gameObject, moveToTarget.transform.position));
+        }
+        //better movement and calculate end rotation every frame
     }
 
     void PointLeftAtTarget(Transform objectTransform, Vector3 targetPosition)
@@ -389,6 +400,7 @@ public class LookAt : MonoBehaviour
         return faceToTargetRotation;
     }
 
+    //Use this when rotating and moving a distance
     public IEnumerator SmoothSyncMoveRotate(GameObject die, Vector3 targetLocation)
     {
         Vector3 startPos = die.transform.position;
@@ -425,4 +437,24 @@ public class LookAt : MonoBehaviour
         yield return null;
     }
 
+    //Use this when rotating in place
+    public IEnumerator SmoothRotate(GameObject die, float duration)
+    {
+        Quaternion startRot = die.transform.rotation;
+
+        float startTime = Time.time;
+
+        while (Time.time - startTime < duration)
+        {
+            float percentageComplete = (Time.time - startTime) / duration;
+
+            // Rotate the die to the interpolated rotation
+            die.transform.rotation = Quaternion.Slerp(startRot, CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform), percentageComplete);
+
+            yield return null;
+        }
+
+        // Ensure the die reaches the final rotation
+        die.transform.rotation = CalculateRotationForTargetMatchRotation(this.gameObject.transform, FaceTo, moveToTarget.transform.position, target.transform);
+    }
 }
