@@ -170,43 +170,6 @@ public class Die : MonoBehaviour
         return dieUpVectors[Array.IndexOf(dieValues, bestValue)];
     }
 
-    public void PointRolledFaceToCamera(GameObject die) //points dice to camera
-    {
-        int targetFace;
-        GetRolledFaceUpVector(out targetFace);
-
-        Camera camera = Camera.main;
-
-        Vector3[] dieFaceOrientations = {
-        Vector3.forward, // 1
-        Vector3.right,   // 2
-        Vector3.down,     // 3
-        Vector3.up,      // 4
-        Vector3.left,    // 5
-        Vector3.back    // 6
-        };
-
-        // Ensure the target face is valid
-        if (targetFace < 1 || targetFace > 6)
-        {
-            Debug.LogError("Invalid target face value. Must be between 1 and 6.");
-            return;
-        }
-
-        // Determine the direction from the die to the camera
-        Vector3 toCamera = camera.transform.position - transform.position;
-        toCamera.Normalize(); // Ensure it's a unit vector
-
-        // Determine the direction that should be facing towards the camera
-        Vector3 targetFaceDirection = transform.TransformDirection(dieFaceOrientations[targetFace - 1]);
-
-        // Calculate a rotation that points 'targetFaceDirection' along 'toCamera'
-        Quaternion targetRotation = Quaternion.FromToRotation(targetFaceDirection, toCamera);
-
-        // Apply the rotation
-        die.transform.rotation = targetRotation * transform.rotation;
-    }
-
     public Quaternion RolledFaceToCameraRotation(Vector3 lookFromPosition, int overrideFace = 0)
     {
         Quaternion rotationToCamera = Quaternion.Euler(Vector3.zero);
@@ -255,33 +218,6 @@ public class Die : MonoBehaviour
         return rotationToCamera;
     }
 
-    public void OrientDieFaceUpwards(int targetFace)
-    {
-        Vector3[] dieFaceOrientations = {
-        Vector3.back,    // 1
-        Vector3.left,    // 2
-        Vector3.down,     // 3
-        Vector3.up,      // 4
-        Vector3.right,   // 5
-        Vector3.forward // 6
-    };
-
-        // Ensure the target face is valid
-        if (targetFace < 1 || targetFace > 6)
-        {
-            Debug.LogError("Invalid target face value. Must be between 1 and 6.");
-            return;
-        }
-
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 2f, this.transform.position.z);
-
-        // Calculate the rotation to the target face
-        Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, dieFaceOrientations[targetFace - 1]);
-
-        // Apply the rotation to the die
-        transform.rotation = targetRotation;
-    }
-
     public IEnumerator CreateButtons()
     {
         //Create a canvas on the die
@@ -314,84 +250,17 @@ public class Die : MonoBehaviour
     public void AddOne()
     {
         int newMonsterDieValue = lastRolledValue + 1; //TODO check this doesn't go over 6
-        //StartCoroutine(DiceManager.Instance.MoveDieToPosition(this.gameObject, this.transform.position, RolledFaceToCameraRotation(this.transform.position, newMonsterDieValue)));
-        StartCoroutine(DiceManager.Instance.RotateTowardsTarget(this.gameObject, Camera.main.gameObject, dieVectors[newMonsterDieValue], 1.0f));
+        StartCoroutine(DiceManager.Instance.SmoothRotateDie(this.gameObject, newMonsterDieValue, Camera.main.gameObject.transform, 1.0f));
     }
 
     public void NoChange()
     {
-        int newMonsterDieValue = lastRolledValue; //TODO check this doesn't go over 6
-        //StartCoroutine(DiceManager.Instance.MoveDieToPosition(this.gameObject, this.transform.position, RolledFaceToCameraRotation(this.transform.position, newMonsterDieValue)));
+        
     }
 
     public void SubtractOne()
     {
         int newMonsterDieValue = lastRolledValue - 1; //TODO check this doesn't go over 6
-        //StartCoroutine(DiceManager.Instance.MoveDieToPosition(this.gameObject, this.transform.position, RolledFaceToCameraRotation(this.transform.position, newMonsterDieValue)));
-        StartCoroutine(DiceManager.Instance.RotateTowardsTarget(this.gameObject, Camera.main.gameObject, dieVectors[newMonsterDieValue], 1.0f));
-    }
-
-    Vector3 GetDieSize()
-    {
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        if (renderer != null)
-        {
-            return renderer.bounds.size;
-        }
-        else
-        {
-            Debug.LogError("No MeshRenderer found on the die.");
-            return Vector3.zero;
-        }
-    }
-
-    public Quaternion RotationFromToTarget(Transform diceTransform, int faceNumber, Vector3 viewPosition, Transform target)
-    {
-        Vector3 faceDirection;
-        Vector3 faceUpDirection;
-
-        // Map the face number to the corresponding local vector and its up vector
-        switch (faceNumber)
-        {
-            case 1:
-                faceDirection = diceTransform.forward;
-                faceUpDirection = diceTransform.up;
-                break;
-            case 2:
-                faceDirection = diceTransform.right;
-                faceUpDirection = diceTransform.up;
-                break;
-            case 3:
-                faceDirection = -diceTransform.up;
-                faceUpDirection = diceTransform.right;
-                break;
-            case 4:
-                faceDirection = diceTransform.up;
-                faceUpDirection = diceTransform.right;
-                break;
-            case 5:
-                faceDirection = -diceTransform.right;
-                faceUpDirection = diceTransform.up;
-                break;
-            case 6:
-                faceDirection = -diceTransform.forward;
-                faceUpDirection = diceTransform.up;
-                break;
-            default:
-                throw new ArgumentException("Invalid face number");
-        }
-
-        // Step 1: Align the face with the target
-        Vector3 toTarget = (target.position - viewPosition).normalized;
-        Quaternion faceToTargetRotation = Quaternion.FromToRotation(faceDirection, toTarget);
-
-        // Step 2: Align the die's 'up' direction
-        Vector3 worldFaceUpDirection = faceToTargetRotation * faceUpDirection;
-        Quaternion upAlignmentRotation = Quaternion.FromToRotation(worldFaceUpDirection, target.up);
-
-        // Combine the two rotations
-        Quaternion targetRotation = upAlignmentRotation * faceToTargetRotation * diceTransform.rotation;
-
-        return targetRotation;
+        StartCoroutine(DiceManager.Instance.SmoothRotateDie(this.gameObject, newMonsterDieValue, Camera.main.gameObject.transform, 1.0f));
     }
 }

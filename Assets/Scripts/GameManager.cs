@@ -983,7 +983,7 @@ public class GameManager : MonoBehaviour
         }
 
         //DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
-        yield return (StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid2(diceToRoll)));
+        yield return (StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid(diceToRoll)));
 
         switch (card.cardType)
         {

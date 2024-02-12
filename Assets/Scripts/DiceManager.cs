@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,7 +81,7 @@ public class DiceManager : MonoBehaviour
                     for (int i = 0; i < diceRigidbodies.Count; i++)
                     {
                         diceRigidbodies[i].isKinematic = true; // Stop physics while moving the dice
-                        Vector3 diceOffset = Random.insideUnitSphere * 1.0f;
+                        Vector3 diceOffset = UnityEngine.Random.insideUnitSphere * 1.0f;
                         diceOffset.y = 0; // Prevent vertical offset to maintain pickUpHeight
                         dicePositions[i] = targetPosition + diceOffset;
                     }
@@ -158,33 +159,7 @@ public class DiceManager : MonoBehaviour
     }
 
     //TODO Probably going to need to make this account for different screen sizes?
-    public void ArrangeDiceInGrid(List<GameObject> dice)
-    {
-
-        for (int i = 0; i < dice.Count; i++)
-        {
-            int row = i / columns;
-            int column = i % columns;
-
-            Vector3 localPosition = new Vector3(
-                column * diceSpacing,
-                0,
-                row * diceSpacing
-            );
-
-            dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            dice[i].transform.SetParent(gridObject.transform, false);
-            dice[i].transform.localPosition = localPosition;
-            //dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
-            //Probably need to wait a frame here
-            dice[i].transform.localRotation = Quaternion.Euler(dice[i].GetComponent<Die>().Face6);
-
-
-            //Debug.Log("Dice " + dice[i].name + " position set");
-        }
-    }
-
-    public IEnumerator ArrangeDiceInGrid2(List<GameObject> dice)
+    public IEnumerator ArrangeDiceInGrid(List<GameObject> dice)
     {
 
         for (int i = 0; i < dice.Count; i++)
@@ -209,52 +184,18 @@ public class DiceManager : MonoBehaviour
 
 
             //Debug.Log("Dice " + dice[i].name + " position set");
-            yield return StartCoroutine(MoveDieToPosition(dice[i], gridObject.transform. position + localPosition, dice[i].GetComponent<Die>().RolledFaceToCameraRotation(gridObject.transform.position + localPosition)));
+            yield return StartCoroutine(SmoothMoveAndRotateDie(dice[i], dice[i].GetComponent<Die>().lastRolledValue, gridObject.transform. position + localPosition, mainCamera.gameObject.transform));
             dice[i].transform.SetParent(gridObject.transform, true);
         }
     }
 
-    public IEnumerator MoveDieToPosition(GameObject die, Vector3 targetLocation, Quaternion targetRotation)
+    //Use this when rotating and moving a distance
+    public IEnumerator SmoothMoveAndRotateDie(GameObject die, int faceTo, Vector3 moveToTarget, Transform lookAtTarget)
     {
         Vector3 startPos = die.transform.position;
         Quaternion startRot = die.transform.rotation;
 
-        float journeyLength = Vector3.Distance(startPos, targetLocation);
-        float speed = 10f;  // Set to desired speed value
-        float startTime = Time.time;
-
-        float distanceCovered = 0;
-
-        while (distanceCovered < journeyLength)
-        {
-            float timeSinceStarted = Time.time - startTime;
-            float percentageComplete = timeSinceStarted * speed / journeyLength;
-
-            // Move the card to the interpolated position
-            die.transform.position = Vector3.Lerp(startPos, targetLocation, percentageComplete);
-
-            // Rotate the card to the interpolated rotation
-            die.transform.rotation = Quaternion.Slerp(startRot, targetRotation, percentageComplete);
-
-            distanceCovered = (die.transform.position - startPos).magnitude;
-
-            yield return null;
-        }
-
-        // Just to ensure that card reaches the final position and rotation
-        die.transform.position = targetLocation;
-        die.transform.rotation = targetRotation;
-        yield return null;
-    }
-
-
-    public IEnumerator SmoothSyncMoveRotate(GameObject die, Vector3 targetLocation, Quaternion targetRotation)
-    {
-        Vector3 startPos = die.transform.position;
-        Quaternion startRot = die.transform.rotation;
-
-        Vector3 endPos = targetLocation;
-        Quaternion endRot = targetRotation;
+        Vector3 endPos = moveToTarget;
 
         float journeyLength = Vector3.Distance(startPos, endPos);
         float speed = 10f;  // Set to desired speed value
@@ -271,7 +212,7 @@ public class DiceManager : MonoBehaviour
             die.transform.position = Vector3.Lerp(startPos, endPos, percentageComplete);
 
             // Rotate the card to the interpolated rotation
-            die.transform.rotation = Quaternion.Slerp(startRot, endRot, percentageComplete);
+            die.transform.rotation = Quaternion.Slerp(startRot, RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, moveToTarget, lookAtTarget), percentageComplete);
 
             distanceCovered = (die.transform.position - startPos).magnitude;
 
@@ -280,28 +221,78 @@ public class DiceManager : MonoBehaviour
 
         // Just to ensure that card reaches the final position and rotation
         die.transform.position = endPos;
-        die.transform.rotation = endRot;
+        die.transform.rotation = RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, moveToTarget, lookAtTarget);
         yield return null;
     }
 
-
-    public IEnumerator RotateTowardsTarget(GameObject objectToRotate, GameObject targetObject, Vector3 localVectorToFaceTarget, float duration)
+    //Use this when rotating in place
+    public IEnumerator SmoothRotateDie(GameObject die, int faceTo, Transform lookAtTarget, float duration)
     {
-        Quaternion startRotation = objectToRotate.transform.rotation;
-        Vector3 targetDirection = targetObject.transform.position - objectToRotate.transform.position;
-        Quaternion endRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+        Quaternion startRot = die.transform.rotation;
 
-        // Correct for the local vector facing the target
-        Quaternion localVectorRotation = Quaternion.FromToRotation(localVectorToFaceTarget.normalized, objectToRotate.transform.forward);
-        endRotation *= Quaternion.Inverse(localVectorRotation);
+        float startTime = Time.time;
 
-        for (float t = 0; t < 1.0f; t += Time.deltaTime / duration)
+        while (Time.time - startTime < duration)
         {
-            objectToRotate.transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            float percentageComplete = (Time.time - startTime) / duration;
+
+            // Rotate the die to the interpolated rotation
+            die.transform.rotation = Quaternion.Slerp(startRot, RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, die.transform.position, lookAtTarget), percentageComplete);
+
             yield return null;
         }
 
-        // Ensure the final rotation is exactly the target rotation
-        objectToRotate.transform.rotation = endRotation;
+        // Ensure the die reaches the final rotation
+        die.transform.rotation = RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, die.transform.position, lookAtTarget);
+    }
+
+    public Quaternion RotationToFaceDieResultToTarget(Transform dieTransform, int faceNumber, Vector3 viewPosition, Transform target)
+    {
+        Vector3 faceDirection;
+        Vector3 faceUpDirection;
+
+        // Map the face number to the corresponding local vector and its up vector
+        switch (faceNumber)
+        {
+            case 1:
+                faceDirection = dieTransform.forward;
+                faceUpDirection = dieTransform.up;
+                break;
+            case 2:
+                faceDirection = dieTransform.right;
+                faceUpDirection = dieTransform.up;
+                break;
+            case 3:
+                faceDirection = -dieTransform.up;
+                faceUpDirection = dieTransform.right;
+                break;
+            case 4:
+                faceDirection = dieTransform.up;
+                faceUpDirection = dieTransform.right;
+                break;
+            case 5:
+                faceDirection = -dieTransform.right;
+                faceUpDirection = dieTransform.up;
+                break;
+            case 6:
+                faceDirection = -dieTransform.forward;
+                faceUpDirection = dieTransform.up;
+                break;
+            default:
+                throw new ArgumentException("Invalid face number");
+        }
+
+        // Step 1: Align the face with the target
+        Vector3 toTarget = (target.position - viewPosition).normalized;
+        Quaternion faceToTargetRotation = Quaternion.FromToRotation(faceDirection, toTarget);
+
+        // Step 2: Align the die's 'up' direction
+        Vector3 worldFaceUpDirection = faceToTargetRotation * faceUpDirection;
+        Quaternion upAlignmentRotation = Quaternion.FromToRotation(worldFaceUpDirection, target.up);
+
+        // Combine the two rotations
+        Quaternion targetRotation = upAlignmentRotation * faceToTargetRotation * dieTransform.rotation;
+
+        return targetRotation;
     }
 }
