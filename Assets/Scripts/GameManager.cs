@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -982,26 +983,89 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //DiceManager.Instance.ArrangeDiceInGrid(diceToRoll);
         yield return (StartCoroutine(DiceManager.Instance.ArrangeDiceInGrid(diceToRoll)));
 
         switch (card.cardType)
         {
             case CardData.CardType.Tomb:
+                
                 if (critRolled)
                 {
-                    //Player chooses -1 / = / +1
-                    //TODO Add in some suitable UI here
-
-                    //player1MonsterDice.GetComponent<Die>().CreateButtons();
-                    StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons());
+                    StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons(monsterResult));
                 }
-
 
                 break;
         }
 
+
+
         yield return null;
+    }
+
+    /// <summary>
+    /// Will update the die result of the specified die to the value specified or an appropriate value for curing poision/curse
+    /// Does not currently update player dice values
+    /// </summary>
+    /// <param name="dieType"></param>
+    /// <param name="conditionCured"></param>
+    /// <param name="newValue"></param>
+    public void UpdateDieResult(Die.DieType dieType, bool conditionCured = false)
+    {
+        if(dieType == Die.DieType.Monster || dieType == Die.DieType.Player)
+        {
+            Debug.LogError("Wrong die type for die adjustment!");
+            return;
+        }
+
+        foreach (var (result, i) in rollResultsDieType.WithIndex())
+        {
+            if (result == dieType)
+            {
+                if(dieType == Die.DieType.Curse || dieType == Die.DieType.Poison)
+                {
+                    if (conditionCured)
+                    {
+                        //change value to either 3, 4 or 6
+                        List<int> curedInts = new List<int>();
+                        curedInts.Add(3); curedInts.Add(4); curedInts.Add(6);
+                        rollResults[i] = curedInts[UnityEngine.Random.Range(0, curedInts.Count - 1)];
+                    }
+                    else
+                    {
+                        //change value to either 1, 2 or 5
+                        List<int> curedInts = new List<int>();
+                        curedInts.Add(1); curedInts.Add(2); curedInts.Add(5);
+                        rollResults[i] = curedInts[UnityEngine.Random.Range(0, curedInts.Count - 1)];
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void UpdateDieResult(Die.DieType dieType, int newValue = 0)
+    {
+        if (dieType == Die.DieType.Curse || dieType == Die.DieType.Poison)
+        {
+            Debug.LogError("Wrong die type for die adjustment!");
+            return;
+        }
+
+        foreach (var (result, i) in rollResultsDieType.WithIndex())
+        {
+            if (result == dieType)
+            {
+                if (dieType == Die.DieType.Monster)
+                {
+                    rollResults[i] = newValue;
+                }
+                else if (dieType == Die.DieType.Player)
+                {
+                    Debug.LogError("UpdateDieResult() is not currently set up to modify player dice results");
+                }
+            }
+
+        }
     }
 
     public void SwitchActivePlayer()

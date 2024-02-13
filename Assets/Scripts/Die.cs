@@ -21,6 +21,8 @@ public class Die : MonoBehaviour
     private float buttonOffsetY = 33.0f;
     private float buttonOffsetZ = 30.0f;
 
+    GameObject activeCanvas;
+
     //Dice Face Rotations
     public Vector3 Face1 = new Vector3(270, 180 ,0);
     public Vector3 Face2 = new Vector3(0, 90, 90);
@@ -218,39 +220,44 @@ public class Die : MonoBehaviour
         return rotationToCamera;
     }
 
-    public IEnumerator CreateButtons()
+    public IEnumerator CreateButtons(int monsterDieResult)
     {
         //Create a canvas on the die
-        GameObject DieCanvas = Instantiate(canvasObj, transform);
+        activeCanvas = Instantiate(canvasObj, transform);
 
         yield return null;
         // Orient buttons to face camera - adjust this in the Update method of the buttons or right here
-        DieCanvas.transform.rotation = Camera.main.transform.localRotation;
+        activeCanvas.transform.rotation = Camera.main.transform.localRotation;
 
         yield return null;
 
         // Instantiate buttons
-        //TODO only instantiate buttons if black die is not already a 6 or a 1
-        GameObject buttonAbove = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
-        GameObject buttonMiddle = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
-        GameObject buttonBelow = Instantiate(buttonPrefab, DieCanvas.transform.TransformPoint(Vector3.zero), DieCanvas.transform.rotation, DieCanvas.transform);
+        if(monsterDieResult != 6)
+        {
+            GameObject buttonAbove = Instantiate(buttonPrefab, activeCanvas.transform.TransformPoint(Vector3.zero), activeCanvas.transform.rotation, activeCanvas.transform);
+            buttonAbove.transform.localPosition = new Vector3(buttonOffsetX, buttonOffsetY, buttonOffsetZ);
+            buttonAbove.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+1";
+            buttonAbove.GetComponent<Button>().onClick.AddListener(AddOne);
+        }
 
-        buttonAbove.transform.localPosition = new Vector3(buttonOffsetX, buttonOffsetY, buttonOffsetZ);
-        buttonAbove.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+1";
+        if(monsterDieResult != 1)
+        {
+            GameObject buttonBelow = Instantiate(buttonPrefab, activeCanvas.transform.TransformPoint(Vector3.zero), activeCanvas.transform.rotation, activeCanvas.transform);
+            buttonBelow.transform.localPosition = new Vector3(buttonOffsetX, -buttonOffsetY, buttonOffsetZ);
+            buttonBelow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-1";
+            buttonBelow.GetComponent<Button>().onClick.AddListener(SubtractOne);
+        }
+        
+        GameObject buttonMiddle = Instantiate(buttonPrefab, activeCanvas.transform.TransformPoint(Vector3.zero), activeCanvas.transform.rotation, activeCanvas.transform);
         buttonMiddle.transform.localPosition = new Vector3(buttonOffsetX, 0, buttonOffsetZ);
         buttonMiddle.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "=";
-        buttonBelow.transform.localPosition = new Vector3(buttonOffsetX, -buttonOffsetY, buttonOffsetZ);
-        buttonBelow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-1";
-
-        buttonAbove.GetComponent<Button>().onClick.AddListener(AddOne);
         buttonMiddle.GetComponent<Button>().onClick.AddListener(NoChange);
-        buttonBelow.GetComponent<Button>().onClick.AddListener(SubtractOne);
+        
     }
 
     public void AddOne()
     {
-        int newMonsterDieValue = lastRolledValue + 1; //TODO check this doesn't go over 6
-        StartCoroutine(DiceManager.Instance.SmoothRotateDie(this.gameObject, newMonsterDieValue, Camera.main.gameObject.transform, 1.0f));
+        StartCoroutine(AdjustDieRollResult(1));
     }
 
     public void NoChange()
@@ -260,7 +267,22 @@ public class Die : MonoBehaviour
 
     public void SubtractOne()
     {
-        int newMonsterDieValue = lastRolledValue - 1; //TODO check this doesn't go over 6
-        StartCoroutine(DiceManager.Instance.SmoothRotateDie(this.gameObject, newMonsterDieValue, Camera.main.gameObject.transform, 1.0f));
+        StartCoroutine(AdjustDieRollResult(-1));
+    }
+
+    private IEnumerator AdjustDieRollResult(int adjustAmount)
+    {
+        //calculate new value
+        int newMonsterDieResult = lastRolledValue + adjustAmount;
+        GameManager.Instance.UpdateDieResult(DieType.Monster, newMonsterDieResult);
+
+        //unparent canvas
+        activeCanvas.transform.SetParent(this.gameObject.transform.parent, true);
+        //rotate die
+        yield return StartCoroutine(DiceManager.Instance.SmoothRotateDie(this.gameObject, newMonsterDieResult, Camera.main.gameObject.transform, 1.0f));
+        //reparent canvas
+        activeCanvas.transform.SetParent(this.gameObject.transform, true);
+
+        yield return null;
     }
 }
