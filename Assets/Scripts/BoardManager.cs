@@ -9,6 +9,7 @@ public class BoardManager : MonoBehaviour
 
     //Player 1 board
     public GameObject P1Board;
+    public GameObject P1CharacterCard;
     public GameObject P1XPCube;
     public GameObject P1ArmorCube;
     public GameObject P1HPCube;
@@ -33,6 +34,7 @@ public class BoardManager : MonoBehaviour
 
     //Player 2 board
     public GameObject P2Board;
+    public GameObject P2CharacterCard;
     public GameObject P2XPCube;
     public GameObject P2ArmorCube;
     public GameObject P2HPCube;
@@ -354,8 +356,7 @@ public class BoardManager : MonoBehaviour
     {
         switch (level)
         {
-            case Options.level.soloDungeon:
-            case Options.level.coopDungeon:
+            case Options.level.Dungeon:
                 //Set the board position
                 dungeonBoard.transform.localPosition = new Vector3(0.0026f, 0.01624f, 0f);
 
@@ -366,8 +367,7 @@ public class BoardManager : MonoBehaviour
                 StartCoroutine(MovePiece(monsterHPCube, dungeonMonsterHPTrack[0]));
                 break;
 
-            case Options.level.soloTower:
-            case Options.level.coopTower:
+            case Options.level.Tower:
                 dungeonBoard.transform.localPosition = new Vector3(-0.0026f, -0.01372f, 0f);
                 //flip the board
                 dungeonBoard.transform.Rotate(180, 0, 180);

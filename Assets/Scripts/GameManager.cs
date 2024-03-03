@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     public GameObject P1_Piece; //TODO make player choose their piece so this can be private 
     public GameObject P2_Piece; //TODO make player choose their piece so this can be private 
     public GameObject monsterBoard;
-    public GameObject playerTracker;
     public GameObject[] player1PlayerDice;
     public GameObject player1MonsterDice;
     public GameObject player1PoisonDice;
@@ -172,17 +171,29 @@ public class GameManager : MonoBehaviour
         //Get the options from the Main Menu
         //if there's no options manager to be found just use default values
         options_Manager = GameObject.Find("Options_Manager");
+
         if (options_Manager)
         {
             GameObject.Find("Options_Manager").TryGetComponent<Options>(out options);
+            playerCount = options_Manager.GetComponent<Options>().playerCount;
 
             //Set P1 class
             P1.SetClass(options.characters[options.P1CharacterChoice]);
+
+            if(playerCount == 2)
+            {
+                P2.SetClass(options.characters[options.P2CharacterChoice]);
+            }
         }
         else
         {
             //set a sensible default
             P1.SetClass("Crusader");
+
+            if(playerCount == 2)
+            {
+                P1.SetClass("Bones");
+            }
         }
 
         if (DebugShowPlayerStats)
@@ -210,7 +221,6 @@ public class GameManager : MonoBehaviour
             debugOverlay.text = PrintAllChars();
         }
 
-        //Place the player pieces on the first card
         debugGamePrompts.text = "Press the start game button to begin!";
 
         //TODO Assign this properly in UI
@@ -755,7 +765,7 @@ public class GameManager : MonoBehaviour
         }
         else //set up solo dungeon if we started from game board scene
         {
-            BoardManager.Instance.SetUpDungeonBoard(Options.level.soloDungeon);
+            BoardManager.Instance.SetUpDungeonBoard(Options.level.Dungeon);
         }
         
         StartCoroutine(DoTurn());

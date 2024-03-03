@@ -10,8 +10,7 @@ public class Options : MonoBehaviour
 {
     public static Options Instance { get; private set; } // Static property to access the instance
 
-    public int levelToLoad = 1;
-    public level chosenLevel = level.soloDungeon;
+    public level chosenLevel = level.Dungeon;
 
     //Player character selection
     public string[] characters = { "Crusader", "Priestess", "Rogue", "Mage", "Bones", "Cleric", "Theif", "Witch" };
@@ -23,15 +22,16 @@ public class Options : MonoBehaviour
     public UnityEngine.UI.Image P1Image;
     public UnityEngine.UI.Image P2Image;
     public TMP_Dropdown gameTypeDropdown;
+    public TMP_Dropdown boardTypeDropdown;
     public GameObject player2UI;
+
+    //Game Settings
+    public int playerCount = 1;
 
     public enum level
     {
-        soloDungeon,
-        soloTower,
-        soloCampaign,
-        coopDungeon,
-        coopTower
+        Dungeon,
+        Tower
     }
 
     private void Awake()
@@ -59,6 +59,10 @@ public class Options : MonoBehaviour
         gameTypeDropdown.onValueChanged.AddListener(delegate { GameTypeChanged(gameTypeDropdown); });
 
         GameTypeChanged(gameTypeDropdown);
+
+        boardTypeDropdown.onValueChanged.AddListener(delegate { BoardTypeChanged(gameTypeDropdown); });
+
+        BoardTypeChanged(boardTypeDropdown);
 
     }
 
@@ -136,49 +140,40 @@ public class Options : MonoBehaviour
 
     void GameTypeChanged(TMP_Dropdown change)
     {
-        //Show or hide player 2 options
+        //Show or hide player 2 options + update player count
         switch (change.value)
         {
             case 0:
             case 1:
-            case 2:
                 if (player2UI.activeSelf)
                 {
                     player2UI.SetActive(false);
                 }
-                break;
 
+                playerCount = 1;
+                break;
+            case 2:
             case 3:
-            case 4:
                 if (!player2UI.activeSelf)
                 {
                     player2UI.SetActive(true);
                 }
+
+                playerCount = 2;
                 break;
         }
+    }
 
+    void BoardTypeChanged(TMP_Dropdown change)
+    {
         //Set Level type
         switch (change.value)
         {
             case 0:
-                chosenLevel = level.soloDungeon;
-                levelToLoad = 1;
+                chosenLevel = level.Dungeon;
                 break;
             case 1:
-                chosenLevel = level.soloTower;
-                levelToLoad = 1;
-                break;
-            case 2:
-                chosenLevel = level.soloCampaign;
-                levelToLoad = 2;
-                break;
-            case 3:
-                chosenLevel = level.coopDungeon;
-                levelToLoad = 1;
-                break;
-            case 4:
-                chosenLevel = level.coopTower;
-                levelToLoad = 1;
+                chosenLevel = level.Tower;
                 break;
         }
     }
