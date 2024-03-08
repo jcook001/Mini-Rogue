@@ -843,6 +843,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 065c32e559bc7b6409137b9cfd12f956, type: 3}
   - {fileID: 21300000, guid: 3792a3d9ba2272f4a884f31643e3b6b9, type: 3}
   - {fileID: 21300000, guid: 714948e07a9193342bbba5317bd35cdc, type: 3}
+  characterCards:
+  - {fileID: 919132149155446097, guid: ce8d746a78a782141bd8e4048513fed2, type: 3}
+  - {fileID: 919132149155446097, guid: 3aa9e76464b81bb439de9ef90247125c, type: 3}
+  - {fileID: 919132149155446097, guid: d402d78939979d64788cec0840a5ab32, type: 3}
+  - {fileID: 919132149155446097, guid: 40ec84e47f18fbd488e054782b42e89e, type: 3}
+  - {fileID: 919132149155446097, guid: 08e67fa2c54b053409e365a9acfbbdb6, type: 3}
+  - {fileID: 919132149155446097, guid: aaac18d9e94ffeb41b1353e91d5855e5, type: 3}
+  - {fileID: 919132149155446097, guid: 67b0fdf9e2f1995469146b346ef7cc16, type: 3}
+  - {fileID: 919132149155446097, guid: feb9147e91386c64eabcd230dcef87b2, type: 3}
   P1CharacterChoice: 0
   P2CharacterChoice: 1
   P1ClassNameText: {fileID: 127823173}
@@ -852,6 +861,7 @@ MonoBehaviour:
   gameTypeDropdown: {fileID: 1288711984}
   boardTypeDropdown: {fileID: 1163879063}
   player2UI: {fileID: 826192206}
+  playerCount: 1
 --- !u!1 &302027651
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using static Player;
 
@@ -137,7 +138,7 @@ public class BoardManager : MonoBehaviour
         }
 
         //If there's 2 players add all p2 board parts
-        if (GameManager.Instance.playerCount > 1)
+        if (Options.Instance.playerCount > 1)
         {
             foreach (Transform child in P2Board.transform)
             {
@@ -380,5 +381,54 @@ public class BoardManager : MonoBehaviour
                 break;
         }
 
+    }
+
+    public void SetUpPlayerBoards(Options.gameType gameType)
+    {
+        switch (gameType)
+        {
+            case Options.gameType.Standard:
+            case Options.gameType.Competitive:
+                P2Board.transform.localPosition = new Vector3(-3.74f, 0, 2.53f);
+                break;
+            case Options.gameType.Campaign:
+                //flip the board
+                P2Board.transform.rotation = Quaternion.Euler(new Vector3(-180, 0, 0));
+                P2Board.transform.localPosition = new Vector3(-3.74f, -0.021f, 2.53f);
+                break;
+        }
+
+
+    }
+
+    public void SetUpCharacterCards(int playerCount)
+    {
+        //Always set up player 1 card
+        Vector3 scale = P1CharacterCard.transform.localScale;
+        Transform parent = P1CharacterCard.transform.parent;
+        Vector3 position = P1CharacterCard.transform.position;
+        Quaternion rotation = P1CharacterCard.transform.rotation;
+        GameObject newCharacterCard = Instantiate(Options.Instance.characterCards[Options.Instance.P1CharacterChoice], position, rotation, parent);
+        newCharacterCard.transform.localScale = scale;
+        P1CharacterCard = newCharacterCard;
+
+        //If 2 players set up player 2 card
+        if (playerCount == 2)
+        {
+            scale = P2CharacterCard.transform.localScale;
+            parent = P2CharacterCard.transform.parent;
+            position = P2CharacterCard.transform.position;
+            rotation = P2CharacterCard.transform.rotation;
+            newCharacterCard = Instantiate(Options.Instance.characterCards[Options.Instance.P2CharacterChoice], position, rotation, parent);
+            newCharacterCard.transform.localScale = scale;
+            Destroy(P2CharacterCard);
+            P2CharacterCard = newCharacterCard;
+        }
+        else
+        {
+            //or destroy player 2 card
+            Destroy(P1CharacterCard);
+        }
+            
     }
 }

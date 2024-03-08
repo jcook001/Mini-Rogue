@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -11,10 +12,12 @@ public class Options : MonoBehaviour
     public static Options Instance { get; private set; } // Static property to access the instance
 
     public level chosenLevel = level.Dungeon;
+    public gameType chosenGameType = gameType.Standard;
 
     //Player character selection
     public string[] characters = { "Crusader", "Priestess", "Rogue", "Mage", "Bones", "Cleric", "Theif", "Witch" };
     public Sprite[] characterImages = new Sprite[8];
+    public GameObject[] characterCards = new GameObject[8];
     public int P1CharacterChoice = 0;
     public int P2CharacterChoice = 1;
     public TextMeshProUGUI P1ClassNameText;
@@ -32,6 +35,14 @@ public class Options : MonoBehaviour
     {
         Dungeon,
         Tower
+    }
+
+    public enum gameType
+    {
+        Standard,
+        Campaign,
+        Competitive,
+        Demo
     }
 
     private void Awake()
@@ -56,14 +67,17 @@ public class Options : MonoBehaviour
         UpdateP1Character();
         UpdateP2Character();
 
-        gameTypeDropdown.onValueChanged.AddListener(delegate { GameTypeChanged(gameTypeDropdown); });
+        if (!gameTypeDropdown && !boardTypeDropdown) { return; }
+        else
+        {
+            gameTypeDropdown.onValueChanged.AddListener(delegate { GameTypeChanged(gameTypeDropdown); });
 
-        GameTypeChanged(gameTypeDropdown);
+            GameTypeChanged(gameTypeDropdown);
 
-        boardTypeDropdown.onValueChanged.AddListener(delegate { BoardTypeChanged(gameTypeDropdown); });
+            boardTypeDropdown.onValueChanged.AddListener(delegate { BoardTypeChanged(gameTypeDropdown); });
 
-        BoardTypeChanged(boardTypeDropdown);
-
+            BoardTypeChanged(boardTypeDropdown);
+        }
     }
 
     public void P1CharacterNext()
@@ -128,12 +142,14 @@ public class Options : MonoBehaviour
 
     private void UpdateP1Character()
     {
+        if (!P1ClassNameText) { return; }
         P1ClassNameText.text = characters[P1CharacterChoice];
         P1Image.sprite = characterImages[P1CharacterChoice];
     }
 
     private void UpdateP2Character()
     {
+        if (!P2ClassNameText) { return; }
         P2ClassNameText.text = characters[P2CharacterChoice];
         P2Image.sprite = characterImages[P2CharacterChoice];
     }
@@ -144,21 +160,37 @@ public class Options : MonoBehaviour
         switch (change.value)
         {
             case 0:
+                if (player2UI.activeSelf)
+                {
+                    player2UI.SetActive(false);
+                }
+                chosenGameType = gameType.Standard;
+
+                playerCount = 1;
+                break;
             case 1:
                 if (player2UI.activeSelf)
                 {
                     player2UI.SetActive(false);
                 }
+                chosenGameType = gameType.Campaign;
 
                 playerCount = 1;
                 break;
             case 2:
+                if (!player2UI.activeSelf)
+                {
+                    player2UI.SetActive(true);
+                }
+                chosenGameType= gameType.Standard;
+                playerCount = 2;
+                break;
             case 3:
                 if (!player2UI.activeSelf)
                 {
                     player2UI.SetActive(true);
                 }
-
+                chosenGameType = gameType.Competitive;
                 playerCount = 2;
                 break;
         }

@@ -177,13 +177,7 @@ public class DiceManager : MonoBehaviour
 
             dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
-
-            //dice[i].transform.localPosition = localPosition;
-
-            //dice[i].GetComponent<Die>().PointRolledFaceToCamera(dice[i]);
-
-
-            //Debug.Log("Dice " + dice[i].name + " position set");
+            Debug.Log("Dice " + dice[i].name + " position set");
             yield return StartCoroutine(SmoothMoveAndRotateDie(dice[i], dice[i].GetComponent<Die>().lastRolledValue, gridObject.transform. position + localPosition, mainCamera.gameObject.transform));
             dice[i].transform.SetParent(gridObject.transform, true);
         }

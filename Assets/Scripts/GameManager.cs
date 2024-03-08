@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 //TODO re-enable this later
 #pragma warning disable 0414 //disables unused variable warning
@@ -14,9 +15,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; } // Static property to access the instance
-
-    private GameObject options_Manager;
-    private Options options;
 
     //Game pieces
     public GameObject P1_Piece; //TODO make player choose their piece so this can be private 
@@ -61,7 +59,6 @@ public class GameManager : MonoBehaviour
     private bool hasGameStarted = false;
     private int currentFloor = 0;
     private int currentRoom = 0;
-    public int playerCount = 1;
     private int activePlayerIndex = 1; //starts from 1
     private GameObject activePiece;
     private int P1_Location = 0;
@@ -170,30 +167,13 @@ public class GameManager : MonoBehaviour
 
         //Get the options from the Main Menu
         //if there's no options manager to be found just use default values
-        options_Manager = GameObject.Find("Options_Manager");
 
-        if (options_Manager)
+        //Set P1 class
+        P1.SetClass(Options.Instance.characters[Options.Instance.P1CharacterChoice]);
+
+        if (Options.Instance.playerCount == 2)
         {
-            GameObject.Find("Options_Manager").TryGetComponent<Options>(out options);
-            playerCount = options_Manager.GetComponent<Options>().playerCount;
-
-            //Set P1 class
-            P1.SetClass(options.characters[options.P1CharacterChoice]);
-
-            if(playerCount == 2)
-            {
-                P2.SetClass(options.characters[options.P2CharacterChoice]);
-            }
-        }
-        else
-        {
-            //set a sensible default
-            P1.SetClass("Crusader");
-
-            if(playerCount == 2)
-            {
-                P1.SetClass("Bones");
-            }
+            P2.SetClass(Options.Instance.characters[Options.Instance.P2CharacterChoice]);
         }
 
         if (DebugShowPlayerStats)
@@ -231,6 +211,12 @@ public class GameManager : MonoBehaviour
 
         // Subscribe to the dice roll event
         OnDieRollComplete += HandleDieRollComplete;
+
+        //Set up chosen character cards
+        BoardManager.Instance.SetUpCharacterCards(Options.Instance.playerCount);
+
+        BoardManager.Instance.SetUpPlayerBoards(Options.Instance.chosenGameType);
+
     }
 
     private void AssignDiceTypes()
@@ -438,7 +424,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveActivePieceToCard(GameObject card)
     {
-        if(playerCount == 2)
+        if(Options.Instance.playerCount == 2)
         {
             if (!isPieceMoving)
             {
@@ -633,7 +619,7 @@ public class GameManager : MonoBehaviour
         Vector3 startPos = card.transform.position;
         Quaternion startRot = card.transform.rotation;
 
-        Vector3 endPos = new Vector3(0, 5.4f, -3.35f);
+        Vector3 endPos = new Vector3(-0.25f, 4.73f, -4.26f);
         Quaternion endRot = Quaternion.Euler(-18, 0, 180);
 
         float journeyLength = Vector3.Distance(startPos, endPos);
@@ -732,28 +718,16 @@ public class GameManager : MonoBehaviour
         currentRoom = 1;
         UpdateFloor();
 
-        //Place appropriate game pieces on card 1
-        if (options == null || options.gameTypeDropdown.value == 0 || options.gameTypeDropdown.value == 1)
-        {
-            debugGamePrompts.text = "";
-            //Move player 1 piece to the first card
-            MoveActivePieceToCard(cardPoints[0].transform.GetChild(0).gameObject);
-            
-            //TODO update the card to be moved to at the start of the piece movement
-            //P1_Location = Array.IndexOf(cardPoints, P1_Piece.transform.parent.gameObject);
-            //Debug.Log("player 1 location is " + P1_Location);
-        }
-        else if (options.gameTypeDropdown.value > 1)
-        {
-            //The Tower has been selected, so flip the gameboard
-            debugGamePrompts.text = "There's no support for multiplayer yet :(";
-        }
+        debugGamePrompts.text = "";
+        //Move player 1 piece to the first card
+        MoveActivePieceToCard(cardPoints[0].transform.GetChild(0).gameObject);
 
+        P1_Location = 0;
 
         //Set up player board(s)
         BoardManager.Instance.SetUpPlayerStats(P1, 1);
 
-        if (playerCount == 2)
+        if (Options.Instance.playerCount == 2)
         {
             BoardManager.Instance.SetUpPlayerStats(P2, 2);
         }
@@ -1080,7 +1054,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchActivePlayer()
     {
-        if (playerCount > 1)
+        if (Options.Instance.playerCount > 1)
         {
             activePlayer = activePlayer == P1 ? P2 : P1;
         }
