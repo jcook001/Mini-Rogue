@@ -11,6 +11,7 @@ public class BoardManager : MonoBehaviour
     //Player 1 board
     public GameObject P1Board;
     public GameObject P1CharacterCard;
+    public GameObject P1StanceCard;
     public GameObject P1XPCube;
     public GameObject P1ArmorCube;
     public GameObject P1HPCube;
@@ -36,6 +37,7 @@ public class BoardManager : MonoBehaviour
     //Player 2 board
     public GameObject P2Board;
     public GameObject P2CharacterCard;
+    public GameObject P2StanceCard;
     public GameObject P2XPCube;
     public GameObject P2ArmorCube;
     public GameObject P2HPCube;
@@ -283,7 +285,6 @@ public class BoardManager : MonoBehaviour
 
     public void SetUpPlayerStats(Player player, int playerIndex)
     {
-
         //set up XP
         StartCoroutine(MovePiece((playerIndex == 1 ? P1XPCube : P2XPCube), (playerIndex == 1 ? P1XPTrack[(player.XP)] : P2XPTrack[(player.XP)])));
 
@@ -388,6 +389,19 @@ public class BoardManager : MonoBehaviour
         switch (gameType)
         {
             case Options.gameType.Standard:
+                Destroy(P2Board);
+                Destroy(P2StanceCard);
+                P1StanceCard.transform.position = P2CharacterCard.transform.position;
+                Destroy(P2CharacterCard);
+                Destroy(P2XPCube);
+                Destroy(P2ArmorCube);
+                Destroy(P2HPCube);
+                Destroy(P2FoodCube);
+                Destroy(P2GoldCube);
+                Destroy(P2PotionCube1);
+                Destroy(P2PotionCube2);
+                break;
+            case Options.gameType.Coop:
             case Options.gameType.Competitive:
                 P2Board.transform.localPosition = new Vector3(-3.74f, 0, 2.53f);
                 break;
@@ -395,6 +409,16 @@ public class BoardManager : MonoBehaviour
                 //flip the board
                 P2Board.transform.rotation = Quaternion.Euler(new Vector3(-180, 0, 0));
                 P2Board.transform.localPosition = new Vector3(-3.74f, -0.021f, 2.53f);
+                Destroy(P2StanceCard);
+                P1StanceCard.transform.position = P2CharacterCard.transform.position;
+                Destroy(P2CharacterCard);
+                Destroy(P2XPCube);
+                Destroy(P2ArmorCube);
+                Destroy(P2HPCube);
+                Destroy(P2FoodCube);
+                Destroy(P2GoldCube);
+                Destroy(P2PotionCube1);
+                Destroy(P2PotionCube2);
                 break;
         }
 
@@ -410,6 +434,7 @@ public class BoardManager : MonoBehaviour
         Quaternion rotation = P1CharacterCard.transform.rotation;
         GameObject newCharacterCard = Instantiate(Options.Instance.characterCards[Options.Instance.P1CharacterChoice], position, rotation, parent);
         newCharacterCard.transform.localScale = scale;
+        Destroy(P1CharacterCard);
         P1CharacterCard = newCharacterCard;
 
         //If 2 players set up player 2 card
@@ -427,7 +452,7 @@ public class BoardManager : MonoBehaviour
         else
         {
             //or destroy player 2 card
-            Destroy(P1CharacterCard);
+            Destroy(P2CharacterCard);
         }
             
     }

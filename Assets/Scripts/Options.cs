@@ -15,7 +15,8 @@ public class Options : MonoBehaviour
     public gameType chosenGameType = gameType.Standard;
 
     //Player character selection
-    public string[] characters = { "Crusader", "Priestess", "Rogue", "Mage", "Bones", "Cleric", "Theif", "Witch" };
+    [System.NonSerialized]
+    public string[] characters = { "Crusader", "Priestess", "Rogue", "Mage", "Bones", "Cleric", "Thief", "Witch" };
     public Sprite[] characterImages = new Sprite[8];
     public GameObject[] characterCards = new GameObject[8];
     public int P1CharacterChoice = 0;
@@ -42,6 +43,7 @@ public class Options : MonoBehaviour
         Standard,
         Campaign,
         Competitive,
+        Coop,
         Demo
     }
 
@@ -62,6 +64,11 @@ public class Options : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(playerCount == 1 && chosenGameType == gameType.Coop) { Debug.LogError("Mismatched game type and player count!"); }
+        if (playerCount == 1 && chosenGameType == gameType.Competitive) { Debug.LogError("Mismatched game type and player count!"); }
+        if (playerCount == 2 && chosenGameType == gameType.Standard) { Debug.LogError("Mismatched game type and player count!"); }
+        if (playerCount == 2 && chosenGameType == gameType.Campaign) { Debug.LogError("Mismatched game type and player count!"); }
+
         DontDestroyOnLoad(this);
 
         UpdateP1Character();
@@ -182,7 +189,7 @@ public class Options : MonoBehaviour
                 {
                     player2UI.SetActive(true);
                 }
-                chosenGameType= gameType.Standard;
+                chosenGameType= gameType.Coop;
                 playerCount = 2;
                 break;
             case 3:

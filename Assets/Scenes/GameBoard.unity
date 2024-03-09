@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17499375, g: 0.2189162, b: 0.30120867, a: 1}
+  m_IndirectSpecularColor: {r: 0.1749933, g: 0.21891552, b: 0.30120757, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1322,6 +1322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   P1Board: {fileID: 2066788263}
   P1CharacterCard: {fileID: 730983499}
+  P1StanceCard: {fileID: 796451294}
   P1XPCube: {fileID: 2122241179}
   P1ArmorCube: {fileID: 423652319}
   P1HPCube: {fileID: 692668829}
@@ -1331,6 +1332,7 @@ MonoBehaviour:
   P1PotionCube2: {fileID: 1205966259}
   P2Board: {fileID: 1744980334}
   P2CharacterCard: {fileID: 1684840546}
+  P2StanceCard: {fileID: 2132207773}
   P2XPCube: {fileID: 421083839}
   P2ArmorCube: {fileID: 502896538}
   P2HPCube: {fileID: 1662881603}
@@ -3845,6 +3847,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93f44cc3b4532d748b2d7807e3e88e97, type: 3}
+--- !u!1 &796451294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93f44cc3b4532d748b2d7807e3e88e97,
+    type: 3}
+  m_PrefabInstance: {fileID: 796451293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &809608214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4897,7 +4905,10 @@ MonoBehaviour:
   player1MonsterDice: {fileID: 170831675}
   player1PoisonDice: {fileID: 2145762698}
   player1CurseDice: {fileID: 876886988}
-  player2PlayerDice: []
+  player2PlayerDice:
+  - {fileID: 578346814}
+  - {fileID: 2060654009}
+  - {fileID: 1537764994}
   player2MonsterDice: {fileID: 365922274}
   player2PoisonDice: {fileID: 885718617}
   player2CurseDice: {fileID: 2060451423}
@@ -7332,7 +7343,7 @@ MonoBehaviour:
   gameTypeDropdown: {fileID: 0}
   boardTypeDropdown: {fileID: 0}
   player2UI: {fileID: 0}
-  playerCount: 2
+  playerCount: 1
 --- !u!4 &1690020457
 Transform:
   m_ObjectHideFlags: 0
@@ -9622,6 +9633,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93f44cc3b4532d748b2d7807e3e88e97, type: 3}
+--- !u!1 &2132207773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 93f44cc3b4532d748b2d7807e3e88e97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2132207772}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2135416752
 GameObject:
   m_ObjectHideFlags: 0

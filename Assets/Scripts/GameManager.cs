@@ -424,23 +424,6 @@ public class GameManager : MonoBehaviour
 
     public void MoveActivePieceToCard(GameObject card)
     {
-        if(Options.Instance.playerCount == 2)
-        {
-            if (!isPieceMoving)
-            {
-                //update the active player turn
-                if (activePlayerIndex == 1)
-                {
-                    activePlayerIndex = 2;
-                    activePiece = P2_Piece;
-                }
-                else
-                {
-                    activePlayerIndex = 1;
-                    activePiece = P1_Piece;
-                }
-            }
-        }
         StartCoroutine(SmoothMoveRandomPos(activePiece, card));
     }
 
