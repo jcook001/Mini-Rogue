@@ -360,7 +360,7 @@ public class BoardManager : MonoBehaviour
         {
             case Options.level.Dungeon:
                 //Set the board position
-                dungeonBoard.transform.localPosition = new Vector3(0.0026f, 0.01624f, 0f);
+                dungeonBoard.transform.localPosition = new Vector3(0.5f, 0.01624f, -0.27f);
 
                 //place floor cube
                 StartCoroutine(MovePiece(dungeonFloorCube, dungeonFloorTrack[0]));
@@ -370,7 +370,7 @@ public class BoardManager : MonoBehaviour
                 break;
 
             case Options.level.Tower:
-                dungeonBoard.transform.localPosition = new Vector3(-0.0026f, -0.01372f, 0f);
+                dungeonBoard.transform.localPosition = new Vector3(0.5f, -0.01372f, -0.27f);
                 //flip the board
                 dungeonBoard.transform.Rotate(180, 0, 180);
 
