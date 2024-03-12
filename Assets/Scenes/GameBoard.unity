@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1749933, g: 0.21891552, b: 0.30120757, a: 1}
+  m_IndirectSpecularColor: {r: 0.17499375, g: 0.2189162, b: 0.30120867, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -439,7 +439,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &94706541
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2688,7 +2688,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &421083844
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2748,7 +2748,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &423652322
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2993,7 +2993,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &502896543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3276,7 +3276,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &692668832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3624,7 +3624,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4af411e804b04402c99f6d4357a095c6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.02
+      value: 0.01624
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4af411e804b04402c99f6d4357a095c6,
         type: 3}
@@ -4375,7 +4375,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &929703587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5574,7 +5574,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1205966262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6181,7 +6181,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1320500636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6296,7 +6296,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1399301409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6356,7 +6356,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1438193062
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6694,7 +6694,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1525962176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6754,7 +6754,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1535101951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7040,7 +7040,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1628055144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7100,7 +7100,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1649284205
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7160,7 +7160,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &1662881608
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7305,17 +7305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0011d4c2a6883c244aa1b4d660eb6a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chosenLevel: 0
-  chosenGameType: 1
-  characters:
-  - Crusader
-  - Priestess
-  - Rogue
-  - Mage
-  - Bones
-  - Cleric
-  - Theif
-  - Witch
+  chosenLevel: 1
+  chosenGameType: 3
   characterImages:
   - {fileID: 0}
   - {fileID: 0}
@@ -7343,7 +7334,7 @@ MonoBehaviour:
   gameTypeDropdown: {fileID: 0}
   boardTypeDropdown: {fileID: 0}
   player2UI: {fileID: 0}
-  playerCount: 1
+  playerCount: 2
 --- !u!4 &1690020457
 Transform:
   m_ObjectHideFlags: 0
@@ -9423,7 +9414,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &2122241182
 BoxCollider:
   m_ObjectHideFlags: 0
