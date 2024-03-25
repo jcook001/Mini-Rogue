@@ -176,9 +176,9 @@ public class DiceManager : MonoBehaviour
             );
 
             dice[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-            Debug.Log("Dice " + dice[i].name + " position set");
+            Debug.Log("Dice " + (i + 1) + " of " + dice.Count + " (" + dice[i].name + ") " + "position setting...");
             yield return StartCoroutine(SmoothMoveAndRotateDie(dice[i], dice[i].GetComponent<Die>().lastRolledValue, gridObject.transform. position + localPosition, mainCamera.gameObject.transform));
+            Debug.Log("Dice " + (i + 1) + " of " + dice.Count + " (" + dice[i].name + ") " + "position set");
             dice[i].transform.SetParent(gridObject.transform, true);
         }
     }
@@ -197,6 +197,8 @@ public class DiceManager : MonoBehaviour
 
         float distanceCovered = 0;
 
+        Debug.LogWarning("SmoothMoveAndRotateDie started");
+        Debug.Log("JourneyLength: " + journeyLength + " Distance Covered: " + distanceCovered);
         while (distanceCovered < journeyLength)
         {
             float timeSinceStarted = Time.time - startTime;
@@ -208,14 +210,17 @@ public class DiceManager : MonoBehaviour
             // Rotate the card to the interpolated rotation
             die.transform.rotation = Quaternion.Slerp(startRot, RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, moveToTarget, lookAtTarget), percentageComplete);
 
-            distanceCovered = (die.transform.position - startPos).magnitude;
+            //Sometimes this function never ends even when distance covered is equal to journeyLength, so we add a bit on to make sure it gets there.
+            distanceCovered = (die.transform.position - startPos).magnitude + 0.00001f;
 
+            Debug.Log("JourneyLength: " + journeyLength + " Distance Covered: " + distanceCovered);
             yield return null;
         }
 
         // Just to ensure that card reaches the final position and rotation
         die.transform.position = endPos;
         die.transform.rotation = RotationToFaceDieResultToTarget(this.gameObject.transform, faceTo, moveToTarget, lookAtTarget);
+        Debug.LogWarning("SmoothMoveAndRotateDie ended");
         yield return null;
     }
 
