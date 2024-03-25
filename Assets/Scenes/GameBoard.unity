@@ -1050,7 +1050,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 1
 --- !u!65 &170831686
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2288,7 +2288,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 1
 --- !u!65 &365922285
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4149,7 +4149,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 3
 --- !u!65 &876886997
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4315,7 +4315,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 2
 --- !u!65 &885718630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4955,7 +4955,7 @@ MonoBehaviour:
   DebugShowPlayerStats: 0
   DebugShowDungeonCards: 0
   DebugShowFontSymbols: 0
-  DebugRollAllDice: 0
+  DebugRollAllDice: 1
   DebugOverrideDungeonCards: 1
   allCardData:
   - {fileID: 11400000, guid: 37d80db1bf83e784396daefb154a47e3, type: 2}
@@ -6074,7 +6074,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8fa1b15e95dbc0b4abad0a62b765393c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.4040003
+      value: -4.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8fa1b15e95dbc0b4abad0a62b765393c,
         type: 3}
@@ -6084,7 +6084,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8fa1b15e95dbc0b4abad0a62b765393c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.10400021
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8fa1b15e95dbc0b4abad0a62b765393c,
         type: 3}
@@ -8637,7 +8637,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 3
 --- !u!65 &2060451432
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9774,7 +9774,7 @@ MonoBehaviour:
   Face4: {x: 0, y: 270, z: 0}
   Face5: {x: 180, y: 90, z: 90}
   Face6: {x: 90, y: 0, z: 0}
-  type: 0
+  type: 2
 --- !u!65 &2145762707
 BoxCollider:
   m_ObjectHideFlags: 0
