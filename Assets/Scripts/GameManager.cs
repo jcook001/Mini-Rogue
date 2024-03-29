@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
     private int diceRolled = 0;
     private List<int> rollResults = new List<int>();
     private List<Die.DieType> rollResultsDieType = new List<Die.DieType>();
+    private bool awaitingDieChoice = true;
+    private int monsterDieRollResult = 0;
 
     //DEBUG
     public bool DebugShowPlayerStats = false;
@@ -203,7 +205,7 @@ public class GameManager : MonoBehaviour
 
         debugGamePrompts.text = "Press the start game button to begin!";
 
-        //TODO Assign this properly in UI
+        //TODO Assign player piece properly in UI
         activePiece = P1_Piece;
 
         //Give all dice a type
@@ -211,6 +213,9 @@ public class GameManager : MonoBehaviour
 
         // Subscribe to the dice roll event
         OnDieRollComplete += HandleDieRollComplete;
+
+        //subscribe to die click event
+        //OnDieResultClicked += HandleDieClicked;
 
         //Set up chosen character cards
         BoardManager.Instance.SetUpCharacterCards(Options.Instance.playerCount);
@@ -880,6 +885,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DieClicked(int value)
+    {
+        //record the chosen roll value
+        monsterDieRollResult = value;
+        awaitingDieChoice = false;
+    }
+
+    private IEnumerator WaitForDieChoice()
+    {
+        while (awaitingDieChoice)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Die has been clicked");
+    }
+
     private IEnumerator HandleCardRoll(CardData card)
     {
         bool critRolled = false;
@@ -932,6 +954,9 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            //TODO if there's a crit, shake the die and have the word crit rise out of it
+            //+ similar for curse
+
 
             //record the monster die roll
             if (rollResultsDieType[i] == Die.DieType.Monster)
@@ -940,13 +965,14 @@ public class GameManager : MonoBehaviour
             }
 
             //Check if the player has been poisoned
-            
+            //TODO if there's poison, shake the die and have the word poison rise out of it
+
             if (rollResultsDieType[i] == Die.DieType.Poison)
             {
                 //-1 health
                 activePlayer.HP -= 1;
 
-                //broadcast this to the player
+                //TODO broadcast this to the player
             }
         }
 
@@ -960,11 +986,22 @@ public class GameManager : MonoBehaviour
                 {
                     StartCoroutine(player1MonsterDice.GetComponent<Die>().CreateButtons(monsterResult));
                 }
-
                 break;
         }
 
+        StartCoroutine(WaitForDieChoice());
 
+        //die result has been confirmed
+        //Tidy up dice
+        foreach (GameObject die in diceToRoll)
+        {
+            die.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
+
+        //Tidy up zoomed card
+        SmoothRetractCard(zoomedCard);
+
+        //Do the card effect and update player boards
 
         yield return null;
     }

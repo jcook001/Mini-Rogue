@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ public class Die : MonoBehaviour
     private bool isRolling = false;
     public bool canRoll = false;
     public int lastRolledValue = 0;
+    public int currentRolledValue = 0;
 
     //Temporary buttons for crits
     GameObject canvasObj;
@@ -20,6 +23,7 @@ public class Die : MonoBehaviour
     private float buttonOffsetX = 30.0f;
     private float buttonOffsetY = 33.0f;
     private float buttonOffsetZ = 30.0f;
+    List<GameObject> activeButtons = new List<GameObject>();
 
     GameObject activeCanvas;
 
@@ -55,23 +59,27 @@ public class Die : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // Add and set up the Canvas component
-        canvasObj = new GameObject("DiceCanvas");
-        canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.WorldSpace;
-        canvas.worldCamera = Camera.main;
-        canvas.AddComponent<CanvasScaler>();
-        canvas.AddComponent<GraphicRaycaster>();
+        if(type == DieType.Monster)
+        {
+            // Add and set up the Canvas component
+            canvasObj = new GameObject("DiceCanvas");
+            canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.worldCamera = Camera.main;
+            canvas.AddComponent<CanvasScaler>();
+            canvas.AddComponent<GraphicRaycaster>();
 
-        // Set the size and position of the canvas
-        canvasRect = canvas.GetComponent<RectTransform>();
-        canvasRect.sizeDelta = new Vector2(100, 100);  // Set the size of the canvas (adjust as needed)
-        canvasRect.localPosition = Vector3.zero;  // Center the canvas on the dice
-        canvasRect.localEulerAngles = Vector3.zero;  // Reset rotation (will align with camera later)
-        canvasRect.localScale = new Vector3(0.001f, 0.001f, 0.001f);
+            // Set the size and position of the canvas
+            canvasRect = canvas.GetComponent<RectTransform>();
+            canvasRect.sizeDelta = new Vector2(100, 100);  // Set the size of the canvas (adjust as needed)
+            canvasRect.localPosition = Vector3.zero;  // Center the canvas on the dice
+            canvasRect.localEulerAngles = Vector3.zero;  // Reset rotation (will align with camera later)
+            canvasRect.localScale = new Vector3(0.001f, 0.001f, 0.001f);
 
-        //Need to find a way to not spawn a Dice Canvas in the scene for each die
-        //canvasObj.SetActive(false);
+            //Need to finda a way to set the canvas as a child of the die but still maintain the correct canvas position
+            //canvas.transform.SetParent(transform);
+        }
+
     }
 
     // Update is called once per frame
@@ -96,6 +104,13 @@ public class Die : MonoBehaviour
                 canRoll = false;
             }
         }
+    }
+
+    public void OnMouseDown()
+    {
+        //TODO only do this at the appropriate time
+        GameManager.Instance.DieClicked(currentRolledValue);
+        DestroyButtons();
     }
 
     private int GetDieValue()
@@ -132,6 +147,7 @@ public class Die : MonoBehaviour
         }
 
         lastRolledValue = bestValue;
+        currentRolledValue = bestValue;
         return bestValue;
     }
 
@@ -238,6 +254,7 @@ public class Die : MonoBehaviour
             buttonAbove.transform.localPosition = new Vector3(buttonOffsetX, buttonOffsetY, buttonOffsetZ);
             buttonAbove.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "+1";
             buttonAbove.GetComponent<Button>().onClick.AddListener(AddOne);
+            activeButtons.Add(buttonAbove);
         }
 
         if(monsterDieResult != 1)
@@ -246,28 +263,41 @@ public class Die : MonoBehaviour
             buttonBelow.transform.localPosition = new Vector3(buttonOffsetX, -buttonOffsetY, buttonOffsetZ);
             buttonBelow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-1";
             buttonBelow.GetComponent<Button>().onClick.AddListener(SubtractOne);
+            activeButtons.Add(buttonBelow);
         }
-        
+
         GameObject buttonMiddle = Instantiate(buttonPrefab, activeCanvas.transform.TransformPoint(Vector3.zero), activeCanvas.transform.rotation, activeCanvas.transform);
         buttonMiddle.transform.localPosition = new Vector3(buttonOffsetX, 0, buttonOffsetZ);
         buttonMiddle.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "=";
         buttonMiddle.GetComponent<Button>().onClick.AddListener(NoChange);
+        activeButtons.Add(buttonMiddle);
         
+    }
+
+    public void DestroyButtons()
+    {
+        foreach(GameObject g in activeButtons)
+        {
+            Destroy(g);
+        }
     }
 
     public void AddOne()
     {
         StartCoroutine(AdjustDieRollResult(1));
+        currentRolledValue = lastRolledValue + 1;
     }
 
     public void NoChange()
     {
-        
+        StartCoroutine(AdjustDieRollResult(0));
+        currentRolledValue = lastRolledValue;
     }
 
     public void SubtractOne()
     {
         StartCoroutine(AdjustDieRollResult(-1));
+        currentRolledValue = lastRolledValue - 1;
     }
 
     private IEnumerator AdjustDieRollResult(int adjustAmount)
